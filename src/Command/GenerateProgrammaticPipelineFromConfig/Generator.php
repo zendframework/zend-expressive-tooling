@@ -137,7 +137,7 @@ EOT;
             ));
         }
 
-        set_error_handler(function ($errno, $errstr) {
+        set_error_handler(function ($errno, $errstr) use ($configFile) {
             throw new GeneratorException(sprintf(
                 'Error reading config file "%s": %s',
                 $configFile,
