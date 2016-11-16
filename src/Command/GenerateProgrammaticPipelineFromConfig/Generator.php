@@ -14,10 +14,10 @@ use Zend\Stdlib\SplPriorityQueue;
 
 class Generator
 {
-    const PATH_APPLICATION = 'public/index.php';
-    const PATH_CONFIG      = 'config/autoload/programmatic-pipeline.global.php';
-    const PATH_PIPELINE    = 'config/pipeline.php';
-    const PATH_ROUTES      = 'config/routes.php';
+    const PATH_APPLICATION = '/public/index.php';
+    const PATH_CONFIG      = '/config/autoload/programmatic-pipeline.global.php';
+    const PATH_PIPELINE    = '/config/pipeline.php';
+    const PATH_ROUTES      = '/config/routes.php';
 
     const TEMPLATE_CONFIG = <<< 'EOT'
 <?php
@@ -30,7 +30,7 @@ use Zend\Expressive\Container\ErrorResponseGeneratorFactory;
 use Zend\Expressive\Container\NotFoundHandlerFactory;
 use Zend\Expressive\Middleware\ErrorResponseGenerator;
 use Zend\Expressive\Middleware\NotFoundHandler;
-use Zend\Stratigility\Middleware\ErrorHandler
+use Zend\Stratigility\Middleware\ErrorHandler;
 
 return [
     'dependencies' => [
@@ -48,6 +48,7 @@ return [
         'raise_throwables'      => true,
     ],
 ];
+
 EOT;
 
     const TEMPLATE_PIPELINE = <<< 'EOT'
@@ -56,6 +57,7 @@ EOT;
  * Expressive middleware pipeline
  */
 %s
+
 EOT;
 
     const TEMPLATE_ROUTES = <<< 'EOT'
@@ -64,6 +66,7 @@ EOT;
  * Expressive routed middleware
  */
 %s
+
 EOT;
 
     // @codingStandardsIgnoreStart
@@ -85,6 +88,11 @@ EOT;
     // @codingStandardsIgnoreEnd
 
     /**
+     * @var string Root path against which paths are relative.
+     */
+    public $projectDir = '.';
+
+    /**
      * @param string $configFile
      * @throws GeneratorException
      */
@@ -101,16 +109,16 @@ EOT;
             : [];
 
         file_put_contents(
-            self::PATH_PIPELINE,
+            $this->projectDir . self::PATH_PIPELINE,
             sprintf(self::TEMPLATE_PIPELINE, $this->generatePipeline($pipeline))
         );
 
         file_put_contents(
-            self::PATH_ROUTES,
+            $this->projectDir . self::PATH_ROUTES,
             sprintf(self::TEMPLATE_ROUTES, $this->generateRoutes($routes))
         );
 
-        file_put_contents(self::PATH_CONFIG, self::TEMPLATE_CONFIG);
+        file_put_contents($this->projectDir . self::PATH_CONFIG, self::TEMPLATE_CONFIG);
 
         $this->updateApplication();
     }
@@ -159,11 +167,24 @@ EOT;
      */
     private function generatePipeline(array $config)
     {
-        // Seed the pipeline with the error handler
-        $pipeline = ['$app->pipe(\Zend\Stratigility\Middleware\ErrorHandler::class);'];
+        $pipeline = [];
 
         foreach ($this->generatePriorityQueueFromConfig($config) as $spec) {
-            if (empty($spec['middleware'])) {
+            if (empty($spec) || empty($spec['middleware'])) {
+                continue;
+            }
+
+            if (empty($spec['path'])
+                && $spec['middleware'] === Application::ROUTING_MIDDLEWARE
+            ) {
+                $pipeline[] = '$app->pipeRoutingMiddleware();';
+                continue;
+            }
+
+            if (empty($spec['path'])
+                && $spec['middleware'] === Application::DISPATCH_MIDDLEWARE
+            ) {
+                $pipeline[] = '$app->pipeDispatchMiddleware();';
                 continue;
             }
 
@@ -172,13 +193,15 @@ EOT;
             $error      = isset($spec['error']) ? (bool) $spec['error'] : false;
             $method     = $error ? 'pipeErrorHandler' : 'pipe';
 
-            $pipeline[] = null === $path
+            $pipeline[] = (null === $path)
                 ? sprintf(self::TEMPLATE_PIPELINE_NO_PATH, $method, $middleware)
                 : sprintf(self::TEMPLATE_PIPELINE_WITH_PATH, $method, $this->createOptionValue($path), $middleware);
         }
 
-        // Seed the pipeline with the not-found handler
-        $pipeline[] = '$app->pipe(\Zend\Expressive\Middleware\NotFoundHandler::class);';
+        // Push the error handler to the top of the pipeline, and the
+        // not-found handler to the end.
+        array_unshift($pipeline, '$app->pipe(\Zend\Stratigility\Middleware\ErrorHandler::class);');
+        array_push($pipeline, '$app->pipe(\Zend\Expressive\Middleware\NotFoundHandler::class);');
 
         return implode("\n", $pipeline);
     }
@@ -236,7 +259,7 @@ EOT;
 
             $routes[] = $route . sprintf(
                 "\n    ->setOptions(%s);",
-                $this->formatOptions($spec['options'])
+                $this->formatOptions($spec['options'], 2)
             );
         }
 
@@ -308,36 +331,6 @@ EOT;
         }
 
         return sprintf("[\n    %s,\n]", implode(",\n    ", $middleware));
-    }
-
-    /**
-     * Format a service name.
-     *
-     * If the name is one of the routing/mdidleware dispatch constants,
-     * a string indicating the constant is returned.
-     *
-     * If the name is a FQCN, it is returned as a FQCN, with the suffix
-     * ::class provided.
-     *
-     * If all other cases, it is returned in quotes, with any quotes escaped.
-     *
-     * @param string $name
-     * @return string
-     */
-    private function formatServiceName($name)
-    {
-        switch ($name) {
-            case Application::ROUTING_MIDDLEWARE:
-                return '\Zend\Expressive\Application::ROUTING_MIDDLEWARE';
-            case Application::DISPATCH_MIDDLEWARE:
-                return '\Zend\Expressive\Application::DISPATCH_MIDDLEWARE';
-        }
-
-        if (class_exists($name)) {
-            return sprintf('\\%s::class', $name);
-        }
-
-        return sprintf("'%s'", addslashes($name));
     }
 
     /**
@@ -432,7 +425,8 @@ EOT;
      */
     private function updateApplication()
     {
-        $application = file_get_contents(self::PATH_APPLICATION);
+        $applicationPath = $this->projectDir . self::PATH_APPLICATION;
+        $application = file_get_contents($applicationPath);
         $position = strpos($application, '$app->run');
 
         if (! $position) {
@@ -451,6 +445,6 @@ EOT;
             . "include 'config/routes.php';\n"
             . substr($application, $position);
 
-        file_put_contents(self::PATH_APPLICATION, $updated);
+        file_put_contents($applicationPath, $updated);
     }
 }

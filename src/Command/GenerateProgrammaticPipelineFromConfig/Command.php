@@ -13,7 +13,9 @@ class Command
 {
     const DEFAULT_COMMAND_NAME = 'expressive-pipeline-from-config';
 
-    const DEFAULT_CONFIG_FILE = './config/config.php';
+    const DEFAULT_CONFIG_FILE = '/config/config.php';
+
+    public $projectDir = '.';
 
     /**
      * @var string
@@ -59,6 +61,7 @@ class Command
 
         try {
             $generator = new Generator();
+            $generator->projectDir = $this->projectDir;
             $generator->process($this->locateConfigFile($args));
         } catch (GeneratorException $e) {
             $this->helper->writeLine('<error>Error during generation:</error>', true, STDERR);
@@ -148,11 +151,11 @@ class Command
         $args = array_values($args);
 
         if (3 > count($args)) {
-            return self::DEFAULT_CONFIG_FILE;
+            return $this->projectDir . self::DEFAULT_CONFIG_FILE;
         }
 
         if ('--config-file' !== $args[1]) {
-            return self::DEFAULT_CONFIG_FILE;
+            return $this->projectDir . self::DEFAULT_CONFIG_FILE;
         }
 
         return $args[2];
