@@ -48,14 +48,16 @@ class Command
     public function process(array $args)
     {
         if ($this->isHelpRequest($args)) {
-            (new Help($this->command, $this->helper))(STDOUT);
+            $help = new Help($this->command, $this->helper);
+            $help(STDOUT);
             return 0;
         }
 
         if (! $this->isGenerateRequest($args)) {
             $this->helper->writeLine('<error>Unknown command</error>', true, STDERR);
 
-            (new Help($this->command, $this->helper))(STDERR);
+            $help = new Help($this->command, $this->helper);
+            $help(STDERR);
             return 1;
         }
 
