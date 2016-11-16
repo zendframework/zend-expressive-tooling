@@ -37,7 +37,7 @@ return [
         'factories' => [
             ErrorHandler::class => ErrorHandlerFactory::class,
             // Override the following in a local config file to use
-            // Zend\Expressive\Middleware\WhoopsErrorResponseGeneratorFactory
+            // Zend\Expressive\Container\WhoopsErrorResponseGeneratorFactory
             // in order to use Whoops for development error handling.
             ErrorResponseGenerator::class => ErrorResponseGeneratorFactory::class,
             NotFoundHandler::class => NotFoundHandlerFactory::class,
