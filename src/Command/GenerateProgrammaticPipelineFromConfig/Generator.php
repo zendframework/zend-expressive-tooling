@@ -198,9 +198,10 @@ EOT;
                 : sprintf(self::TEMPLATE_PIPELINE_WITH_PATH, $method, $this->createOptionValue($path), $middleware);
         }
 
-        // Push the error handler to the top of the pipeline, and the
-        // not-found handler to the end.
+        // Push the original messages middleware and error handler to the top
+        // of the pipeline, and the not-found handler to the end.
         array_unshift($pipeline, '$app->pipe(\Zend\Stratigility\Middleware\ErrorHandler::class);');
+        array_unshift($pipeline, '$app->pipe(\Zend\Stratigility\Middleware\OriginalMessages::class);');
         array_push($pipeline, '$app->pipe(\Zend\Expressive\Middleware\NotFoundHandler::class);');
 
         return implode("\n", $pipeline);

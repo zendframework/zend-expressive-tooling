@@ -2,6 +2,7 @@
 /**
  * Expressive middleware pipeline
  */
+$app->pipe(\Zend\Stratigility\Middleware\OriginalMessages::class);
 $app->pipe(\Zend\Stratigility\Middleware\ErrorHandler::class);
 $app->pipe('Zend\\Expressive\\Helper\\ServerUrlMiddleware');
 $app->pipe('App\\Middleware\\XClacksOverhead');
