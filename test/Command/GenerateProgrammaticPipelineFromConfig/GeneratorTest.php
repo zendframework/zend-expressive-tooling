@@ -69,7 +69,11 @@ class GeneratorTest extends TestCase
         );
 
         $application = file_get_contents(vfsStream::url('project/public/index.php'));
-        $this->assertContains("\ninclude 'config/pipeline.php';\ninclude 'config/routes.php';\n", $application);
+        $this->assertEquals(
+            file_get_contents(__DIR__ . '/TestAsset/expected/public/index.php'),
+            file_get_contents(vfsStream::url('project/public/index.php')),
+            'Generated public/index.php does not match expected'
+        );
     }
 
     public function testRaisesExceptionIfConfigFileNotFound()

@@ -60,6 +60,11 @@ EOT;
 
 EOT;
 
+    const TEMPLATE_PUBLIC_INDEX = <<< 'EOT'
+<?php
+error_reporting(error_reporting() & ~E_USER_DEPRECATED);
+EOT;
+
     const TEMPLATE_ROUTES = <<< 'EOT'
 <?php
 /**
@@ -445,6 +450,8 @@ EOT;
             . "include 'config/pipeline.php';\n"
             . "include 'config/routes.php';\n"
             . substr($application, $position);
+
+        $updated = str_replace('<' . '?php', self::TEMPLATE_PUBLIC_INDEX, $updated);
 
         file_put_contents($applicationPath, $updated);
     }
