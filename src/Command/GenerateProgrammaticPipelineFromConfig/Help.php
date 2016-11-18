@@ -47,6 +47,7 @@ EOT;
     private $helper;
 
     /**
+     * @param string $command Name of script invoking the command.
      * @param ConsoleHelper $helper
      */
     public function __construct($command, ConsoleHelper $helper)
