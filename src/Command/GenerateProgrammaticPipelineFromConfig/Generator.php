@@ -32,9 +32,13 @@ use Zend\Expressive\Container\NotFoundHandlerFactory;
 use Zend\Expressive\Middleware\ErrorResponseGenerator;
 use Zend\Expressive\Middleware\NotFoundHandler;
 use Zend\Stratigility\Middleware\ErrorHandler;
+use Zend\Stratigility\Middleware\OriginalMessages;
 
 return [
     'dependencies' => [
+        'invokables' => [
+            OriginalMessages::class => OriginalMessages::class,
+        ],
         'factories' => [
             ErrorHandler::class => ErrorHandlerFactory::class,
             // Override the following in a local config file to use
