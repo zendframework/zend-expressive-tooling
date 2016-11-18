@@ -8,6 +8,7 @@
 namespace Zend\Expressive\Command\GenerateProgrammaticPipelineFromConfig;
 
 use ArrayObject;
+use Traversable;
 use Zend\Expressive\Application;
 use Zend\Expressive\Router\Route;
 use Zend\Stdlib\SplPriorityQueue;
