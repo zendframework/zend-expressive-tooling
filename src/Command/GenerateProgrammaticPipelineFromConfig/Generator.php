@@ -447,8 +447,8 @@ EOT;
         }
 
         $updated = substr($application, 0, $position)
-            . "include 'config/pipeline.php';\n"
-            . "include 'config/routes.php';\n"
+            . "require 'config/pipeline.php';\n"
+            . "require 'config/routes.php';\n"
             . substr($application, $position);
 
         $updated = str_replace('<' . '?php', self::TEMPLATE_PUBLIC_INDEX, $updated);

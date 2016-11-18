@@ -16,6 +16,6 @@ $container = require 'config/container.php';
 
 /** @var \Zend\Expressive\Application $app */
 $app = $container->get(\Zend\Expressive\Application::class);
-include 'config/pipeline.php';
-include 'config/routes.php';
+require 'config/pipeline.php';
+require 'config/routes.php';
 $app->run();
