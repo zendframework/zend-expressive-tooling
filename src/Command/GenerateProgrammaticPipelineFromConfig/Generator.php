@@ -349,7 +349,7 @@ EOT;
     }
 
     /**
-     * @param array $options
+     * @param array|\ArrayObject $options
      * @param int $indentLevel
      * @return string
      */
