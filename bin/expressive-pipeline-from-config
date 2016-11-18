@@ -22,6 +22,9 @@ if (file_exists($a = __DIR__ . '/../../../autoload.php')) {
     exit(1);
 }
 
-$command = new Command\GenerateProgrammaticPipelineFromConfig\Command($argv[0]);
+$command = new Command\GenerateProgrammaticPipelineFromConfig\Command(
+    $argv[0],
+    new ConsoleHelper()
+);
 $return = $command->process(array_slice($argv, 1));
 exit($return);

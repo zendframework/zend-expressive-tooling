@@ -8,7 +8,6 @@
 namespace ZendTest\Expressive\Command\GenerateProgrammaticPipelineFromConfig;
 
 use org\bovigo\vfs\vfsStream;
-use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit_Framework_TestCase as TestCase;
 use Prophecy\Argument;
 use Zend\Expressive\Command\GenerateProgrammaticPipelineFromConfig\Command;
