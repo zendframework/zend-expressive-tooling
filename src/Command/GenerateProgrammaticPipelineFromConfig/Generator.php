@@ -57,6 +57,8 @@ EOT;
 /**
  * Expressive middleware pipeline
  */
+
+/** @var \Zend\Expressive\Application $app */
 %s
 
 EOT;
@@ -71,6 +73,8 @@ EOT;
 /**
  * Expressive routed middleware
  */
+
+/** @var \Zend\Expressive\Application $app */
 %s
 
 EOT;
