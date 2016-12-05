@@ -108,17 +108,26 @@ class ErrorMiddlewareFilter extends FilterIterator
      */
     private function callsNextWithError(ClassScanner $class)
     {
-        return array_reduce($class->getMethods(), function ($found, $method) {
-            if ($found) {
-                return $found;
-            }
+        return array_reduce(
+            $class->getMethods(),
+            /**
+             * @param bool $found
+             * @param \Zend\Code\Scanner\MethodScanner $method
+             * @return bool
+             */
+            function ($found, $method) {
+                if ($found) {
+                    return $found;
+                }
 
-            if (! in_array('next', $method->getParameters())) {
-                return false;
-            }
+                if (! in_array('next', $method->getParameters())) {
+                    return false;
+                }
 
-            return $this->methodCallsNextWithError($method->getBody());
-        }, false);
+                return $this->methodCallsNextWithError($method->getBody());
+            },
+            false
+        );
     }
 
     /**
