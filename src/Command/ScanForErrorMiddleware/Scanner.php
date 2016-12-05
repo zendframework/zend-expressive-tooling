@@ -33,9 +33,8 @@ class Scanner implements Countable, IteratorAggregate
     private $path;
 
     /**
-     * @param string path
+     * @param string $path
      * @param ConsoleHelper $console
-     * @throws ScannerException if the path is not a directory or not readable.
      */
     public function __construct($path, ConsoleHelper $console)
     {
@@ -79,6 +78,7 @@ class Scanner implements Countable, IteratorAggregate
      * Emit info if the file contains a class implementing ErrorMiddlewareInterface
      *
      * @param SplFileInfo $file
+     * @return void
      */
     private function implementsInterface(SplFileInfo $file)
     {
@@ -97,6 +97,7 @@ class Scanner implements Countable, IteratorAggregate
      * Emit info if the file contains a class implementing invokable error middleware
      *
      * @param SplFileInfo $file
+     * @return void
      */
     private function isInvokableMiddleware(SplFileInfo $file)
     {
@@ -114,6 +115,7 @@ class Scanner implements Countable, IteratorAggregate
      * Emit info if the file contains a call to $next with an error argument
      *
      * @param SplFileInfo $file
+     * @return void
      */
     private function callsNextWithError(SplFileInfo $file)
     {
