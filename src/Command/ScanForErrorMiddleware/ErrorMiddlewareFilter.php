@@ -46,12 +46,24 @@ class ErrorMiddlewareFilter extends FilterIterator
         );
     }
 
+    /**
+     * Generate a filter for scanning a file to determine if it contains
+     * classes representing error middleware.
+     *
+     * @param SplFileInfo $file
+     * @return callable
+     */
     private function scanClass(SplFileInfo $file)
     {
         $file->implementsInterface      = false;
         $file->invokableErrorMiddleware = false;
         $file->callsNextWithError       = false;
 
+        /**
+         * @param bool $found
+         * @param \Zend\Code\Scanner\ClassScanner $class
+         * @return bool
+         */
         return function ($found, $class) use ($file) {
             if ($found) {
                 return $found;

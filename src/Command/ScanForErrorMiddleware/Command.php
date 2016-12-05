@@ -46,7 +46,7 @@ EOT;
     /**
      * @var string[]
      */
-    private $helpOptions = ['-h', '--help'];
+    private $helpOptions = ['-h', '--help', 'help'];
 
     /**
      * @param string $command Name of script invoking the command.
