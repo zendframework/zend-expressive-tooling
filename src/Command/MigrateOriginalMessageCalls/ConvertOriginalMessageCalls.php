@@ -40,6 +40,9 @@ class ConvertOriginalMessageCalls
 
     /**
      * Process a directory
+     *
+     * @param string $directory Directory to process.
+     * @return void
      */
     public function process($directory)
     {
