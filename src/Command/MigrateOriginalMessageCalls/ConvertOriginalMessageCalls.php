@@ -69,7 +69,7 @@ class ConvertOriginalMessageCalls
     /**
      * Process a single file
      *
-     * @param $filename
+     * @param string $filename
      * @return void
      */
     private function processFile($filename)
