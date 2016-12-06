@@ -1,14 +1,14 @@
 #!/usr/bin/env php
 <?php // @codingStandardsIgnoreFile
 /**
- * Script for migrating configuration-driven pipelines/routes to programmatic usage.
+ * Script that scans for error middleware implementations and invocations
  *
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
+ * @see       https://github.com/zendframework/zend-expressive-tooling for the canonical source repository
  * @copyright Copyright (c) 2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @license   https://github.com/zendframework/zend-expressive-tooling/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Expressive\Tooling\MigrateOriginalMessageCalls;
+namespace Zend\Expressive\Tooling\ScanForErrorMiddleware;
 
 use Zend\Stdlib\ConsoleHelper;
 
