@@ -153,4 +153,29 @@ EOT;
         $this->setExpectedException(GeneratorException::class, '$app->run');
         $this->generator->process($configFile);
     }
+
+    public function processArtifacts()
+    {
+        return [
+            'pipeline' => ['config/pipeline.php'],
+            'routes'   => ['config/routes.php'],
+        ];
+    }
+
+    /**
+     * @dataProvider processArtifacts
+     */
+    public function testProcessRaisesExceptionIfArtifactsFromPreviousRunArePresent($filename)
+    {
+        $this->generatePipeline();
+
+        vfsStream::newFile($filename)
+            ->at($this->dir)
+            ->setContent('<' . "?php\nreturn [];");
+
+        $configFile = vfsStream::url('project/config/config.php');
+
+        $this->setExpectedException(GeneratorException::class, 'previous run detected');
+        $this->generator->process($configFile);
+    }
 }

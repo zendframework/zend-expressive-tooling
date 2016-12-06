@@ -112,6 +112,8 @@ EOT;
      */
     public function process($configFile)
     {
+        $this->detectPreviousRun();
+
         $config = $this->readConfigFile($configFile);
 
         $pipeline = isset($config['middleware_pipeline']) && is_array($config['middleware_pipeline'])
@@ -463,5 +465,29 @@ EOT;
         $updated = str_replace('<' . '?php', self::TEMPLATE_PUBLIC_INDEX, $updated);
 
         file_put_contents($applicationPath, $updated);
+    }
+
+    /**
+     * Determine if the command has been run previously.
+     *
+     * @throws GeneratorException when config/pipeline.php and/or
+     *     config/routes.php exists.
+     */
+    private function detectPreviousRun()
+    {
+        $pipeline = $this->projectDir . self::PATH_PIPELINE;
+        $routes   = $this->projectDir . self::PATH_ROUTES;
+
+        if (file_exists($pipeline) || file_exists($routes)) {
+            throw new GeneratorException(wordwrap(
+                'Unable to generate programmatic pipeline; previous run '
+                . 'detected. One of either config/pipeline.php or config/routes.php '
+                . 'was discovered. Please check to see if you already have a '
+                . 'programmatic pipeline in place, and/or remove these files and '
+                . 're-run this command.',
+                72,
+                PHP_EOL
+            ));
+        }
     }
 }
