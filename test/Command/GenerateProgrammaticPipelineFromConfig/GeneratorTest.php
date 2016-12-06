@@ -108,14 +108,14 @@ return [
     'middleware_pipeline' => [
         [
             'middleware' => %s,
-        ]
+        ],
     ],
 ];
 EOT;
         return [
-            'int'        => [sprintf($pipelineConfigTemplate, '1')],
-            'float'      => [sprintf($pipelineConfigTemplate, '1.1')],
-            'object'     => [sprintf($pipelineConfigTemplate, '(object) [\'foo\' => \'bar\']')],
+            'int'    => [sprintf($pipelineConfigTemplate, '1')],
+            'float'  => [sprintf($pipelineConfigTemplate, '1.1')],
+            'object' => [sprintf($pipelineConfigTemplate, '(object) [\'foo\' => \'bar\']')],
         ];
     }
 
