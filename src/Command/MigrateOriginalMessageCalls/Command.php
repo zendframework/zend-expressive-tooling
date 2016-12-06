@@ -83,6 +83,8 @@ EOT;
             return 1;
         }
 
+        $this->console->writeLine('<info>Scanning for usage of Stratigility HTTP message decorators...</info>');
+
         $converter = new ConvertOriginalMessageCalls($this->console);
         $converter->process($src);
 

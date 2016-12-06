@@ -75,6 +75,14 @@ class CommandTest extends TestCase
     {
         $this->console
             ->writeLine(
+                Argument::containingString(
+                    'Generating programmatic pipeline for an existing Expressive application...'
+                )
+            )
+            ->shouldBeCalled();
+
+        $this->console
+            ->writeLine(
                 Argument::containingString('Error during generation'),
                 true,
                 STDERR
@@ -114,6 +122,13 @@ class CommandTest extends TestCase
         vfsStream::newDirectory('config/autoload', 0755)
             ->at($dir);
 
+        $this->console
+            ->writeLine(
+                Argument::containingString(
+                    'Generating programmatic pipeline for an existing Expressive application...'
+                )
+            )
+            ->shouldBeCalled();
         $this->console
             ->writeLine(Argument::containingString('Success'))
             ->shouldBeCalled();

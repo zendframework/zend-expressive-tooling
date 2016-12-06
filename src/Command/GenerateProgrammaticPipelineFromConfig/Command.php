@@ -30,16 +30,16 @@ class Command
     /**
      * @var ConsoleHelper
      */
-    private $helper;
+    private $console;
 
     /**
      * @param string $command Script that is invoking the command.
-     * @param ConsoleHelper $helper
+     * @param ConsoleHelper $console
      */
-    public function __construct($command = self::DEFAULT_COMMAND_NAME, ConsoleHelper $helper = null)
+    public function __construct($command = self::DEFAULT_COMMAND_NAME, ConsoleHelper $console = null)
     {
         $this->command = (string) $command;
-        $this->helper = $helper ?: new ConsoleHelper();
+        $this->console = $console ?: new ConsoleHelper();
     }
 
     /**
@@ -49,43 +49,47 @@ class Command
     public function process(array $args)
     {
         if ($this->isHelpRequest($args)) {
-            $help = new Help($this->command, $this->helper);
+            $help = new Help($this->command, $this->console);
             $help(STDOUT);
             return 0;
         }
 
         if (! $this->isGenerateRequest($args)) {
-            $this->helper->writeLine('<error>Unknown command</error>', true, STDERR);
+            $this->console->writeLine('<error>Unknown command</error>', true, STDERR);
 
-            $help = new Help($this->command, $this->helper);
+            $help = new Help($this->command, $this->console);
             $help(STDERR);
             return 1;
         }
+
+        $this->console->writeLine(
+            '<info>Generating programmatic pipeline for an existing Expressive application...</info>'
+        );
 
         try {
             $generator = new Generator();
             $generator->projectDir = $this->projectDir;
             $generator->process($this->locateConfigFile($args));
         } catch (GeneratorException $e) {
-            $this->helper->writeLine('<error>Error during generation:</error>', true, STDERR);
-            $this->helper->writeLine(sprintf('  <error>%s</error>', $e->getMessage()), true, STDERR);
+            $this->console->writeLine('<error>Error during generation:</error>', true, STDERR);
+            $this->console->writeLine(sprintf('  <error>%s</error>', $e->getMessage()), true, STDERR);
             return 1;
         }
 
-        $this->helper->writeLine('<info>Success!</info>');
-        $this->helper->writeLine(sprintf(
+        $this->console->writeLine('<info>Success!</info>');
+        $this->console->writeLine(sprintf(
             '<info>- Created %s, enabling programmatic pipelines</info>',
             Generator::PATH_CONFIG
         ));
-        $this->helper->writeLine(sprintf(
+        $this->console->writeLine(sprintf(
             '<info>- Created %s, defining the pipeline</info>',
             Generator::PATH_PIPELINE
         ));
-        $this->helper->writeLine(sprintf(
+        $this->console->writeLine(sprintf(
             '<info>- Created %s, defining the routes</info>',
             Generator::PATH_ROUTES
         ));
-        $this->helper->writeLine(sprintf(
+        $this->console->writeLine(sprintf(
             '<info>- Updated %s to include %s and %s before running the application</info>',
             Generator::PATH_APPLICATION,
             Generator::PATH_PIPELINE,

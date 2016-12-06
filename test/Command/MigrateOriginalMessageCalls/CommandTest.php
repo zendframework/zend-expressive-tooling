@@ -116,6 +116,9 @@ class CommandTest extends TestCase
 
         $console = $this->setupConsoleHelper();
         $console->writeLine(
+            Argument::containingString('Scanning for usage of Stratigility HTTP message decorators...')
+        )->shouldBeCalled();
+        $console->writeLine(
             Argument::containingString('One or more files contained calls to getOriginalResponse()')
         )->shouldBeCalled();
         $console->writeLine(
