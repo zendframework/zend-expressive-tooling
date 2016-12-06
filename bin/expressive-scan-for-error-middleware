@@ -8,7 +8,7 @@
  * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Expressive;
+namespace Zend\Expressive\Tooling\MigrateOriginalMessageCalls;
 
 use Zend\Stdlib\ConsoleHelper;
 
@@ -22,9 +22,6 @@ if (file_exists($a = __DIR__ . '/../../../autoload.php')) {
     exit(1);
 }
 
-$command = new Command\ScanForErrorMiddleware\Command(
-    $argv[0],
-    new ConsoleHelper()
-);
+$command = new Command($argv[0], new ConsoleHelper());
 $return = $command->process(array_slice($argv, 1));
 exit($return);
