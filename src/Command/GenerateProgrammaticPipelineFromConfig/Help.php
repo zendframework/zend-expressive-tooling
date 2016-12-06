@@ -64,9 +64,14 @@ EOT;
      */
     public function __invoke($resource = STDOUT)
     {
+        // Use basename of command if it is a realpath
+        $command = (file_exists($this->command) && realpath($this->command) === $this->command)
+            ? basename($this->command)
+            : $this->command;
+
         $this->helper->writeLine(sprintf(
             self::TEMPLATE,
-            $this->command
+            $command
         ), true, $resource);
     }
 }

@@ -36,4 +36,27 @@ class HelpTest extends TestCase
 
         $this->assertNull($command($resource));
     }
+
+    public function testTruncatesCommandToBasenameIfItIsARealpath()
+    {
+        $resource = fopen('php://temp', 'w+');
+
+        $console = $this->prophesize(ConsoleHelper::class);
+        $console
+            ->writeLine(
+                Argument::that(function ($message) {
+                    return false !== strstr($message, basename(__FILE__));
+                }),
+                true,
+                $resource
+            )
+            ->shouldBeCalled();
+
+        $command = new Help(
+            realpath(__FILE__),
+            $console->reveal()
+        );
+
+        $this->assertNull($command($resource));
+    }
 }
