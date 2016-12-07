@@ -16,7 +16,7 @@ class HelpTest extends TestCase
 {
     public function testWritesHelpMessageToConsoleUsingCommandProvidedAtInstantiationAndResourceAtInvocation()
     {
-        $resource = fopen('php://temp', 'w+');
+        $resource = fopen('php://temp', 'wb+');
 
         $console = $this->prophesize(ConsoleHelper::class);
         $console
@@ -39,7 +39,7 @@ class HelpTest extends TestCase
 
     public function testTruncatesCommandToBasenameIfItIsARealpath()
     {
-        $resource = fopen('php://temp', 'w+');
+        $resource = fopen('php://temp', 'wb+');
 
         $console = $this->prophesize(ConsoleHelper::class);
         $console
