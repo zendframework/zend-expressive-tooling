@@ -30,10 +30,16 @@ class Help
 
 Reads existing configuration from the --config-file, and uses that
 information to generate a programmatic middleware pipeline and routing
-table for your application. The information is written to STDOUT, and
-can then be piped to a file or copy and pasted into your
-public/index.php file.
-  
+table for your application:
+
+- The pipeline is written to config/pipeline.php.
+- The routing rules are written to config/routes.php.
+- A new configuration file, config/autoload/programmatic-pipeline.global.php,
+  is created with configuration to enable the programmatic pipeline and
+  new error handling mechanisms.
+- The script updates public/index.php to require the pipeline and
+  routing configuration files prior to running the application.
+
 EOT;
 
     /**
