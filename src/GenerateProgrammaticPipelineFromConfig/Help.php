@@ -64,10 +64,11 @@ EOT;
      */
     public function __invoke($resource = STDOUT)
     {
-        // Use basename of command if it is a realpath
-        $command = (file_exists($this->command) && realpath($this->command) === $this->command)
-            ? basename($this->command)
-            : $this->command;
+        // Find relative command path
+        $command = strtr(realpath($this->command) ?: $this->command, [
+            getcwd() . DIRECTORY_SEPARATOR => '',
+            'zendframework' . DIRECTORY_SEPARATOR . 'zend-expressive-tooling' . DIRECTORY_SEPARATOR => '',
+        ]);
 
         $this->helper->writeLine(sprintf(
             self::TEMPLATE,
