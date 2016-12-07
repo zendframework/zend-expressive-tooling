@@ -22,7 +22,7 @@ class HelpTest extends TestCase
         $console
             ->writeLine(
                 Argument::that(function ($message) {
-                    return false !== strstr($message, 'scan-for-error-middleware');
+                    return false !== strpos($message, 'scan-for-error-middleware');
                 }),
                 true,
                 $resource
@@ -45,7 +45,7 @@ class HelpTest extends TestCase
         $console
             ->writeLine(
                 Argument::that(function ($message) {
-                    return false !== strstr($message, basename(__FILE__));
+                    return false !== strpos($message, basename(__FILE__));
                 }),
                 true,
                 $resource

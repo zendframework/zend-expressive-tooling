@@ -22,7 +22,7 @@ class HelpTest extends TestCase
         $console
             ->writeLine(
                 Argument::that(function ($message) {
-                    return false !== strstr($message, 'migrate-original-message-calls');
+                    return false !== strpos($message, 'migrate-original-message-calls');
                 }),
                 true,
                 $resource
@@ -45,7 +45,7 @@ class HelpTest extends TestCase
         $console
             ->writeLine(
                 Argument::that(function ($message) {
-                    return false !== strstr($message, basename(__FILE__));
+                    return false !== strpos($message, basename(__FILE__));
                 }),
                 true,
                 $resource
