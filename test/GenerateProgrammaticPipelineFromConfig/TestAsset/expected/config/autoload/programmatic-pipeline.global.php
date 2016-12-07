@@ -25,7 +25,7 @@ return [
             NotFoundHandler::class => NotFoundHandlerFactory::class,
         ],
     ],
-    'zend-expressive-tooling' => [
+    'zend-expressive' => [
         'programmatic_pipeline' => true,
         'raise_throwables'      => true,
     ],
