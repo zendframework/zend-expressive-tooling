@@ -22,6 +22,9 @@ All notable changes to this project will be documented in this file, in reverse 
   the various `Help` classes to translate a command name to be relative to the
   `vendor/bin/` directory under every operating system when run local to a
   project.
+- [#3](https://github.com/zendframework/zend-expressive-tooling/pull/3) fixes
+  the top-level key used in generated configuration files to properly be
+  `zf-expressive` instead of `zf-expressive-tooling`.
 
 ## 0.1.1 - 2016-12-06
 
