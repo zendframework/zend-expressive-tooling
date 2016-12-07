@@ -18,7 +18,7 @@ trait ProjectSetupTrait
 {
     public function setupSrcDir($dir)
     {
-        $base = realpath(__DIR__ . '/TestAsset') . '/';
+        $base = realpath(__DIR__ . '/TestAsset') . DIRECTORY_SEPARATOR;
         $rdi = new RecursiveDirectoryIterator($base . 'src');
         $rii = new RecursiveIteratorIterator($rdi);
 
@@ -29,7 +29,7 @@ trait ProjectSetupTrait
 
             $filename = $file->getRealPath();
             $contents = file_get_contents($filename);
-            $name = str_replace($base, '', $filename);
+            $name = strtr($filename, [$base => '', DIRECTORY_SEPARATOR => '/']);
             vfsStream::newFile($name)
                 ->at($dir)
                 ->setContent($contents);
