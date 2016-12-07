@@ -16,13 +16,13 @@ class HelpTest extends TestCase
 {
     public function testWritesHelpMessageToConsoleUsingCommandProvidedAtInstantiationAndResourceAtInvocation()
     {
-        $resource = fopen('php://temp', 'w+');
+        $resource = fopen('php://temp', 'wb+');
 
         $console = $this->prophesize(ConsoleHelper::class);
         $console
             ->writeLine(
                 Argument::that(function ($message) {
-                    return false !== strstr($message, 'generate-programmatic-pipeline-from-config');
+                    return false !== strpos($message, 'generate-programmatic-pipeline-from-config');
                 }),
                 true,
                 $resource
@@ -39,13 +39,13 @@ class HelpTest extends TestCase
 
     public function testTruncatesCommandToBasenameIfItIsARealpath()
     {
-        $resource = fopen('php://temp', 'w+');
+        $resource = fopen('php://temp', 'wb+');
 
         $console = $this->prophesize(ConsoleHelper::class);
         $console
             ->writeLine(
                 Argument::that(function ($message) {
-                    return false !== strstr($message, basename(__FILE__));
+                    return false !== strpos($message, basename(__FILE__));
                 }),
                 true,
                 $resource
