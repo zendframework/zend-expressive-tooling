@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 0.1.2 - TBD
+
+### Added
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#1](https://github.com/zendframework/zend-expressive-tooling/pull/1) updates
+  the various `Help` classes to translate a command name to be relative to the
+  `vendor/bin/` directory under every operating system when run local to a
+  project.
+
 ## 0.1.1 - 2016-12-06
 
 ### Added
