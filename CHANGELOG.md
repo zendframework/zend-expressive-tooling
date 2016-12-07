@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 0.1.2 - TBD
+## 0.1.2 - 2016-12-07
 
 ### Added
 
@@ -25,6 +25,9 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#3](https://github.com/zendframework/zend-expressive-tooling/pull/3) fixes
   the top-level key used in generated configuration files to properly be
   `zf-expressive` instead of `zf-expressive-tooling`.
+- [#5](https://github.com/zendframework/zend-expressive-tooling/pull/5) fixes
+  the help message for the `expressive-pipeline-from-config` command to detail
+  what it actually does (vs what the original incarnation did).
 
 ## 0.1.1 - 2016-12-06
 
