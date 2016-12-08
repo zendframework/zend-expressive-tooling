@@ -11,6 +11,7 @@ use FilterIterator;
 use SplFileInfo;
 use Zend\Code\Scanner\ClassScanner;
 use Zend\Code\Scanner\FileScanner;
+use Zend\Code\Scanner\MethodScanner;
 use Zend\Stratigility\ErrorMiddlewareInterface;
 
 class ErrorMiddlewareFilter extends FilterIterator
@@ -61,7 +62,7 @@ class ErrorMiddlewareFilter extends FilterIterator
 
         /**
          * @param bool $found
-         * @param \Zend\Code\Scanner\ClassScanner $class
+         * @param ClassScanner $class
          * @return bool
          */
         return function ($found, $class) use ($file) {
@@ -112,7 +113,7 @@ class ErrorMiddlewareFilter extends FilterIterator
             $class->getMethods(),
             /**
              * @param bool $found
-             * @param \Zend\Code\Scanner\MethodScanner $method
+             * @param MethodScanner $method
              * @return bool
              */
             function ($found, $method) {
