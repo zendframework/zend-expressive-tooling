@@ -84,7 +84,9 @@ class GeneratorTest extends TestCase
     public function testRaisesExceptionIfConfigFileNotFound()
     {
         $configFile = vfsStream::url('project/config/config.php');
-        $this->setExpectedException(GeneratorException::class, 'not found');
+
+        $this->expectException(GeneratorException::class);
+        $this->expectExceptionMessage('not found');
         $this->generator->process($configFile);
     }
 
@@ -93,7 +95,9 @@ class GeneratorTest extends TestCase
         vfsStream::newFile('config/config.php', 0111)
             ->at($this->dir);
         $configFile = vfsStream::url('project/config/config.php');
-        $this->setExpectedException(GeneratorException::class, 'not readable');
+
+        $this->expectException(GeneratorException::class);
+        $this->expectExceptionMessage('not readable');
         $this->generator->process($configFile);
     }
 
@@ -103,7 +107,9 @@ class GeneratorTest extends TestCase
             ->at($this->dir)
             ->setContent('<' . '?php /* NO RETURN */');
         $configFile = vfsStream::url('project/config/config.php');
-        $this->setExpectedException(GeneratorException::class, 'did not return an array');
+
+        $this->expectException(GeneratorException::class);
+        $this->expectExceptionMessage('did not return an array');
         $this->generator->process($configFile);
     }
 
@@ -138,7 +144,8 @@ EOT;
             ->setContent($pipelineConfig);
         $configFile = vfsStream::url('project/config/config.php');
 
-        $this->setExpectedException(GeneratorException::class, 'middleware specification');
+        $this->expectException(GeneratorException::class);
+        $this->expectExceptionMessage('middleware specification');
         $this->generator->process($configFile);
     }
 
@@ -159,7 +166,8 @@ EOT;
             ->at($this->dir);
         $configFile = vfsStream::url('project/config/config.php');
 
-        $this->setExpectedException(GeneratorException::class, '$app->run');
+        $this->expectException(GeneratorException::class);
+        $this->expectExceptionMessage('$app->run');
         $this->generator->process($configFile);
     }
 
@@ -186,7 +194,8 @@ EOT;
 
         $configFile = vfsStream::url('project/config/config.php');
 
-        $this->setExpectedException(GeneratorException::class, 'previous run detected');
+        $this->expectException(GeneratorException::class);
+        $this->expectExceptionMessage('previous run detected');
         $this->generator->process($configFile);
     }
 }
