@@ -73,7 +73,6 @@ class GeneratorTest extends TestCase
             'Generated pipeline config does not match expected config'
         );
 
-        $application = file_get_contents(vfsStream::url('project/public/index.php'));
         $this->assertEquals(
             file_get_contents(__DIR__ . '/TestAsset/expected/public/index.php'),
             file_get_contents(vfsStream::url('project/public/index.php')),
