@@ -50,7 +50,7 @@ class GeneratorTest extends TestCase
         $this->generator->process($configFile);
 
         $pipelineFile = vfsStream::url('project/config/pipeline.php');
-        $this->assertTrue(file_exists($pipelineFile));
+        $this->assertFileExists($pipelineFile);
         $this->assertEquals(
             file_get_contents(__DIR__ . '/TestAsset/expected/config/pipeline.php'),
             file_get_contents($pipelineFile),
@@ -58,7 +58,7 @@ class GeneratorTest extends TestCase
         );
 
         $routesFile = vfsStream::url('project/config/routes.php');
-        $this->assertTrue(file_exists($routesFile));
+        $this->assertFileExists($routesFile);
         $this->assertEquals(
             file_get_contents(__DIR__ . '/TestAsset/expected/config/routes.php'),
             file_get_contents($routesFile),
@@ -66,7 +66,7 @@ class GeneratorTest extends TestCase
         );
 
         $pipelineConfigFile = vfsStream::url('project/config/autoload/programmatic-pipeline.global.php');
-        $this->assertTrue(file_exists($pipelineConfigFile));
+        $this->assertFileExists($pipelineConfigFile);
         $this->assertEquals(
             file_get_contents(__DIR__ . '/TestAsset/expected/config/autoload/programmatic-pipeline.global.php'),
             file_get_contents($pipelineConfigFile),
