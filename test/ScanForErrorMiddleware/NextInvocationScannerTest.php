@@ -105,6 +105,8 @@ EOC;
 
     /**
      * @dataProvider messageVariablesProvider
+     *
+     * @param string $method
      */
     public function testReturnsFalseWhenNextIsInvokedWithoutAnErrorArgument($method)
     {
@@ -115,6 +117,8 @@ EOC;
 
     /**
      * @dataProvider messageVariablesProvider
+     *
+     * @param string $method
      */
     public function testReturnsTrueWhenNextIsInvokedWithAnErrorArgument($method)
     {

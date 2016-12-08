@@ -128,6 +128,8 @@ EOT;
 
     /**
      * @dataProvider invalidMiddleware
+     *
+     * @param string $pipelineConfig
      */
     public function testRaisesExceptionIfMiddlewareInPipelineIsInvalid($pipelineConfig)
     {
@@ -171,6 +173,8 @@ EOT;
 
     /**
      * @dataProvider processArtifacts
+     *
+     * @param string $filename
      */
     public function testProcessRaisesExceptionIfArtifactsFromPreviousRunArePresent($filename)
     {

@@ -57,11 +57,13 @@ class CommandTest extends TestCase
 
     /**
      * @dataProvider helpRequests
+     *
+     * @param array $args
      */
-    public function testHelpRequestEmitsHelp($request)
+    public function testHelpRequestEmitsHelp(array $args)
     {
         $this->assertHelp();
-        $this->assertEquals(0, $this->command->process($request));
+        $this->assertEquals(0, $this->command->process($args));
     }
 
     public function testUnknownCommandDisplaysErrorAndHelp()

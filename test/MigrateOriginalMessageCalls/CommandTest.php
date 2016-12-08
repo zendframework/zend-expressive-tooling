@@ -44,8 +44,10 @@ class CommandTest extends TestCase
 
     /**
      * @dataProvider helpRequests
+     *
+     * @param array $args
      */
-    public function testHelpRequestsEmitHelpToStdout($args)
+    public function testHelpRequestsEmitHelpToStdout(array $args)
     {
         $console = $this->prophesize(ConsoleHelper::class);
         $this->assertHelpOutput($console);

@@ -188,8 +188,10 @@ EOC;
 
     /**
      * @depends testScanningEmitsInfoToConsoleWhenEncounteringFilesOfInterest
+     *
+     * @param Scanner $scanner
      */
-    public function testScanningIncrementsCount($scanner)
+    public function testScanningIncrementsCount(Scanner $scanner)
     {
         $this->assertCount(3, $scanner);
     }
