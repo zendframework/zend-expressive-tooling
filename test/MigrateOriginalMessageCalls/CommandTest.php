@@ -21,11 +21,13 @@ class CommandTest extends TestCase
 
     public function assertHelpOutput($console, $resource = STDOUT, $command = self::TEST_COMMAND_NAME)
     {
-        $console->writeLine(
-            Argument::containingString($command . ' [command] [options]'),
-            true,
-            $resource
-        )->shouldBeCalled();
+        $console
+            ->writeLine(
+                Argument::containingString($command . ' [command] [options]'),
+                true,
+                $resource
+            )
+            ->shouldBeCalled();
     }
 
     public function helpRequests()
@@ -55,11 +57,13 @@ class CommandTest extends TestCase
     public function testUnknownCommandEmitsHelpToStderrWithErrorMessage()
     {
         $console = $this->prophesize(ConsoleHelper::class);
-        $console->writeLine(
-            Argument::containingString('Unknown command'),
-            true,
-            STDERR
-        )->shouldBeCalled();
+        $console
+            ->writeLine(
+                Argument::containingString('Unknown command'),
+                true,
+                STDERR
+            )
+            ->shouldBeCalled();
         $this->assertHelpOutput($console, STDERR);
 
         $command = new Command(self::TEST_COMMAND_NAME, $console->reveal());
@@ -69,11 +73,13 @@ class CommandTest extends TestCase
     public function testCommandErrorIfUnknownOptionsProvidedToScan()
     {
         $console = $this->prophesize(ConsoleHelper::class);
-        $console->writeLine(
-            Argument::containingString('Unable to determine src directory: Invalid options provided'),
-            true,
-            STDERR
-        )->shouldBeCalled();
+        $console
+            ->writeLine(
+                Argument::containingString('Unable to determine src directory: Invalid options provided'),
+                true,
+                STDERR
+            )
+            ->shouldBeCalled();
         $this->assertHelpOutput($console, STDERR);
 
         $command = new Command(self::TEST_COMMAND_NAME, $console->reveal());
@@ -83,11 +89,13 @@ class CommandTest extends TestCase
     public function testCommandErrorIfSrcOptionProvidedToScanIsMissingValue()
     {
         $console = $this->prophesize(ConsoleHelper::class);
-        $console->writeLine(
-            Argument::containingString('Unable to determine src directory: --src was missing'),
-            true,
-            STDERR
-        )->shouldBeCalled();
+        $console
+            ->writeLine(
+                Argument::containingString('Unable to determine src directory: --src was missing'),
+                true,
+                STDERR
+            )
+            ->shouldBeCalled();
         $this->assertHelpOutput($console, STDERR);
 
         $command = new Command(self::TEST_COMMAND_NAME, $console->reveal());
@@ -97,11 +105,13 @@ class CommandTest extends TestCase
     public function testCommandErrorIfSrcOptionProvidedToScanIsNotADirectory()
     {
         $console = $this->prophesize(ConsoleHelper::class);
-        $console->writeLine(
-            Argument::containingString('Unable to determine src directory: Invalid --src argument'),
-            true,
-            STDERR
-        )->shouldBeCalled();
+        $console
+            ->writeLine(
+                Argument::containingString('Unable to determine src directory: Invalid --src argument'),
+                true,
+                STDERR
+            )
+            ->shouldBeCalled();
         $this->assertHelpOutput($console, STDERR);
 
         $command = new Command(self::TEST_COMMAND_NAME, $console->reveal());
@@ -115,21 +125,21 @@ class CommandTest extends TestCase
         $path = vfsStream::url('migrate');
 
         $console = $this->setupConsoleHelper();
-        $console->writeLine(
-            Argument::containingString('Scanning for usage of Stratigility HTTP message decorators...')
-        )->shouldBeCalled();
-        $console->writeLine(
-            Argument::containingString('One or more files contained calls to getOriginalResponse()')
-        )->shouldBeCalled();
-        $console->writeLine(
-            Argument::containingString('Check the above logs')
-        )->shouldBeCalled();
-        $console->writeLine(
-            Argument::containingString(Command::TEMPLATE_RESPONSE_DETAILS)
-        )->shouldBeCalled();
-        $console->writeLine(
-            Argument::containingString('Done!')
-        )->shouldBeCalled();
+        $console
+            ->writeLine(Argument::containingString('Scanning for usage of Stratigility HTTP message decorators...'))
+            ->shouldBeCalled();
+        $console
+            ->writeLine(Argument::containingString('One or more files contained calls to getOriginalResponse()'))
+            ->shouldBeCalled();
+        $console
+            ->writeLine(Argument::containingString('Check the above logs'))
+            ->shouldBeCalled();
+        $console
+            ->writeLine(Argument::containingString(Command::TEMPLATE_RESPONSE_DETAILS))
+            ->shouldBeCalled();
+        $console
+            ->writeLine(Argument::containingString('Done!'))
+            ->shouldBeCalled();
 
         $command = new Command(self::TEST_COMMAND_NAME, $console->reveal());
         $this->assertEquals(0, $command->process(['scan', '--src', $path]));

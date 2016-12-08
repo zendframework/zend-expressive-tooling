@@ -48,21 +48,25 @@ trait ProjectSetupTrait
     {
         $console = $this->prophesize(ConsoleHelper::class);
 
-        $console->writeLine(Argument::containingString(
-            'src/FileContainingOriginalRequest.php'
-        ))->shouldBeCalled();
-        $console->writeLine(Argument::containingString(
-            'src/FileContainingOriginalUri.php'
-        ))->shouldBeCalled();
-        $console->writeLine(Argument::containingString(
-            'src/subdir/FileContainingOriginalResponse.php contains one or more getOriginalResponse() calls'
-        ))->shouldBeCalled();
-        $console->writeLine(Argument::containingString(
-            'src/subdir/nested/FileContainingManyStatements.php'
-        ))->shouldBeCalled();
-        $console->writeLine(Argument::containingString(
-            'src/subdir/nested/FileContainingManyStatements.php contains one or more getOriginalResponse() calls'
-        ))->shouldBeCalled();
+        $console
+            ->writeLine(Argument::containingString('src/FileContainingOriginalRequest.php'))
+            ->shouldBeCalled();
+        $console
+            ->writeLine(Argument::containingString('src/FileContainingOriginalUri.php'))
+            ->shouldBeCalled();
+        $console
+            ->writeLine(Argument::containingString(
+                'src/subdir/FileContainingOriginalResponse.php contains one or more getOriginalResponse() calls'
+            ))
+            ->shouldBeCalled();
+        $console
+            ->writeLine(Argument::containingString('src/subdir/nested/FileContainingManyStatements.php'))
+            ->shouldBeCalled();
+        $console
+            ->writeLine(Argument::containingString(
+                'src/subdir/nested/FileContainingManyStatements.php contains one or more getOriginalResponse() calls'
+            ))
+            ->shouldBeCalled();
 
         return $console;
     }

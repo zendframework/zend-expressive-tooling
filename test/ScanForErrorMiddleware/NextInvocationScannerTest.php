@@ -93,13 +93,13 @@ EOC;
     public function messageVariablesProvider()
     {
         return [
-            'vars-only' => [self::INVOKE_VARS_ONLY],
-            'request-with' => [self::INVOKE_REQUEST_WITH],
-            'response-with' => [self::INVOKE_RESPONSE_WITH],
-            'both-with' => [self::INVOKE_BOTH_WITH],
-            'request-multiple-with' => [self::INVOKE_REQUEST_MULTIPLE_WITH],
+            'vars-only'              => [self::INVOKE_VARS_ONLY],
+            'request-with'           => [self::INVOKE_REQUEST_WITH],
+            'response-with'          => [self::INVOKE_RESPONSE_WITH],
+            'both-with'              => [self::INVOKE_BOTH_WITH],
+            'request-multiple-with'  => [self::INVOKE_REQUEST_MULTIPLE_WITH],
             'response-multiple-with' => [self::INVOKE_RESPONSE_MULTIPLE_WITH],
-            'both-multiple-with' => [self::INVOKE_BOTH_MULTIPLE_WITH],
+            'both-multiple-with'     => [self::INVOKE_BOTH_MULTIPLE_WITH],
         ];
     }
 
