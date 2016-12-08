@@ -8,12 +8,19 @@
 namespace ZendTest\Expressive\Tooling\GenerateProgrammaticPipelineFromConfig;
 
 use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Expressive\Tooling\GenerateProgrammaticPipelineFromConfig\Generator;
 use Zend\Expressive\Tooling\GenerateProgrammaticPipelineFromConfig\GeneratorException;
 
 class GeneratorTest extends TestCase
 {
+    /** @var vfsStreamDirectory */
+    private $dir;
+
+    /** @var Generator */
+    private $generator;
+
     public function setUp()
     {
         $this->dir = vfsStream::setup('project');

@@ -10,8 +10,10 @@ namespace ZendTest\Expressive\Tooling\ScanForErrorMiddleware;
 use Countable;
 use IteratorAggregate;
 use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit_Framework_TestCase as TestCase;
 use Prophecy\Argument;
+use Prophecy\Prophecy\ProphecyInterface;
 use Zend\Expressive\Tooling\ScanForErrorMiddleware\ErrorMiddlewareFilter;
 use Zend\Expressive\Tooling\ScanForErrorMiddleware\Scanner;
 use Zend\Stdlib\ConsoleHelper;
@@ -81,6 +83,18 @@ class BasicMiddleware
     }
 }
 EOC;
+
+    /** @var vfsStreamDirectory */
+    private $dir;
+
+    /** @var string */
+    private $path;
+
+    /** @var ConsoleHelper|ProphecyInterface */
+    private $console;
+
+    /** @var Scanner */
+    private $scanner;
 
     public function setUp()
     {

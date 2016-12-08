@@ -8,8 +8,10 @@
 namespace ZendTest\Expressive\Tooling\ScanForErrorMiddleware;
 
 use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit_Framework_TestCase as TestCase;
 use Prophecy\Argument;
+use Prophecy\Prophecy\ProphecyInterface;
 use Zend\Expressive\Tooling\ScanForErrorMiddleware\Command;
 use Zend\Stdlib\ConsoleHelper;
 
@@ -32,6 +34,18 @@ class InvokeErrorMiddleware
 EOC;
 
     public $commandName = 'scanner-command';
+
+    /** @var vfsStreamDirectory */
+    private $dir;
+
+    /** @var string */
+    private $path;
+
+    /** @var ConsoleHelper|ProphecyInterface */
+    private $console;
+
+    /** @var Command */
+    private $command;
 
     public function setUp()
     {
