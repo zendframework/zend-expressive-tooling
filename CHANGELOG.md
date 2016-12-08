@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 0.1.3 - 2016-12-08
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- [#6](https://github.com/zendframework/zend-expressive-tooling/pull/6) provides
+  some internal refactoring of `Zend\Expressive\Tooling\GenerateProgrammaticPipelineFromConfig\Generator`
+  to optimize performance and maintainability when generating the routing
+  statements.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
 ## 0.1.2 - 2016-12-07
 
 ### Added

@@ -231,43 +231,7 @@ EOT;
     {
         $routes = [];
         foreach ($config as $spec) {
-            $middleware = $this->formatMiddleware($spec['middleware']);
-            $path       = $spec['path'];
-            $route      = null;
-
-            if (! isset($spec['allowed_methods'])
-                || $spec['allowed_methods'] === Route::HTTP_METHOD_ANY
-            ) {
-                $route = empty($spec['name'])
-                    ? sprintf(self::TEMPLATE_ROUTED_NO_METHOD_NO_NAME, $path, $middleware)
-                    : sprintf(self::TEMPLATE_ROUTED_NO_METHOD_WITH_NAME, $path, $middleware, $spec['name']);
-
-                goto options;
-            }
-
-            if (count($spec['allowed_methods']) === 1) {
-                $method = strtolower(array_shift($spec['allowed_methods']));
-
-                $route = empty($spec['name'])
-                    ? sprintf(self::TEMPLATE_ROUTED_METHOD_NO_NAME, $method, $path, $middleware)
-                    : sprintf(self::TEMPLATE_ROUTED_METHOD_WITH_NAME, $method, $path, $middleware, $spec['name']);
-
-                goto options;
-            }
-
-            $methods = sprintf('[%s]', implode(', ', array_map(function ($method) {
-                return sprintf("'%s'", $method);
-            }, $spec['allowed_methods'])));
-
-            $route = empty($spec['name'])
-                ? sprintf(self::TEMPLATE_ROUTED_METHODS_NO_NAME, $path, $middleware, $methods)
-                : sprintf(self::TEMPLATE_ROUTED_METHODS_WITH_NAME, $path, $middleware, $methods, $spec['name']);
-
-            options:
-
-            if (! $route) {
-                continue;
-            }
+            $route = $this->getRoute($spec);
 
             if (! isset($spec['options']) || ! is_array($spec['options'])) {
                 $routes[] = $route . ';';
@@ -281,6 +245,40 @@ EOT;
         }
 
         return implode("\n", $routes);
+    }
+
+    /**
+     * @param array $spec
+     * @return string
+     */
+    private function getRoute(array $spec)
+    {
+        $middleware = $this->formatMiddleware($spec['middleware']);
+        $path       = $spec['path'];
+
+        if (! isset($spec['allowed_methods'])
+            || $spec['allowed_methods'] === Route::HTTP_METHOD_ANY
+        ) {
+            return empty($spec['name'])
+                ? sprintf(self::TEMPLATE_ROUTED_NO_METHOD_NO_NAME, $path, $middleware)
+                : sprintf(self::TEMPLATE_ROUTED_NO_METHOD_WITH_NAME, $path, $middleware, $spec['name']);
+        }
+
+        if (count($spec['allowed_methods']) === 1) {
+            $method = strtolower(array_shift($spec['allowed_methods']));
+
+            return empty($spec['name'])
+                ? sprintf(self::TEMPLATE_ROUTED_METHOD_NO_NAME, $method, $path, $middleware)
+                : sprintf(self::TEMPLATE_ROUTED_METHOD_WITH_NAME, $method, $path, $middleware, $spec['name']);
+        }
+
+        $methods = sprintf('[%s]', implode(', ', array_map(function ($method) {
+            return sprintf("'%s'", $method);
+        }, $spec['allowed_methods'])));
+
+        return empty($spec['name'])
+            ? sprintf(self::TEMPLATE_ROUTED_METHODS_NO_NAME, $path, $middleware, $methods)
+            : sprintf(self::TEMPLATE_ROUTED_METHODS_WITH_NAME, $path, $middleware, $methods, $spec['name']);
     }
 
     /**

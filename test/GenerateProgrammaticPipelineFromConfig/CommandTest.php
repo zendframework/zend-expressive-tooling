@@ -10,11 +10,18 @@ namespace ZendTest\Expressive\Tooling\GenerateProgrammaticPipelineFromConfig;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit_Framework_TestCase as TestCase;
 use Prophecy\Argument;
+use Prophecy\Prophecy\ProphecyInterface;
 use Zend\Expressive\Tooling\GenerateProgrammaticPipelineFromConfig\Command;
 use Zend\Stdlib\ConsoleHelper;
 
 class CommandTest extends TestCase
 {
+    /** @var ConsoleHelper|ProphecyInterface */
+    private $console;
+
+    /** @var Command */
+    private $command;
+
     public function setUp()
     {
         $this->console = $this->prophesize(ConsoleHelper::class);
@@ -50,11 +57,13 @@ class CommandTest extends TestCase
 
     /**
      * @dataProvider helpRequests
+     *
+     * @param array $args
      */
-    public function testHelpRequestEmitsHelp($request)
+    public function testHelpRequestEmitsHelp(array $args)
     {
         $this->assertHelp();
-        $this->assertEquals(0, $this->command->process($request));
+        $this->assertEquals(0, $this->command->process($args));
     }
 
     public function testUnknownCommandDisplaysErrorAndHelp()

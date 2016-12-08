@@ -10,8 +10,10 @@ namespace ZendTest\Expressive\Tooling\ScanForErrorMiddleware;
 use Countable;
 use IteratorAggregate;
 use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit_Framework_TestCase as TestCase;
 use Prophecy\Argument;
+use Prophecy\Prophecy\ProphecyInterface;
 use Zend\Expressive\Tooling\ScanForErrorMiddleware\ErrorMiddlewareFilter;
 use Zend\Expressive\Tooling\ScanForErrorMiddleware\Scanner;
 use Zend\Stdlib\ConsoleHelper;
@@ -82,6 +84,18 @@ class BasicMiddleware
 }
 EOC;
 
+    /** @var vfsStreamDirectory */
+    private $dir;
+
+    /** @var string */
+    private $path;
+
+    /** @var ConsoleHelper|ProphecyInterface */
+    private $console;
+
+    /** @var Scanner */
+    private $scanner;
+
     public function setUp()
     {
         $this->dir = vfsStream::setup('scanner');
@@ -125,24 +139,13 @@ EOC;
         $this->console
             ->writeLine(
                 Argument::that(function ($arg) {
-                    if (! strstr($arg, 'src/ErrorMiddleware.php')) {
+                    if (false === strpos($arg, 'src/ErrorMiddleware.php')) {
                         return false;
                     }
-                    if (! strstr($arg, sprintf('<error>implementing %s</error>', ErrorMiddlewareInterface::class))) {
-                        return false;
-                    }
-                    return true;
-                })
-            )
-            ->shouldBeCalled();
-
-        $this->console
-            ->writeLine(
-                Argument::that(function ($arg) {
-                    if (! strstr($arg, 'src/DuckTypedErrorMiddleware.php')) {
-                        return false;
-                    }
-                    if (! strstr($arg, '<error>implementing invokable error middleware</error>')) {
+                    if (false === strpos(
+                        $arg,
+                        sprintf('<error>implementing %s</error>', ErrorMiddlewareInterface::class)
+                    )) {
                         return false;
                     }
                     return true;
@@ -153,10 +156,24 @@ EOC;
         $this->console
             ->writeLine(
                 Argument::that(function ($arg) {
-                    if (! strstr($arg, 'src/InvokeErrorMiddleware.php')) {
+                    if (false === strpos($arg, 'src/DuckTypedErrorMiddleware.php')) {
                         return false;
                     }
-                    if (! strstr($arg, '<error>call to $next with an error argument</error>')) {
+                    if (false === strpos($arg, '<error>implementing invokable error middleware</error>')) {
+                        return false;
+                    }
+                    return true;
+                })
+            )
+            ->shouldBeCalled();
+
+        $this->console
+            ->writeLine(
+                Argument::that(function ($arg) {
+                    if (false === strpos($arg, 'src/InvokeErrorMiddleware.php')) {
+                        return false;
+                    }
+                    if (false === strpos($arg, '<error>call to $next with an error argument</error>')) {
                         return false;
                     }
                     return true;
@@ -171,8 +188,10 @@ EOC;
 
     /**
      * @depends testScanningEmitsInfoToConsoleWhenEncounteringFilesOfInterest
+     *
+     * @param Scanner $scanner
      */
-    public function testScanningIncrementsCount($scanner)
+    public function testScanningIncrementsCount(Scanner $scanner)
     {
         $this->assertCount(3, $scanner);
     }

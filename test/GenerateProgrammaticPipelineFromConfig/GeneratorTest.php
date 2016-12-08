@@ -8,12 +8,19 @@
 namespace ZendTest\Expressive\Tooling\GenerateProgrammaticPipelineFromConfig;
 
 use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Expressive\Tooling\GenerateProgrammaticPipelineFromConfig\Generator;
 use Zend\Expressive\Tooling\GenerateProgrammaticPipelineFromConfig\GeneratorException;
 
 class GeneratorTest extends TestCase
 {
+    /** @var vfsStreamDirectory */
+    private $dir;
+
+    /** @var Generator */
+    private $generator;
+
     public function setUp()
     {
         $this->dir = vfsStream::setup('project');
@@ -43,7 +50,7 @@ class GeneratorTest extends TestCase
         $this->generator->process($configFile);
 
         $pipelineFile = vfsStream::url('project/config/pipeline.php');
-        $this->assertTrue(file_exists($pipelineFile));
+        $this->assertFileExists($pipelineFile);
         $this->assertEquals(
             file_get_contents(__DIR__ . '/TestAsset/expected/config/pipeline.php'),
             file_get_contents($pipelineFile),
@@ -51,7 +58,7 @@ class GeneratorTest extends TestCase
         );
 
         $routesFile = vfsStream::url('project/config/routes.php');
-        $this->assertTrue(file_exists($routesFile));
+        $this->assertFileExists($routesFile);
         $this->assertEquals(
             file_get_contents(__DIR__ . '/TestAsset/expected/config/routes.php'),
             file_get_contents($routesFile),
@@ -59,14 +66,13 @@ class GeneratorTest extends TestCase
         );
 
         $pipelineConfigFile = vfsStream::url('project/config/autoload/programmatic-pipeline.global.php');
-        $this->assertTrue(file_exists($pipelineConfigFile));
+        $this->assertFileExists($pipelineConfigFile);
         $this->assertEquals(
             file_get_contents(__DIR__ . '/TestAsset/expected/config/autoload/programmatic-pipeline.global.php'),
             file_get_contents($pipelineConfigFile),
             'Generated pipeline config does not match expected config'
         );
 
-        $application = file_get_contents(vfsStream::url('project/public/index.php'));
         $this->assertEquals(
             file_get_contents(__DIR__ . '/TestAsset/expected/public/index.php'),
             file_get_contents(vfsStream::url('project/public/index.php')),
@@ -77,7 +83,9 @@ class GeneratorTest extends TestCase
     public function testRaisesExceptionIfConfigFileNotFound()
     {
         $configFile = vfsStream::url('project/config/config.php');
-        $this->setExpectedException(GeneratorException::class, 'not found');
+
+        $this->expectException(GeneratorException::class);
+        $this->expectExceptionMessage('not found');
         $this->generator->process($configFile);
     }
 
@@ -86,7 +94,9 @@ class GeneratorTest extends TestCase
         vfsStream::newFile('config/config.php', 0111)
             ->at($this->dir);
         $configFile = vfsStream::url('project/config/config.php');
-        $this->setExpectedException(GeneratorException::class, 'not readable');
+
+        $this->expectException(GeneratorException::class);
+        $this->expectExceptionMessage('not readable');
         $this->generator->process($configFile);
     }
 
@@ -96,7 +106,9 @@ class GeneratorTest extends TestCase
             ->at($this->dir)
             ->setContent('<' . '?php /* NO RETURN */');
         $configFile = vfsStream::url('project/config/config.php');
-        $this->setExpectedException(GeneratorException::class, 'did not return an array');
+
+        $this->expectException(GeneratorException::class);
+        $this->expectExceptionMessage('did not return an array');
         $this->generator->process($configFile);
     }
 
@@ -121,6 +133,8 @@ EOT;
 
     /**
      * @dataProvider invalidMiddleware
+     *
+     * @param string $pipelineConfig
      */
     public function testRaisesExceptionIfMiddlewareInPipelineIsInvalid($pipelineConfig)
     {
@@ -129,7 +143,8 @@ EOT;
             ->setContent($pipelineConfig);
         $configFile = vfsStream::url('project/config/config.php');
 
-        $this->setExpectedException(GeneratorException::class, 'middleware specification');
+        $this->expectException(GeneratorException::class);
+        $this->expectExceptionMessage('middleware specification');
         $this->generator->process($configFile);
     }
 
@@ -150,7 +165,8 @@ EOT;
             ->at($this->dir);
         $configFile = vfsStream::url('project/config/config.php');
 
-        $this->setExpectedException(GeneratorException::class, '$app->run');
+        $this->expectException(GeneratorException::class);
+        $this->expectExceptionMessage('$app->run');
         $this->generator->process($configFile);
     }
 
@@ -164,6 +180,8 @@ EOT;
 
     /**
      * @dataProvider processArtifacts
+     *
+     * @param string $filename
      */
     public function testProcessRaisesExceptionIfArtifactsFromPreviousRunArePresent($filename)
     {
@@ -175,7 +193,8 @@ EOT;
 
         $configFile = vfsStream::url('project/config/config.php');
 
-        $this->setExpectedException(GeneratorException::class, 'previous run detected');
+        $this->expectException(GeneratorException::class);
+        $this->expectExceptionMessage('previous run detected');
         $this->generator->process($configFile);
     }
 }
