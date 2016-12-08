@@ -30,7 +30,7 @@ class ErrorMiddlewareFilter extends FilterIterator
             || ! $file->isReadable()
         ) {
             return false;
-        };
+        }
 
         $scanner = new FileScanner((string) $file);
         $classes = $scanner->getClasses();
