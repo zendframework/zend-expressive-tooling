@@ -125,24 +125,13 @@ EOC;
         $this->console
             ->writeLine(
                 Argument::that(function ($arg) {
-                    if (! strstr($arg, 'src/ErrorMiddleware.php')) {
+                    if (false === strpos($arg, 'src/ErrorMiddleware.php')) {
                         return false;
                     }
-                    if (! strstr($arg, sprintf('<error>implementing %s</error>', ErrorMiddlewareInterface::class))) {
-                        return false;
-                    }
-                    return true;
-                })
-            )
-            ->shouldBeCalled();
-
-        $this->console
-            ->writeLine(
-                Argument::that(function ($arg) {
-                    if (! strstr($arg, 'src/DuckTypedErrorMiddleware.php')) {
-                        return false;
-                    }
-                    if (! strstr($arg, '<error>implementing invokable error middleware</error>')) {
+                    if (false === strpos(
+                        $arg,
+                        sprintf('<error>implementing %s</error>', ErrorMiddlewareInterface::class)
+                    )) {
                         return false;
                     }
                     return true;
@@ -153,10 +142,24 @@ EOC;
         $this->console
             ->writeLine(
                 Argument::that(function ($arg) {
-                    if (! strstr($arg, 'src/InvokeErrorMiddleware.php')) {
+                    if (false === strpos($arg, 'src/DuckTypedErrorMiddleware.php')) {
                         return false;
                     }
-                    if (! strstr($arg, '<error>call to $next with an error argument</error>')) {
+                    if (false === strpos($arg, '<error>implementing invokable error middleware</error>')) {
+                        return false;
+                    }
+                    return true;
+                })
+            )
+            ->shouldBeCalled();
+
+        $this->console
+            ->writeLine(
+                Argument::that(function ($arg) {
+                    if (false === strpos($arg, 'src/InvokeErrorMiddleware.php')) {
+                        return false;
+                    }
+                    if (false === strpos($arg, '<error>call to $next with an error argument</error>')) {
                         return false;
                     }
                     return true;
