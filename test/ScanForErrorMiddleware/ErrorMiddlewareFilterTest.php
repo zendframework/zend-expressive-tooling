@@ -10,6 +10,7 @@ namespace ZendTest\Expressive\Tooling\ScanForErrorMiddleware;
 use ArrayIterator;
 use DirectoryIterator;
 use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit_Framework_TestCase as TestCase;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -18,6 +19,12 @@ use Zend\Expressive\Tooling\ScanForErrorMiddleware\ErrorMiddlewareFilter;
 
 class ErrorMiddlewareFilterTest extends TestCase
 {
+    /** @var vfsStreamDirectory */
+    private $dir;
+
+    /** @var string */
+    private $dirPath;
+
     public function setUp()
     {
         $this->dir = vfsStream::setup('error-middleware-filter');
