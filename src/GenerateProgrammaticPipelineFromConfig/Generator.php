@@ -241,32 +241,20 @@ EOT;
                 $route = empty($spec['name'])
                     ? sprintf(self::TEMPLATE_ROUTED_NO_METHOD_NO_NAME, $path, $middleware)
                     : sprintf(self::TEMPLATE_ROUTED_NO_METHOD_WITH_NAME, $path, $middleware, $spec['name']);
-
-                goto options;
-            }
-
-            if (count($spec['allowed_methods']) === 1) {
+            } elseif (count($spec['allowed_methods']) === 1) {
                 $method = strtolower(array_shift($spec['allowed_methods']));
 
                 $route = empty($spec['name'])
                     ? sprintf(self::TEMPLATE_ROUTED_METHOD_NO_NAME, $method, $path, $middleware)
                     : sprintf(self::TEMPLATE_ROUTED_METHOD_WITH_NAME, $method, $path, $middleware, $spec['name']);
+            } else {
+                $methods = sprintf('[%s]', implode(', ', array_map(function ($method) {
+                    return sprintf("'%s'", $method);
+                }, $spec['allowed_methods'])));
 
-                goto options;
-            }
-
-            $methods = sprintf('[%s]', implode(', ', array_map(function ($method) {
-                return sprintf("'%s'", $method);
-            }, $spec['allowed_methods'])));
-
-            $route = empty($spec['name'])
-                ? sprintf(self::TEMPLATE_ROUTED_METHODS_NO_NAME, $path, $middleware, $methods)
-                : sprintf(self::TEMPLATE_ROUTED_METHODS_WITH_NAME, $path, $middleware, $methods, $spec['name']);
-
-            options:
-
-            if (! $route) {
-                continue;
+                $route = empty($spec['name'])
+                    ? sprintf(self::TEMPLATE_ROUTED_METHODS_NO_NAME, $path, $middleware, $methods)
+                    : sprintf(self::TEMPLATE_ROUTED_METHODS_WITH_NAME, $path, $middleware, $methods, $spec['name']);
             }
 
             if (! isset($spec['options']) || ! is_array($spec['options'])) {
