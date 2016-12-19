@@ -47,14 +47,15 @@
     ],
     "scripts": {
         "check": [
+            "@license-check",
             "@cs-check",
             "@test"
         ],
-        "upload-coverage": "coveralls -v",
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
+        "license-check": "vendor/bin/docheader check src/",
         "test": "phpunit --colors=always",
         "test-coverage": "phpunit --coverage-clover clover.xml",
-        "license-check": "vendor/bin/docheader check src/"
+        "upload-coverage": "coveralls -v"
     }
 }
