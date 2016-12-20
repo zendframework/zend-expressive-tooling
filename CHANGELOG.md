@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 0.2.0 - 2016-12-20
+
+### Added
+
+- Nothing.
+
+### Changes
+
+- [#7](https://github.com/zendframework/zend-expressive-tooling/pull/7) updates
+  the `Zend\Expressive\Tooling\GenerateProgrammaticPipelineFromConfig\Generator`
+  class such that it now:
+
+  - Adds dependency configuration for `Zend\Expressive\Middleware\ImplicitHeadMiddleware`
+  - Adds dependency configuration for `Zend\Expressive\Middleware\ImplicitOptionsMiddleware`
+  - Registers each of the above middleware immediately following the
+    routing middleware in the pipeline.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
 ## 0.1.3 - 2016-12-08
 
 ### Added

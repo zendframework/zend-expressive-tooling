@@ -10,6 +10,8 @@ namespace Zend\Expressive\Tooling\GenerateProgrammaticPipelineFromConfig;
 use ArrayObject;
 use Traversable;
 use Zend\Expressive\Application;
+use Zend\Expressive\Middleware\ImplicitHeadMiddleware;
+use Zend\Expressive\Middleware\ImplicitOptionsMiddleware;
 use Zend\Expressive\Router\Route;
 use Zend\Stdlib\SplPriorityQueue;
 
@@ -30,6 +32,8 @@ use Zend\Expressive\Container\ErrorHandlerFactory;
 use Zend\Expressive\Container\ErrorResponseGeneratorFactory;
 use Zend\Expressive\Container\NotFoundHandlerFactory;
 use Zend\Expressive\Middleware\ErrorResponseGenerator;
+use Zend\Expressive\Middleware\ImplicitHeadMiddleware;
+use Zend\Expressive\Middleware\ImplicitOptionsMiddleware;
 use Zend\Expressive\Middleware\NotFoundHandler;
 use Zend\Stratigility\Middleware\ErrorHandler;
 use Zend\Stratigility\Middleware\OriginalMessages;
@@ -37,6 +41,8 @@ use Zend\Stratigility\Middleware\OriginalMessages;
 return [
     'dependencies' => [
         'invokables' => [
+            ImplicitHeadMiddleware::class => ImplicitHeadMiddleware::class,
+            ImplicitOptionsMiddleware::class => ImplicitOptionsMiddleware::class,
             OriginalMessages::class => OriginalMessages::class,
         ],
         'factories' => [
@@ -194,6 +200,16 @@ EOT;
                 && $spec['middleware'] === Application::ROUTING_MIDDLEWARE
             ) {
                 $pipeline[] = '$app->pipeRoutingMiddleware();';
+                $pipeline[] = sprintf(
+                    self::TEMPLATE_PIPELINE_NO_PATH,
+                    'pipe',
+                    $this->formatMiddleware(ImplicitHeadMiddleware::class)
+                );
+                $pipeline[] = sprintf(
+                    self::TEMPLATE_PIPELINE_NO_PATH,
+                    'pipe',
+                    $this->formatMiddleware(ImplicitOptionsMiddleware::class)
+                );
                 continue;
             }
 
