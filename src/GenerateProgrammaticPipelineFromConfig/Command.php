@@ -67,7 +67,7 @@ class Command
         );
 
         try {
-            $generator = new Generator();
+            $generator = new Generator($this->console);
             $generator->projectDir = $this->projectDir;
             $generator->process($this->locateConfigFile($args));
         } catch (GeneratorException $e) {

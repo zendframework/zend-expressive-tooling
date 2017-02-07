@@ -13,6 +13,7 @@ use Zend\Expressive\Application;
 use Zend\Expressive\Middleware\ImplicitHeadMiddleware;
 use Zend\Expressive\Middleware\ImplicitOptionsMiddleware;
 use Zend\Expressive\Router\Route;
+use Zend\Stdlib\ConsoleHelper;
 use Zend\Stdlib\SplPriorityQueue;
 
 class Generator
@@ -90,9 +91,9 @@ EOT;
 EOT;
 
     // @codingStandardsIgnoreStart
-    const TEMPLATE_PIPELINE_NO_PATH = '$app->%s(%s);';
+    const TEMPLATE_PIPELINE_NO_PATH = '$app->pipe(%s);';
 
-    const TEMPLATE_PIPELINE_WITH_PATH = '$app->%s(%s, %s);';
+    const TEMPLATE_PIPELINE_WITH_PATH = '$app->pipe(%s, %s);';
 
     const TEMPLATE_ROUTED_METHOD_NO_NAME = '$app->%s(\'%s\', %s)';
 
@@ -111,6 +112,19 @@ EOT;
      * @var string Root path against which paths are relative.
      */
     public $projectDir = '.';
+
+    /**
+     * @var ConsoleHelper
+     */
+    private $console;
+
+    /**
+     * @param ConsoleHelper $console
+     */
+    public function __construct(ConsoleHelper $console)
+    {
+        $this->console = $console;
+    }
 
     /**
      * @param string $configFile
@@ -202,12 +216,10 @@ EOT;
                 $pipeline[] = '$app->pipeRoutingMiddleware();';
                 $pipeline[] = sprintf(
                     self::TEMPLATE_PIPELINE_NO_PATH,
-                    'pipe',
                     $this->formatMiddleware(ImplicitHeadMiddleware::class)
                 );
                 $pipeline[] = sprintf(
                     self::TEMPLATE_PIPELINE_NO_PATH,
-                    'pipe',
                     $this->formatMiddleware(ImplicitOptionsMiddleware::class)
                 );
                 continue;
@@ -223,11 +235,18 @@ EOT;
             $path       = isset($spec['path']) ? (string) $spec['path'] : null;
             $middleware = $this->formatMiddleware($spec['middleware']);
             $error      = isset($spec['error']) ? (bool) $spec['error'] : false;
-            $method     = $error ? 'pipeErrorHandler' : 'pipe';
+
+            if ($error) {
+                $this->console->writeLine(sprintf(
+                    '<error>Encountered error middleware "%s"; did not add to pipeline</error>',
+                    $middleware
+                ), true, STDERR);
+                continue;
+            }
 
             $pipeline[] = (null === $path)
-                ? sprintf(self::TEMPLATE_PIPELINE_NO_PATH, $method, $middleware)
-                : sprintf(self::TEMPLATE_PIPELINE_WITH_PATH, $method, $this->createOptionValue($path), $middleware);
+                ? sprintf(self::TEMPLATE_PIPELINE_NO_PATH, $middleware)
+                : sprintf(self::TEMPLATE_PIPELINE_WITH_PATH, $this->createOptionValue($path), $middleware);
         }
 
         // Push the original messages middleware and error handler to the top
