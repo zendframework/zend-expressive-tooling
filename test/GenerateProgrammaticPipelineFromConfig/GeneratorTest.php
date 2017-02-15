@@ -1,7 +1,7 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-expressive-tooling for the canonical source repository
- * @copyright Copyright (c) 2016 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2016-2017 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-tooling/blob/master/LICENSE.md New BSD License
  */
 
@@ -9,7 +9,7 @@ namespace ZendTest\Expressive\Tooling\GenerateProgrammaticPipelineFromConfig;
 
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use Zend\Expressive\Tooling\GenerateProgrammaticPipelineFromConfig\Generator;
 use Zend\Expressive\Tooling\GenerateProgrammaticPipelineFromConfig\GeneratorException;
 
@@ -51,31 +51,31 @@ class GeneratorTest extends TestCase
 
         $pipelineFile = vfsStream::url('project/config/pipeline.php');
         $this->assertFileExists($pipelineFile);
-        $this->assertEquals(
-            file_get_contents(__DIR__ . '/TestAsset/expected/config/pipeline.php'),
-            file_get_contents($pipelineFile),
+        $this->assertFileEquals(
+            __DIR__ . '/TestAsset/expected/config/pipeline.php',
+            $pipelineFile,
             'Generated pipeline does not match expected pipeline'
         );
 
         $routesFile = vfsStream::url('project/config/routes.php');
         $this->assertFileExists($routesFile);
-        $this->assertEquals(
-            file_get_contents(__DIR__ . '/TestAsset/expected/config/routes.php'),
-            file_get_contents($routesFile),
+        $this->assertFileEquals(
+            __DIR__ . '/TestAsset/expected/config/routes.php',
+            $routesFile,
             'Generated routing does not match expected routing'
         );
 
         $pipelineConfigFile = vfsStream::url('project/config/autoload/programmatic-pipeline.global.php');
         $this->assertFileExists($pipelineConfigFile);
-        $this->assertEquals(
-            file_get_contents(__DIR__ . '/TestAsset/expected/config/autoload/programmatic-pipeline.global.php'),
-            file_get_contents($pipelineConfigFile),
+        $this->assertFileEquals(
+            __DIR__ . '/TestAsset/expected/config/autoload/programmatic-pipeline.global.php',
+            $pipelineConfigFile,
             'Generated pipeline config does not match expected config'
         );
 
-        $this->assertEquals(
-            file_get_contents(__DIR__ . '/TestAsset/expected/public/index.php'),
-            file_get_contents(vfsStream::url('project/public/index.php')),
+        $this->assertFileEquals(
+            __DIR__ . '/TestAsset/expected/public/index.php',
+            vfsStream::url('project/public/index.php'),
             'Generated public/index.php does not match expected'
         );
     }

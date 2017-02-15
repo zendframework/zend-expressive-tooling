@@ -1,14 +1,14 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-expressive-tooling for the canonical source repository
- * @copyright Copyright (c) 2016 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2016-2017 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-tooling/blob/master/LICENSE.md New BSD License
  */
 
 namespace ZendTest\Expressive\Tooling\MigrateOriginalMessageCalls;
 
 use org\bovigo\vfs\vfsStream;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Zend\Expressive\Tooling\MigrateOriginalMessageCalls\Command;
 use Zend\Stdlib\ConsoleHelper;
