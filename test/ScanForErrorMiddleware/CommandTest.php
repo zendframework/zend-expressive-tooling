@@ -1,7 +1,7 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-expressive-tooling for the canonical source repository
- * @copyright Copyright (c) 2016 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2016-2017 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-tooling/blob/master/LICENSE.md New BSD License
  */
 
@@ -9,9 +9,9 @@ namespace ZendTest\Expressive\Tooling\ScanForErrorMiddleware;
 
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
-use Prophecy\Prophecy\ProphecyInterface;
+use Prophecy\Prophecy\ObjectProphecy;
 use Zend\Expressive\Tooling\ScanForErrorMiddleware\Command;
 use Zend\Stdlib\ConsoleHelper;
 
@@ -41,7 +41,7 @@ EOC;
     /** @var string */
     private $path;
 
-    /** @var ConsoleHelper|ProphecyInterface */
+    /** @var ConsoleHelper|ObjectProphecy */
     private $console;
 
     /** @var Command */

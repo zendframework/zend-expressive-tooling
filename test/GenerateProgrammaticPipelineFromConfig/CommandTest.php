@@ -1,22 +1,22 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-expressive-tooling for the canonical source repository
- * @copyright Copyright (c) 2016 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2016-2017 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-tooling/blob/master/LICENSE.md New BSD License
  */
 
 namespace ZendTest\Expressive\Tooling\GenerateProgrammaticPipelineFromConfig;
 
 use org\bovigo\vfs\vfsStream;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
-use Prophecy\Prophecy\ProphecyInterface;
+use Prophecy\Prophecy\ObjectProphecy;
 use Zend\Expressive\Tooling\GenerateProgrammaticPipelineFromConfig\Command;
 use Zend\Stdlib\ConsoleHelper;
 
 class CommandTest extends TestCase
 {
-    /** @var ConsoleHelper|ProphecyInterface */
+    /** @var ConsoleHelper|ObjectProphecy */
     private $console;
 
     /** @var Command */
