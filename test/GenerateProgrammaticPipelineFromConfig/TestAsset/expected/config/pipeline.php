@@ -15,8 +15,8 @@ $app->pipe('/api', [
     'Api\\Middleware\\Validation',
 ]);
 $app->pipeRoutingMiddleware();
-$app->pipe('Zend\\Expressive\\Middleware\\ImplicitHeadMiddleware');
-$app->pipe('Zend\\Expressive\\Middleware\\ImplicitOptionsMiddleware');
+$app->pipe(\Zend\Expressive\Middleware\ImplicitHeadMiddleware::class);
+$app->pipe(\Zend\Expressive\Middleware\ImplicitOptionsMiddleware::class);
 $app->pipe('Zend\\Expressive\\Helper\\UrlHelperMiddleware');
 $app->pipeDispatchMiddleware();
 $app->pipe('App\\Middleware\\NotFoundHandler');
