@@ -1,0 +1,161 @@
+<?php
+/**
+ * @see       https://github.com/zendframework/zend-expressive-tooling for the canonical source repository
+ * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   https://github.com/zendframework/zend-expressive-tooling/blob/master/LICENSE.md New BSD License
+ */
+
+namespace Zend\Expressive\Tooling\Module\Command;
+
+use Zend\Expressive\Tooling\Module\Exception;
+
+class Create extends AbstractCommand
+{
+    const TEMPLATE_CONFIG_PROVIDER = <<< 'EOT'
+<?php
+
+namespace %1$s;
+
+/**
+ * The configuration provider for the %1$s module
+ *
+ * @see https://docs.zendframework.com/zend-component-installer/
+ */
+class ConfigProvider
+{
+    /**
+     * Returns the configuration array
+     *
+     * To add a bit of a structure, each section is defined in a separate
+     * method which returns an array with its configuration.
+     *
+     * @return array
+     */
+    public function __invoke()
+    {
+        return [
+            'dependencies' => $this->getDependencies(),
+            'templates'    => $this->getTemplates(),
+        ];
+    }
+
+    /**
+     * Returns the container dependencies
+     *
+     * @return array
+     */
+    public function getDependencies()
+    {
+        return [
+            'invokables' => [
+            ],
+            'factories'  => [
+            ],
+        ];
+    }
+
+    /**
+     * Returns the templates configuration
+     *
+     * @return array
+     */
+    public function getTemplates()
+    {
+        return [
+            'paths' => [
+                'app'    => [__DIR__ . '/../templates/app'],
+                'error'  => [__DIR__ . '/../templates/error'],
+                'layout' => [__DIR__ . '/../templates/layout'],
+            ],
+        ];
+    }
+}
+
+EOT;
+
+    /**
+     * @var string
+     */
+    private $modulePath;
+
+    /**
+     * @var int
+     */
+    private $chmod = 0755;
+
+    /**
+     * Creates skeleton of the expressive module and register it in configuration and composer autoloading.
+     *
+     * @return void
+     */
+    public function process()
+    {
+        $this->modulePath = sprintf('%s/%s/%s', $this->projectDir, $this->modulesPath, $this->moduleName);
+
+        $this->createDirectoryStructure();
+        $this->createConfigProvider();
+
+        // Register module in configuration and composer autoloading
+        $register = new Register(
+            $this->console,
+            $this->projectDir,
+            $this->moduleName,
+            $this->composer,
+            $this->modulesPath
+        );
+        $register->process();
+    }
+
+    /**
+     * Creates directory structure for new expressive module.
+     *
+     * @return void
+     * @throws Exception\RuntimeException
+     */
+    private function createDirectoryStructure()
+    {
+        if (file_exists($this->modulePath)) {
+            throw new Exception\RuntimeException(sprintf(
+                'Module "%s" already exists',
+                $this->moduleName
+            ));
+        }
+
+        if (! mkdir($this->modulePath, $this->chmod)) {
+            throw new Exception\RuntimeException(sprintf(
+                'Module directory "%s" cannot be created',
+                $this->modulePath
+            ));
+        }
+
+        if (! mkdir($this->modulePath . '/src', $this->chmod)) {
+            throw new Exception\RuntimeException(sprintf(
+                'Module source directory "%s/src" cannot be created',
+                $this->modulePath
+            ));
+        }
+
+        if (! mkdir($this->modulePath . '/templates', $this->chmod)) {
+            throw new Exception\RuntimeException(sprintf(
+                'Module templates directory "%s/templates" cannot be created',
+                $this->modulePath
+            ));
+        }
+    }
+
+    /**
+     * Creates ConfigProvider for new expressive module.
+     *
+     * @return void
+     */
+    private function createConfigProvider()
+    {
+        file_put_contents(
+            sprintf('%s/src/ConfigProvider.php', $this->modulePath),
+            sprintf(
+                self::TEMPLATE_CONFIG_PROVIDER,
+                $this->moduleName
+            )
+        );
+    }
+}
