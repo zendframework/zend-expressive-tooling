@@ -21,7 +21,7 @@ class Deregister extends AbstractCommand
         $injector = new ConfigAggregatorInjector($this->projectDir);
         $configProvider = $this->moduleName . '\ConfigProvider';
         if ($injector->isRegistered($configProvider)) {
-            $injector->remove($configProvider, $this->getComposerConsole());
+            $injector->remove($configProvider);
         }
 
         // TODO: remove from composer autoloading

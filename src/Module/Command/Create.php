@@ -97,7 +97,6 @@ EOT;
 
         // Register module in configuration and composer autoloading
         $register = new Register(
-            $this->console,
             $this->projectDir,
             $this->moduleName,
             $this->composer,

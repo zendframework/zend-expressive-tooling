@@ -7,16 +7,10 @@
 
 namespace Zend\Expressive\Tooling\Module\Command;
 
-use Zend\Expressive\Tooling\Module\ComposerConsole;
 use Zend\Stdlib\ConsoleHelper;
 
 abstract class AbstractCommand
 {
-    /**
-     * @var ConsoleHelper
-     */
-    protected $console;
-
     /**
      * @var string
      */
@@ -38,27 +32,17 @@ abstract class AbstractCommand
     protected $modulesPath;
 
     /**
-     * @param ConsoleHelper $console
      * @param string $projectDir
      * @param string $moduleName
      * @param string $composer
      * @param string $modulesPath
      */
-    public function __construct(ConsoleHelper $console, $projectDir, $moduleName, $composer, $modulesPath)
+    public function __construct($projectDir, $moduleName, $composer, $modulesPath)
     {
-        $this->console = $console;
         $this->projectDir = $projectDir;
         $this->moduleName = $moduleName;
         $this->composer = $composer;
         $this->modulesPath = $modulesPath;
-    }
-
-    /**
-     * @return ComposerConsole
-     */
-    protected function getComposerConsole()
-    {
-        return new ComposerConsole($this->console);
     }
 
     /**

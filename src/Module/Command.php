@@ -93,7 +93,6 @@ class Command
         try {
             /** @var AbstractCommand $instance */
             $instance = new $command(
-                $this->console,
                 $this->projectDir,
                 $this->module,
                 $this->composer,

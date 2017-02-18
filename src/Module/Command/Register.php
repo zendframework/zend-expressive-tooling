@@ -24,8 +24,7 @@ class Register extends AbstractCommand
         if (! $injector->isRegistered($configProvider)) {
             $injector->inject(
                 $configProvider,
-                ConfigAggregatorInjector::TYPE_CONFIG_PROVIDER,
-                $this->getComposerConsole()
+                ConfigAggregatorInjector::TYPE_CONFIG_PROVIDER
             );
         }
 
