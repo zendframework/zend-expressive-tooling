@@ -222,7 +222,7 @@ class Command
 
         $output = [];
         $returnVar = null;
-        exec(sprintf('%s 2> /dev/null', $this->composer), $output, $returnVar);
+        exec(sprintf('%s 2>&1', $this->composer), $output, $returnVar);
 
         if ($returnVar !== 0) {
             throw new Exception\InvalidArgumentException(
