@@ -7,8 +7,6 @@
 
 namespace Zend\Expressive\Tooling\Module\Command;
 
-use Zend\Stdlib\ConsoleHelper;
-
 abstract class AbstractCommand
 {
     /**
