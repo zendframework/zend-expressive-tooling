@@ -56,6 +56,13 @@ class Command
     private $modulesPath = 'src';
 
     /**
+     * @var string[]
+     */
+    private $commandChain = [
+        Command\Create::class => Command\Register::class,
+    ];
+
+    /**
      * @param string $command Script that is invoking the command.
      * @param null|ConsoleHelper $console
      */
@@ -91,14 +98,16 @@ class Command
         }
 
         try {
-            /** @var AbstractCommand $instance */
-            $instance = new $command(
-                $this->projectDir,
-                $this->module,
-                $this->composer,
-                $this->modulesPath
-            );
-            $instance->process();
+            do {
+                /** @var AbstractCommand $instance */
+                $instance = new $command(
+                    $this->projectDir,
+                    $this->module,
+                    $this->composer,
+                    $this->modulesPath
+                );
+                $instance->process();
+            } while (isset($this->commandChain[$command]) && ($command = $this->commandChain[$command]));
         } catch (Exception\RuntimeException $ex) {
             $this->console->writeLine('<error>Error during execution:</error>', true, STDERR);
             $this->console->writeLine(sprintf('  <error>%s</error>', $ex->getMessage()), true, STDERR);

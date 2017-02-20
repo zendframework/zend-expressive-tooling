@@ -94,15 +94,6 @@ EOT;
 
         $this->createDirectoryStructure();
         $this->createConfigProvider();
-
-        // Register module in configuration and composer autoloading
-        $register = new Register(
-            $this->projectDir,
-            $this->moduleName,
-            $this->composer,
-            $this->modulesPath
-        );
-        $register->process();
     }
 
     /**
