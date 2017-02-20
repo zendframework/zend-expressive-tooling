@@ -57,7 +57,7 @@ class Command
 
     /**
      * @param string $command Script that is invoking the command.
-     * @param ConsoleHelper $console
+     * @param null|ConsoleHelper $console
      */
     public function __construct($command = self::DEFAULT_COMMAND_NAME, ConsoleHelper $console = null)
     {
