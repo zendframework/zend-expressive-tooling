@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d1ff3f90a8ad4da7ab633a9be13483bb",
+    "content-hash": "778fe5858c0b1e08fcdae3c860e2314e",
     "packages": [
         {
             "name": "fig/http-message-util",
@@ -764,28 +764,34 @@
         },
         {
             "name": "zfcampus/zf-composer-autoloading",
-            "version": "1.1.0",
+            "version": "dev-feature/console-helper",
             "source": {
                 "type": "git",
-                "url": "https://github.com/zfcampus/zf-composer-autoloading.git",
-                "reference": "dfbc80e25a14866814ab3982e17891c40b573ca1"
+                "url": "https://github.com/webimpress/zf-composer-autoloading.git",
+                "reference": "b5f37a7d32b05ecff224c28526704baae9a359c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zfcampus/zf-composer-autoloading/zipball/dfbc80e25a14866814ab3982e17891c40b573ca1",
-                "reference": "dfbc80e25a14866814ab3982e17891c40b573ca1",
+                "url": "https://api.github.com/repos/webimpress/zf-composer-autoloading/zipball/b5f37a7d32b05ecff224c28526704baae9a359c4",
+                "reference": "b5f37a7d32b05ecff224c28526704baae9a359c4",
                 "shasum": ""
             },
+            "require": {
+                "php": "^5.6 || ^7.0",
+                "zendframework/zend-stdlib": "^3.1"
+            },
             "require-dev": {
-                "squizlabs/php_codesniffer": "^2.6.2"
+                "mikey179/vfsstream": "^1.6",
+                "phpunit/phpunit": "^6.0.6 || ^5.7.14",
+                "zendframework/zend-coding-standard": "~1.0.0"
             },
             "bin": [
-                "bin/autoload-module-via-composer"
+                "bin/composer-autoloading"
             ],
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0-dev"
+                    "dev-master": "1.1-dev"
                 }
             },
             "autoload": {
@@ -793,20 +799,50 @@
                     "ZF\\ComposerAutoloading\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "ZFTest\\ComposerAutoloading\\": "test/"
+                }
+            },
+            "scripts": {
+                "check": [
+                    "@cs-check",
+                    "@test"
+                ],
+                "cs-check": [
+                    "phpcs"
+                ],
+                "cs-fix": [
+                    "phpcbf"
+                ],
+                "test": [
+                    "phpunit --colors=always"
+                ],
+                "test-coverage": [
+                    "phpunit --coverage-clover clover.xml"
+                ],
+                "upload-coverage": [
+                    "coveralls -v"
+                ]
+            },
             "license": [
                 "BSD-3-Clause"
             ],
             "description": "Sets up Composer-based autoloading for your Zend Framework modules",
             "homepage": "http://apigility.org/",
             "keywords": [
-                "ZendFramework",
                 "autoloading",
                 "console",
                 "framework",
-                "zf2"
+                "zendframework",
+                "zf3"
             ],
-            "time": "2017-02-16T22:50:39+00:00"
+            "support": {
+                "irc": "irc://irc.freenode.net/apigility",
+                "source": "https://github.com/zfcampus/zf-composer-autoloading",
+                "issues": "https://github.com/zfcampus/zf-composer-autoloading/issues"
+            },
+            "time": "2017-02-20 02:30:18"
         }
     ],
     "packages-dev": [
@@ -1457,16 +1493,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "5.7.13",
+            "version": "5.7.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "60ebeed87a35ea46fd7f7d8029df2d6f013ebb34"
+                "reference": "4906b8faf23e42612182fd212eb6f4c0f2954b57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/60ebeed87a35ea46fd7f7d8029df2d6f013ebb34",
-                "reference": "60ebeed87a35ea46fd7f7d8029df2d6f013ebb34",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/4906b8faf23e42612182fd212eb6f4c0f2954b57",
+                "reference": "4906b8faf23e42612182fd212eb6f4c0f2954b57",
                 "shasum": ""
             },
             "require": {
@@ -1490,7 +1526,7 @@
                 "sebastian/global-state": "^1.1",
                 "sebastian/object-enumerator": "~2.0",
                 "sebastian/resource-operations": "~1.0",
-                "sebastian/version": "~1.0|~2.0",
+                "sebastian/version": "~1.0.3|~2.0",
                 "symfony/yaml": "~2.1|~3.0"
             },
             "conflict": {
@@ -1535,7 +1571,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2017-02-10T09:05:10+00:00"
+            "time": "2017-02-19T07:22:16+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -1974,16 +2010,16 @@
         },
         {
             "name": "sebastian/object-enumerator",
-            "version": "2.0.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/object-enumerator.git",
-                "reference": "96f8a3f257b69e8128ad74d3a7fd464bcbaa3b35"
+                "reference": "1311872ac850040a79c3c058bea3e22d0f09cbb7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/object-enumerator/zipball/96f8a3f257b69e8128ad74d3a7fd464bcbaa3b35",
-                "reference": "96f8a3f257b69e8128ad74d3a7fd464bcbaa3b35",
+                "url": "https://api.github.com/repos/sebastianbergmann/object-enumerator/zipball/1311872ac850040a79c3c058bea3e22d0f09cbb7",
+                "reference": "1311872ac850040a79c3c058bea3e22d0f09cbb7",
                 "shasum": ""
             },
             "require": {
@@ -2016,7 +2052,7 @@
             ],
             "description": "Traverses array structures and object graphs to enumerate all referenced objects",
             "homepage": "https://github.com/sebastianbergmann/object-enumerator/",
-            "time": "2016-11-19T07:35:10+00:00"
+            "time": "2017-02-18T15:18:39+00:00"
         },
         {
             "name": "sebastian/recursion-context",
@@ -2603,12 +2639,19 @@
             "alias_normalized": "0.7.0.0",
             "version": "dev-refactor",
             "package": "zendframework/zend-component-installer"
+        },
+        {
+            "alias": "2.0.0",
+            "alias_normalized": "2.0.0.0",
+            "version": "dev-feature/console-helper",
+            "package": "zfcampus/zf-composer-autoloading"
         }
     ],
     "minimum-stability": "stable",
     "stability-flags": {
         "zendframework/zend-component-installer": 20,
-        "zendframework/zend-expressive": 20
+        "zendframework/zend-expressive": 20,
+        "zfcampus/zf-composer-autoloading": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

@@ -46,7 +46,7 @@ abstract class AbstractCommand
     /**
      * Processes the command.
      *
-     * @return void
+     * @return bool
      */
     abstract public function process();
 }

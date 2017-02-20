@@ -8,14 +8,14 @@
 namespace Zend\Expressive\Tooling\Module\Command;
 
 use Zend\ComponentInstaller\Injector\ConfigAggregatorInjector;
-use ZF\ComposerAutoloading\Command;
+use ZF\ComposerAutoloading\Command\Enable;
 
 class Register extends AbstractCommand
 {
     /**
      * Registers the expressive module in configuration and composer autoloading.
      *
-     * @return void
+     * @return bool
      */
     public function process()
     {
@@ -28,14 +28,7 @@ class Register extends AbstractCommand
             );
         }
 
-        $composerAutoloading = new Command($this->projectDir);
-        $composerAutoloading([
-            'autoload-module-via-composer',
-            '--composer',
-            $this->composer,
-            '--modules-path',
-            $this->modulesPath,
-            $this->moduleName,
-        ]);
+        $enable = new Enable($this->projectDir, $this->modulesPath, $this->composer);
+        return $enable($this->moduleName);
     }
 }

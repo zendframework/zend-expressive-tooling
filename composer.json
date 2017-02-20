@@ -18,6 +18,10 @@
         {
             "type": "vcs",
             "url": "git://github.com/webimpress/zend-component-installer.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git://github.com/webimpress/zf-composer-autoloading.git"
         }
     ],
     "require": {
@@ -27,12 +31,12 @@
         "zendframework/zend-expressive": "^2.0 || dev-2.0.X@dev",
         "zendframework/zend-stdlib": "^3.1",
         "zendframework/zend-stratigility": "^2.0",
-        "zfcampus/zf-composer-autoloading": "^1.1"
+        "zfcampus/zf-composer-autoloading": "dev-feature/console-helper as 2.0.0"
     },
     "require-dev": {
         "malukenho/docheader": "^0.1.5",
         "mikey179/vfsStream": "^1.6",
-        "phpunit/phpunit": "^5.7.13 || ^6.0.6",
+        "phpunit/phpunit": "^6.0.7 || ^5.7.14",
         "zendframework/zend-coding-standard": "~1.0.0"
     },
     "autoload": {

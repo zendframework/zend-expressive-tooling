@@ -8,13 +8,14 @@
 namespace Zend\Expressive\Tooling\Module\Command;
 
 use Zend\ComponentInstaller\Injector\ConfigAggregatorInjector;
+use ZF\ComposerAutoloading\Command\Disable;
 
 class Deregister extends AbstractCommand
 {
     /**
      * Deregisters the expressive module from configuration and composer autoloading.
      *
-     * @return void
+     * @return bool
      */
     public function process()
     {
@@ -24,7 +25,7 @@ class Deregister extends AbstractCommand
             $injector->remove($configProvider);
         }
 
-        // TODO: remove from composer autoloading
-        // will be nice to have it in zfcampus/zf-composer-autoloading
+        $disable = new Disable($this->projectDir, $this->modulesPath, $this->composer);
+        return $disable($this->moduleName);
     }
 }
