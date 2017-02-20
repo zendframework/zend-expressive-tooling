@@ -8,14 +8,16 @@
 namespace Zend\Expressive\Tooling\Module\Command;
 
 use Zend\ComponentInstaller\Injector\ConfigAggregatorInjector;
+use Zend\Expressive\Tooling\Module\Exception;
 use ZF\ComposerAutoloading\Command\Disable;
+use ZF\ComposerAutoloading\Exception\RuntimeException;
 
 class Deregister extends AbstractCommand
 {
     /**
      * Deregisters the expressive module from configuration and composer autoloading.
      *
-     * @return bool
+     * {@inheritdoc}
      */
     public function process()
     {
@@ -25,7 +27,11 @@ class Deregister extends AbstractCommand
             $injector->remove($configProvider);
         }
 
-        $disable = new Disable($this->projectDir, $this->modulesPath, $this->composer);
-        return $disable($this->moduleName);
+        try {
+            $disable = new Disable($this->projectDir, $this->modulesPath, $this->composer);
+            return $disable($this->moduleName);
+        } catch (RuntimeException $ex) {
+            throw new Exception\RuntimeException($ex->getMessage(), $ex->getCode(), $ex);
+        }
     }
 }

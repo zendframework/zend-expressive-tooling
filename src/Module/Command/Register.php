@@ -8,14 +8,16 @@
 namespace Zend\Expressive\Tooling\Module\Command;
 
 use Zend\ComponentInstaller\Injector\ConfigAggregatorInjector;
+use Zend\Expressive\Tooling\Module\Exception;
 use ZF\ComposerAutoloading\Command\Enable;
+use ZF\ComposerAutoloading\Exception\RuntimeException;
 
 class Register extends AbstractCommand
 {
     /**
      * Registers the expressive module in configuration and composer autoloading.
      *
-     * @return bool
+     * {@inheritdoc}
      */
     public function process()
     {
@@ -28,7 +30,11 @@ class Register extends AbstractCommand
             );
         }
 
-        $enable = new Enable($this->projectDir, $this->modulesPath, $this->composer);
-        return $enable($this->moduleName);
+        try {
+            $enable = new Enable($this->projectDir, $this->modulesPath, $this->composer);
+            return $enable($this->moduleName);
+        } catch (RuntimeException $ex) {
+            throw new Exception\RuntimeException($ex->getMessage(), $ex->getCode(), $ex);
+        }
     }
 }

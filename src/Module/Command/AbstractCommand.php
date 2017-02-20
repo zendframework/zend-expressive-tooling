@@ -7,6 +7,8 @@
 
 namespace Zend\Expressive\Tooling\Module\Command;
 
+use Zend\Expressive\Tooling\Module\Exception;
+
 abstract class AbstractCommand
 {
     /**
@@ -47,6 +49,7 @@ abstract class AbstractCommand
      * Processes the command.
      *
      * @return bool
+     * @throws Exception\RuntimeException
      */
     abstract public function process();
 }
