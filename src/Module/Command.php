@@ -85,7 +85,6 @@ class Command
         $command = $this->getCommand($args);
         if ($command === false) {
             $this->console->writeErrorMessage('Unknown command');
-
             return $this->showHelp(STDERR);
         }
 
@@ -93,7 +92,6 @@ class Command
             $this->parseArguments($args);
         } catch (Exception\InvalidArgumentException $ex) {
             $this->console->writeErrorMessage($ex->getMessage());
-
             return $this->showHelp(STDERR);
         }
 
