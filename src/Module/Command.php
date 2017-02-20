@@ -230,9 +230,8 @@ class Command
 
         $output = [];
         $returnVar = null;
-        exec($this->composer, $output, $returnVar);
+        exec(sprintf('%s 2> /dev/null', $this->composer), $output, $returnVar);
 
-        // ! is_executable($this->composer)
         if ($returnVar !== 0) {
             throw new Exception\InvalidArgumentException(
                 'Provided composer binary does not exist or is not executable'
