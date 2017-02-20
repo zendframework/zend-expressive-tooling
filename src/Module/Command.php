@@ -116,7 +116,7 @@ class Command
     }
 
     /**
-     * Outputs help message to the resource.
+     * Emits the help message to the provided stream.
      *
      * @param resource $resource
      * @return int
