@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "778fe5858c0b1e08fcdae3c860e2314e",
+    "content-hash": "f730617c0bb7df95589b9bf82e0f1fa6",
     "packages": [
         {
             "name": "fig/http-message-util",
@@ -768,12 +768,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/webimpress/zf-composer-autoloading.git",
-                "reference": "b5f37a7d32b05ecff224c28526704baae9a359c4"
+                "reference": "1c8c707a11e95f200e27dc5c9fa87550a3d29d9b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webimpress/zf-composer-autoloading/zipball/b5f37a7d32b05ecff224c28526704baae9a359c4",
-                "reference": "b5f37a7d32b05ecff224c28526704baae9a359c4",
+                "url": "https://api.github.com/repos/webimpress/zf-composer-autoloading/zipball/1c8c707a11e95f200e27dc5c9fa87550a3d29d9b",
+                "reference": "1c8c707a11e95f200e27dc5c9fa87550a3d29d9b",
                 "shasum": ""
             },
             "require": {
@@ -782,7 +782,7 @@
             },
             "require-dev": {
                 "mikey179/vfsstream": "^1.6",
-                "phpunit/phpunit": "^6.0.6 || ^5.7.14",
+                "phpunit/phpunit": "^6.0.7 || ^5.7.14",
                 "zendframework/zend-coding-standard": "~1.0.0"
             },
             "bin": [
@@ -842,7 +842,7 @@
                 "source": "https://github.com/zfcampus/zf-composer-autoloading",
                 "issues": "https://github.com/zfcampus/zf-composer-autoloading/issues"
             },
-            "time": "2017-02-20 02:30:18"
+            "time": "2017-02-20 09:03:19"
         }
     ],
     "packages-dev": [
