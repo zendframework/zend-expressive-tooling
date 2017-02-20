@@ -82,7 +82,7 @@ class Command
             return $this->showHelp();
         }
 
-        $command = $this->getCommand($args);
+        $command = $this->getCommand(array_shift($args));
         if ($command === false) {
             $this->console->writeErrorMessage('Unknown command');
             return $this->showHelp(STDERR);
@@ -158,18 +158,13 @@ class Command
     }
 
     /**
-     * Returns one of available command name or false otherwise.
+     * Returns one of available command class name or false otherwise.
      *
-     * @param array $args
+     * @param string $arg
      * @return string|false
      */
-    private function getCommand(array $args)
+    private function getCommand($arg)
     {
-        if (! $args) {
-            return false;
-        }
-
-        $arg = array_shift($args);
         if (in_array($arg, $this->commands, true)) {
             return __NAMESPACE__ . '\\Command\\' . ucfirst($arg);
         }
@@ -186,9 +181,6 @@ class Command
      */
     private function parseArguments(array $args)
     {
-        // Remove command argument
-        array_shift($args);
-
         // Get module argument (always expected in last position)
         $this->module = array_pop($args);
         if (! $this->module) {
