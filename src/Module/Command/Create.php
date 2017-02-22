@@ -79,11 +79,6 @@ EOT;
     private $modulePath;
 
     /**
-     * @var int
-     */
-    private $chmod = 0755;
-
-    /**
      * Creates skeleton of the expressive module and register it in configuration and composer autoloading.
      *
      * {@inheritdoc}
@@ -114,21 +109,21 @@ EOT;
             ));
         }
 
-        if (! mkdir($this->modulePath, $this->chmod)) {
+        if (! mkdir($this->modulePath)) {
             throw new Exception\RuntimeException(sprintf(
                 'Module directory "%s" cannot be created',
                 $this->modulePath
             ));
         }
 
-        if (! mkdir($this->modulePath . '/src', $this->chmod)) {
+        if (! mkdir($this->modulePath . '/src')) {
             throw new Exception\RuntimeException(sprintf(
                 'Module source directory "%s/src" cannot be created',
                 $this->modulePath
             ));
         }
 
-        if (! mkdir($this->modulePath . '/templates', $this->chmod)) {
+        if (! mkdir($this->modulePath . '/templates')) {
             throw new Exception\RuntimeException(sprintf(
                 'Module templates directory "%s/templates" cannot be created',
                 $this->modulePath
