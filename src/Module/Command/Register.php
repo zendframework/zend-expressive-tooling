@@ -19,10 +19,10 @@ class Register extends AbstractCommand
      *
      * {@inheritdoc}
      */
-    public function process()
+    public function process($moduleName)
     {
         $injector = new ConfigAggregatorInjector($this->projectDir);
-        $configProvider = $this->moduleName . '\ConfigProvider';
+        $configProvider = sprintf('%s\ConfigProvider', $moduleName);
         if (! $injector->isRegistered($configProvider)) {
             $injector->inject(
                 $configProvider,
@@ -33,7 +33,7 @@ class Register extends AbstractCommand
         try {
             $enable = new Enable($this->projectDir, $this->modulesPath, $this->composer);
             $enable->setMoveModuleClass(false);
-            return $enable->process($this->moduleName);
+            return $enable->process($moduleName);
         } catch (RuntimeException $ex) {
             throw new Exception\RuntimeException($ex->getMessage(), $ex->getCode(), $ex);
         }

@@ -19,11 +19,6 @@ abstract class AbstractCommand
     /**
      * @var string
      */
-    protected $moduleName;
-
-    /**
-     * @var string
-     */
     protected $composer;
 
     /**
@@ -33,14 +28,12 @@ abstract class AbstractCommand
 
     /**
      * @param string $projectDir
-     * @param string $moduleName
-     * @param string $composer
      * @param string $modulesPath
+     * @param string $composer
      */
-    public function __construct($projectDir, $moduleName, $composer, $modulesPath)
+    public function __construct($projectDir, $modulesPath, $composer)
     {
         $this->projectDir = $projectDir;
-        $this->moduleName = $moduleName;
         $this->composer = $composer;
         $this->modulesPath = $modulesPath;
     }
@@ -48,8 +41,9 @@ abstract class AbstractCommand
     /**
      * Processes the command.
      *
+     * @param string $moduleName
      * @return bool
      * @throws Exception\RuntimeException
      */
-    abstract public function process();
+    abstract public function process($moduleName);
 }

@@ -86,28 +86,31 @@ EOT;
     /**
      * Creates skeleton of the expressive module and register it in configuration and composer autoloading.
      *
-     * @return void
+     * {@inheritdoc}
      */
-    public function process()
+    public function process($moduleName)
     {
-        $this->modulePath = sprintf('%s/%s/%s', $this->projectDir, $this->modulesPath, $this->moduleName);
+        $this->modulePath = sprintf('%s/%s/%s', $this->projectDir, $this->modulesPath, $moduleName);
 
-        $this->createDirectoryStructure();
-        $this->createConfigProvider();
+        $this->createDirectoryStructure($moduleName);
+        $this->createConfigProvider($moduleName);
+
+        return true;
     }
 
     /**
      * Creates directory structure for new expressive module.
      *
+     * @param string $moduleName
      * @return void
      * @throws Exception\RuntimeException
      */
-    private function createDirectoryStructure()
+    private function createDirectoryStructure($moduleName)
     {
         if (file_exists($this->modulePath)) {
             throw new Exception\RuntimeException(sprintf(
                 'Module "%s" already exists',
-                $this->moduleName
+                $moduleName
             ));
         }
 
@@ -136,15 +139,16 @@ EOT;
     /**
      * Creates ConfigProvider for new expressive module.
      *
+     * @param string $moduleName
      * @return void
      */
-    private function createConfigProvider()
+    private function createConfigProvider($moduleName)
     {
         file_put_contents(
             sprintf('%s/src/ConfigProvider.php', $this->modulePath),
             sprintf(
                 self::TEMPLATE_CONFIG_PROVIDER,
-                $this->moduleName
+                $moduleName
             )
         );
     }

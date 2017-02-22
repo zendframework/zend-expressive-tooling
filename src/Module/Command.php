@@ -31,9 +31,13 @@ class Command
     private $helpArgs = ['--help', '-h', 'help'];
 
     /**
-     * @var array
+     * @var string[]
      */
-    private $commands = ['create', 'register', 'deregister'];
+    private $commands = [
+        'create'     => Command\Create::class,
+        'register'   => Command\Register::class,
+        'deregister' => Command\Deregister::class,
+    ];
 
     /**
      * @var ConsoleHelper
@@ -100,11 +104,10 @@ class Command
                 /** @var AbstractCommand $instance */
                 $instance = new $command(
                     $this->projectDir,
-                    $this->module,
-                    $this->composer,
-                    $this->modulesPath
+                    $this->modulesPath,
+                    $this->composer
                 );
-                $instance->process();
+                $instance->process($this->module);
             } while (isset($this->commandChain[$command]) && ($command = $this->commandChain[$command]));
         } catch (Exception\RuntimeException $ex) {
             $this->console->writeLine('<error>Error during execution:</error>', true, STDERR);
@@ -160,13 +163,13 @@ class Command
     /**
      * Returns one of available command class name or false otherwise.
      *
-     * @param string $arg
+     * @param string $cmd
      * @return string|false
      */
-    private function getCommand($arg)
+    private function getCommand($cmd)
     {
-        if (in_array($arg, $this->commands, true)) {
-            return __NAMESPACE__ . '\\Command\\' . ucfirst($arg);
+        if (isset($this->commands[$cmd])) {
+            return $this->commands[$cmd];
         }
 
         return false;

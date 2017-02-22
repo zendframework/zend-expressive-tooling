@@ -19,17 +19,17 @@ class Deregister extends AbstractCommand
      *
      * {@inheritdoc}
      */
-    public function process()
+    public function process($moduleName)
     {
         $injector = new ConfigAggregatorInjector($this->projectDir);
-        $configProvider = $this->moduleName . '\ConfigProvider';
+        $configProvider = sprintf('%s\ConfigProvider', $moduleName);
         if ($injector->isRegistered($configProvider)) {
             $injector->remove($configProvider);
         }
 
         try {
             $disable = new Disable($this->projectDir, $this->modulesPath, $this->composer);
-            return $disable->process($this->moduleName);
+            return $disable->process($moduleName);
         } catch (RuntimeException $ex) {
             throw new Exception\RuntimeException($ex->getMessage(), $ex->getCode(), $ex);
         }
