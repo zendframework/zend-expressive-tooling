@@ -217,19 +217,19 @@ class Command
             }
         }
 
-        if (! is_dir(sprintf('%s/%s', $this->projectDir, $this->modulesPath))) {
-            throw new Exception\InvalidArgumentException(
-                'Provided path to the modules directory does not exist or is not a directory'
-            );
-        }
-
         $output = [];
         $returnVar = null;
         exec(sprintf('%s 2>&1', $this->composer), $output, $returnVar);
 
         if ($returnVar !== 0) {
             throw new Exception\InvalidArgumentException(
-                'Provided composer binary does not exist or is not executable'
+                'Unable to determine composer binary'
+            );
+        }
+
+        if (! is_dir(sprintf('%s/%s', $this->projectDir, $this->modulesPath))) {
+            throw new Exception\InvalidArgumentException(
+                'Unable to determine modules directory'
             );
         }
     }
