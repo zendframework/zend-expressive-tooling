@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0d4b5b096c67f87267116c237f24dddb",
+    "content-hash": "2c26cb445fad9d48a610f96af3043efd",
     "packages": [
         {
             "name": "fig/http-message-util",
@@ -262,16 +262,16 @@
         },
         {
             "name": "zendframework/zend-component-installer",
-            "version": "dev-refactor",
+            "version": "0.7.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/webimpress/zend-component-installer.git",
-                "reference": "774cc6e5d6ff7fb0c04a315f25d6dc2bc287d4c2"
+                "url": "https://github.com/zendframework/zend-component-installer.git",
+                "reference": "aa05b53a29af282258df3cd27bb6618aa16f4047"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webimpress/zend-component-installer/zipball/774cc6e5d6ff7fb0c04a315f25d6dc2bc287d4c2",
-                "reference": "774cc6e5d6ff7fb0c04a315f25d6dc2bc287d4c2",
+                "url": "https://api.github.com/repos/zendframework/zend-component-installer/zipball/aa05b53a29af282258df3cd27bb6618aa16f4047",
+                "reference": "aa05b53a29af282258df3cd27bb6618aa16f4047",
                 "shasum": ""
             },
             "require": {
@@ -282,7 +282,7 @@
                 "composer/composer": "^1.3.2",
                 "malukenho/docheader": "^0.1.5",
                 "mikey179/vfsstream": "^1.6",
-                "phpunit/phpunit": "^5.7.13 || ^6.0.6",
+                "phpunit/phpunit": "^6.0.7 || ^5.7.14",
                 "zendframework/zend-coding-standard": "~1.0.0"
             },
             "type": "composer-plugin",
@@ -297,44 +297,12 @@
                     "Zend\\ComponentInstaller\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "ZendTest\\ComponentInstaller\\": "test/"
-                }
-            },
-            "scripts": {
-                "check": [
-                    "@license-check",
-                    "@cs-check",
-                    "@test"
-                ],
-                "upload-coverage": [
-                    "coveralls -v"
-                ],
-                "cs-check": [
-                    "phpcs"
-                ],
-                "cs-fix": [
-                    "phpcbf"
-                ],
-                "test": [
-                    "phpunit --colors=always"
-                ],
-                "test-coverage": [
-                    "phpunit --coverage-clover clover.xml"
-                ],
-                "license-check": [
-                    "vendor/bin/docheader check src/"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
             "description": "Composer plugin for automating component registration in zend-mvc and Expressive applications",
-            "support": {
-                "source": "https://github.com/webimpress/zend-component-installer/tree/refactor"
-            },
-            "time": "2017-02-17 23:54:43"
+            "time": "2017-02-22T17:44:09+00:00"
         },
         {
             "name": "zendframework/zend-diactoros",
@@ -764,16 +732,16 @@
         },
         {
             "name": "zfcampus/zf-composer-autoloading",
-            "version": "dev-feature/console-helper",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/webimpress/zf-composer-autoloading.git",
-                "reference": "7f02cda402651816c5c1f7c608c3cb4e382ef757"
+                "url": "https://github.com/zfcampus/zf-composer-autoloading.git",
+                "reference": "3643d9dc4d3f0b6011ff643672e1cf187e21a7f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webimpress/zf-composer-autoloading/zipball/7f02cda402651816c5c1f7c608c3cb4e382ef757",
-                "reference": "7f02cda402651816c5c1f7c608c3cb4e382ef757",
+                "url": "https://api.github.com/repos/zfcampus/zf-composer-autoloading/zipball/3643d9dc4d3f0b6011ff643672e1cf187e21a7f4",
+                "reference": "3643d9dc4d3f0b6011ff643672e1cf187e21a7f4",
                 "shasum": ""
             },
             "require": {
@@ -793,7 +761,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1-dev"
+                    "dev-master": "2.0-dev"
                 }
             },
             "autoload": {
@@ -801,50 +769,19 @@
                     "ZF\\ComposerAutoloading\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "ZFTest\\ComposerAutoloading\\": "test/"
-                }
-            },
-            "scripts": {
-                "check": [
-                    "@cs-check",
-                    "@test"
-                ],
-                "cs-check": [
-                    "phpcs"
-                ],
-                "cs-fix": [
-                    "phpcbf"
-                ],
-                "test": [
-                    "phpunit --colors=always"
-                ],
-                "test-coverage": [
-                    "phpunit --coverage-clover clover.xml"
-                ],
-                "upload-coverage": [
-                    "coveralls -v"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
             "description": "Sets up Composer-based autoloading for your Zend Framework modules",
             "homepage": "http://apigility.org/",
             "keywords": [
+                "ZendFramework",
                 "autoloading",
                 "console",
-                "framework",
-                "zendframework",
-                "zf3"
+                "framework"
             ],
-            "support": {
-                "irc": "irc://irc.freenode.net/apigility",
-                "source": "https://github.com/zfcampus/zf-composer-autoloading",
-                "issues": "https://github.com/zfcampus/zf-composer-autoloading/issues"
-            },
-            "time": "2017-02-22 14:44:38"
+            "time": "2017-02-22T16:55:31+00:00"
         }
     ],
     "packages-dev": [
@@ -2914,25 +2851,10 @@
             "time": "2016-11-09T21:30:43+00:00"
         }
     ],
-    "aliases": [
-        {
-            "alias": "0.7.0",
-            "alias_normalized": "0.7.0.0",
-            "version": "dev-refactor",
-            "package": "zendframework/zend-component-installer"
-        },
-        {
-            "alias": "2.0.0",
-            "alias_normalized": "2.0.0.0",
-            "version": "dev-feature/console-helper",
-            "package": "zfcampus/zf-composer-autoloading"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "zendframework/zend-component-installer": 20,
-        "zendframework/zend-expressive": 20,
-        "zfcampus/zf-composer-autoloading": 20
+        "zendframework/zend-expressive": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
