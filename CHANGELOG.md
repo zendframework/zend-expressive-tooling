@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 0.3.0 - TBD
+
+### Added
+
+- Nothing.
+
+### Changes
+
+- [#10](https://github.com/zendframework/zend-expressive-tooling/pull/10)
+  updates the `expressive-pipeline-from-config` tooling to no longer generate
+  `pipeErrorHandler()` statements. It will now notify users via STDOUT if
+  legacy error handlers are encountered, indicating which were encountered.
+
+- [#10](https://github.com/zendframework/zend-expressive-tooling/pull/10)
+  updates the `expressive-pipeline-from-config` tooling to now register the
+  `DefaultDelegate` and `NotFoundDelegate` services, with the former aliased to
+  the latter.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
 ## 0.2.0 - 2016-12-20
 
 ### Added

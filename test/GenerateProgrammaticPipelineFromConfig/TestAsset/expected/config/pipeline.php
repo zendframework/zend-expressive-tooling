@@ -20,5 +20,4 @@ $app->pipe(\Zend\Expressive\Middleware\ImplicitOptionsMiddleware::class);
 $app->pipe('Zend\\Expressive\\Helper\\UrlHelperMiddleware');
 $app->pipeDispatchMiddleware();
 $app->pipe('App\\Middleware\\NotFoundHandler');
-$app->pipeErrorHandler('App\\Middleware\\ErrorMiddleware');
 $app->pipe(\Zend\Expressive\Middleware\NotFoundHandler::class);

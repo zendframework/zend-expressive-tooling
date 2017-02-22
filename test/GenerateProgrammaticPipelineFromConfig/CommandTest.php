@@ -148,6 +148,13 @@ class CommandTest extends TestCase
             ->writeLine(Argument::containingString('defining the pipeline'))
             ->shouldBeCalled();
         $this->console
+            ->writeLine(
+                Argument::containingString('ErrorMiddleware'),
+                true,
+                STDERR
+            )
+            ->shouldBeCalled();
+        $this->console
             ->writeLine(Argument::containingString('defining the routes'))
             ->shouldBeCalled();
         $this->console
