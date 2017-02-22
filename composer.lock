@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f730617c0bb7df95589b9bf82e0f1fa6",
+    "content-hash": "60a80d2e8ba302dc9ff589beb0caf9a6",
     "packages": [
         {
             "name": "fig/http-message-util",
@@ -768,12 +768,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/webimpress/zf-composer-autoloading.git",
-                "reference": "1c8c707a11e95f200e27dc5c9fa87550a3d29d9b"
+                "reference": "abe9cc8588a76b2a99670098191069105237115b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webimpress/zf-composer-autoloading/zipball/1c8c707a11e95f200e27dc5c9fa87550a3d29d9b",
-                "reference": "1c8c707a11e95f200e27dc5c9fa87550a3d29d9b",
+                "url": "https://api.github.com/repos/webimpress/zf-composer-autoloading/zipball/abe9cc8588a76b2a99670098191069105237115b",
+                "reference": "abe9cc8588a76b2a99670098191069105237115b",
                 "shasum": ""
             },
             "require": {
@@ -781,12 +781,14 @@
                 "zendframework/zend-stdlib": "^3.1"
             },
             "require-dev": {
-                "mikey179/vfsstream": "^1.6",
+                "mikey179/vfsstream": "^1.6.4",
+                "mockery/mockery": "^0.9.8",
+                "php-mock/php-mock-phpunit": "^2.0 || ^1.1.2",
                 "phpunit/phpunit": "^6.0.7 || ^5.7.14",
                 "zendframework/zend-coding-standard": "~1.0.0"
             },
             "bin": [
-                "bin/composer-autoloading"
+                "bin/zf-composer-autoloading"
             ],
             "type": "library",
             "extra": {
@@ -842,7 +844,7 @@
                 "source": "https://github.com/zfcampus/zf-composer-autoloading",
                 "issues": "https://github.com/zfcampus/zf-composer-autoloading/issues"
             },
-            "time": "2017-02-20 09:03:19"
+            "time": "2017-02-22 10:18:33"
         }
     ],
     "packages-dev": [

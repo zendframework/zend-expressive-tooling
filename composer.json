@@ -35,7 +35,7 @@
     },
     "require-dev": {
         "malukenho/docheader": "^0.1.5",
-        "mikey179/vfsStream": "^1.6",
+        "mikey179/vfsStream": "^1.6.4",
         "phpunit/phpunit": "^6.0.7 || ^5.7.14",
         "zendframework/zend-coding-standard": "~1.0.0"
     },

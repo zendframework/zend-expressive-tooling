@@ -32,7 +32,8 @@ class Register extends AbstractCommand
 
         try {
             $enable = new Enable($this->projectDir, $this->modulesPath, $this->composer);
-            return $enable($this->moduleName);
+            $enable->setMoveModuleClass(false);
+            return $enable->process($this->moduleName);
         } catch (RuntimeException $ex) {
             throw new Exception\RuntimeException($ex->getMessage(), $ex->getCode(), $ex);
         }

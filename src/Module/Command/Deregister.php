@@ -29,7 +29,7 @@ class Deregister extends AbstractCommand
 
         try {
             $disable = new Disable($this->projectDir, $this->modulesPath, $this->composer);
-            return $disable($this->moduleName);
+            return $disable->process($this->moduleName);
         } catch (RuntimeException $ex) {
             throw new Exception\RuntimeException($ex->getMessage(), $ex->getCode(), $ex);
         }
