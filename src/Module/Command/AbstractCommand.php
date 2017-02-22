@@ -42,7 +42,7 @@ abstract class AbstractCommand
      * Processes the command.
      *
      * @param string $moduleName
-     * @return bool
+     * @return string Success message.
      * @throws Exception\RuntimeException
      */
     abstract public function process($moduleName);

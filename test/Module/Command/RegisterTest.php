@@ -86,7 +86,10 @@ class RegisterTest extends TestCase
             ->andReturn($enabled)
             ->once();
 
-        $this->assertSame($enabled, $this->command->process('MyApp'));
+        $this->assertEquals(
+            'Registered autoloading rules and added configuration entry for module MyApp',
+            $this->command->process('MyApp')
+        );
     }
 
     public function testThrowsRuntimeExceptionFromModuleWhenEnableThrowsException()

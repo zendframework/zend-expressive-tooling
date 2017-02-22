@@ -114,7 +114,10 @@ class CreateTest extends TestCase
     public function testCreatesConfigProvider()
     {
         $configProvider = vfsStream::url('project/my-modules/MyApp/src/ConfigProvider.php');
-        $this->assertTrue($this->command->process('MyApp'));
+        $this->assertEquals(
+            sprintf('Created module MyApp in %s/MyApp', $this->modulesDir->url()),
+            $this->command->process('MyApp')
+        );
         $this->assertFileExists($configProvider);
         $configProviderContent = file_get_contents($configProvider);
         $this->assertSame(1, preg_match('/\bnamespace MyApp\b/', $configProviderContent));

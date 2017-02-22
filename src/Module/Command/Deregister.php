@@ -29,9 +29,11 @@ class Deregister extends AbstractCommand
 
         try {
             $disable = new Disable($this->projectDir, $this->modulesPath, $this->composer);
-            return $disable->process($moduleName);
+            $disable->process($moduleName);
         } catch (RuntimeException $ex) {
             throw new Exception\RuntimeException($ex->getMessage(), $ex->getCode(), $ex);
         }
+
+        return sprintf('Removed autoloading rules and configuration entries for module %s', $moduleName);
     }
 }

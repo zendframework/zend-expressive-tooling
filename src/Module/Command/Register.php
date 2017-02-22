@@ -34,9 +34,11 @@ class Register extends AbstractCommand
         try {
             $enable = new Enable($this->projectDir, $this->modulesPath, $this->composer);
             $enable->setMoveModuleClass(false);
-            return $enable->process($moduleName);
+            $enable->process($moduleName);
         } catch (RuntimeException $ex) {
             throw new Exception\RuntimeException($ex->getMessage(), $ex->getCode(), $ex);
         }
+
+        return sprintf('Registered autoloading rules and added configuration entry for module %s', $moduleName);
     }
 }

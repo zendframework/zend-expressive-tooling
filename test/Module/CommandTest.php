@@ -256,17 +256,23 @@ class CommandTest extends TestCase
         Mockery::mock('overload:' . MyFirstCommand::class)
             ->shouldReceive('process')
             ->with('App')
-            ->andReturn(true)
+            ->andReturn('Message First')
             ->once();
 
         Mockery::mock('overload:' . MySecondCommand::class)
             ->shouldReceive('process')
             ->with('App')
-            ->andReturn(true)
+            ->andReturn('Message Second')
             ->once();
 
         vfsStream::newDirectory('src')->at($this->dir);
 
+        $this->console
+            ->writeLine(Argument::containingString('Message First'))
+            ->shouldBeCalled();
+        $this->console
+            ->writeLine(Argument::containingString('Message Second'))
+            ->shouldBeCalled();
         $this->assertNotHelpOutput(STDERR);
         $this->assertComposerBinaryExecutable();
 

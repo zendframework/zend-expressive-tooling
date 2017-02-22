@@ -81,7 +81,10 @@ class DeregisterTest extends TestCase
             ->andReturn($disabled)
             ->once();
 
-        $this->assertSame($disabled, $this->command->process('MyApp'));
+        $this->assertEquals(
+            'Removed autoloading rules and configuration entries for module MyApp',
+            $this->command->process('MyApp')
+        );
     }
 
     public function testThrowsRuntimeExceptionFromModuleWhenDisableThrowsException()

@@ -107,7 +107,9 @@ class Command
                     $this->modulesPath,
                     $this->composer
                 );
-                $instance->process($this->module);
+                $message = $instance->process($this->module);
+
+                $this->console->writeLine(sprintf('<info>%s</info>', $message));
             } while (isset($this->commandChain[$command]) && ($command = $this->commandChain[$command]));
         } catch (Exception\RuntimeException $ex) {
             $this->console->writeLine('<error>Error during execution:</error>', true, STDERR);

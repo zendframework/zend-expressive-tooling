@@ -90,7 +90,7 @@ EOT;
         $this->createDirectoryStructure($moduleName);
         $this->createConfigProvider($moduleName);
 
-        return true;
+        return sprintf('Created module %s in %s', $moduleName, $this->modulePath);
     }
 
     /**
