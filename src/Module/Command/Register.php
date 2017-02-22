@@ -8,6 +8,7 @@
 namespace Zend\Expressive\Tooling\Module\Command;
 
 use Zend\ComponentInstaller\Injector\ConfigAggregatorInjector;
+use Zend\ComponentInstaller\Injector\InjectorInterface;
 use Zend\Expressive\Tooling\Module\Exception;
 use ZF\ComposerAutoloading\Command\Enable;
 use ZF\ComposerAutoloading\Exception\RuntimeException;
@@ -26,7 +27,7 @@ class Register extends AbstractCommand
         if (! $injector->isRegistered($configProvider)) {
             $injector->inject(
                 $configProvider,
-                ConfigAggregatorInjector::TYPE_CONFIG_PROVIDER
+                InjectorInterface::TYPE_CONFIG_PROVIDER
             );
         }
 
