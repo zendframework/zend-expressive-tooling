@@ -16,15 +16,19 @@
     },
     "require": {
         "php": "^5.6 || ^7.0",
+        "zendframework/zend-code": "^3.1 || ^2.6.3",
+        "zendframework/zend-component-installer": "^0.7",
         "zendframework/zend-expressive": "^2.0 || dev-2.0.X@dev",
-        "zendframework/zend-code": "^3.1",
         "zendframework/zend-stdlib": "^3.1",
-        "zendframework/zend-stratigility": "^2.0"
+        "zendframework/zend-stratigility": "^2.0",
+        "zfcampus/zf-composer-autoloading": "^2.0"
     },
     "require-dev": {
         "malukenho/docheader": "^0.1.5",
-        "mikey179/vfsStream": "^1.6",
-        "phpunit/phpunit": "^5.7.13 || ^6.0.6",
+        "mikey179/vfsStream": "^1.6.4",
+        "mockery/mockery": "^0.9.8",
+        "php-mock/php-mock-phpunit": "^2.0 || ^1.1.2",
+        "phpunit/phpunit": "^6.0.7 || ^5.7.14",
         "zendframework/zend-coding-standard": "~1.0.0"
     },
     "autoload": {
@@ -39,6 +43,7 @@
     },
     "bin": [
         "bin/expressive-migrate-original-messages",
+        "bin/expressive-module",
         "bin/expressive-pipeline-from-config",
         "bin/expressive-scan-for-error-middleware"
     ],
