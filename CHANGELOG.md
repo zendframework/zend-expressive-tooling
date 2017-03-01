@@ -6,7 +6,17 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- [#12](https://github.com/zendframework/zend-expressive-tooling/pull/12) adds
+  the new tool `expressive-module`, with the commands `create`, `register`, and
+  `deregister`, for creating new "modules". `create` will create a tree under
+  the `src/` tree named for the provided module containing `src/` and
+  `templates/` subdirectories, as well as a `ConfigProvider` class; it then adds
+  an entry for the `ConfigProvider` to the application configuration, and an
+  autoloading entry to `composer.json`. `register` will register an existing
+  module with the application configuration, and, if necessary, enable
+  autoloading for it with `composer.json`. `deregister` does the opposite of
+  `register`, without removing any files from the source tree. Use the command's
+  `help`, `--help`, or `-h` options for full usage details.
 
 ### Changes
 
