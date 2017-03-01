@@ -74,59 +74,55 @@ class ConfigProvider
 EOT;
 
     /**
-     * @var string
-     */
-    private $modulePath;
-
-    /**
      * Creates skeleton of the expressive module and register it in configuration and composer autoloading.
      *
      * {@inheritdoc}
      */
     public function process($moduleName)
     {
-        $this->modulePath = sprintf('%s/%s/%s', $this->projectDir, $this->modulesPath, $moduleName);
+        $modulePath = sprintf('%s/%s/%s', $this->projectDir, $this->modulesPath, $moduleName);
 
-        $this->createDirectoryStructure($moduleName);
-        $this->createConfigProvider($moduleName);
+        $this->createDirectoryStructure($modulePath, $moduleName);
+        $this->createConfigProvider($modulePath, $moduleName);
 
-        return sprintf('Created module %s in %s', $moduleName, $this->modulePath);
+        return sprintf('Created module %s in %s', $moduleName, $modulePath);
     }
 
     /**
      * Creates directory structure for new expressive module.
      *
+     * @param string $modulePath
      * @param string $moduleName
      * @return void
      * @throws Exception\RuntimeException
      */
-    private function createDirectoryStructure($moduleName)
+    private function createDirectoryStructure($modulePath, $moduleName)
     {
-        if (file_exists($this->modulePath)) {
+        if (file_exists($modulePath)) {
             throw new Exception\RuntimeException(sprintf(
                 'Module "%s" already exists',
                 $moduleName
             ));
         }
 
-        if (! mkdir($this->modulePath)) {
+        if (! mkdir($modulePath)) {
             throw new Exception\RuntimeException(sprintf(
                 'Module directory "%s" cannot be created',
-                $this->modulePath
+                $modulePath
             ));
         }
 
-        if (! mkdir($this->modulePath . '/src')) {
+        if (! mkdir($modulePath . '/src')) {
             throw new Exception\RuntimeException(sprintf(
                 'Module source directory "%s/src" cannot be created',
-                $this->modulePath
+                $modulePath
             ));
         }
 
-        if (! mkdir($this->modulePath . '/templates')) {
+        if (! mkdir($modulePath . '/templates')) {
             throw new Exception\RuntimeException(sprintf(
                 'Module templates directory "%s/templates" cannot be created',
-                $this->modulePath
+                $modulePath
             ));
         }
     }
@@ -134,13 +130,14 @@ EOT;
     /**
      * Creates ConfigProvider for new expressive module.
      *
+     * @param string $modulePath
      * @param string $moduleName
      * @return void
      */
-    private function createConfigProvider($moduleName)
+    private function createConfigProvider($modulePath, $moduleName)
     {
         file_put_contents(
-            sprintf('%s/src/ConfigProvider.php', $this->modulePath),
+            sprintf('%s/src/ConfigProvider.php', $modulePath),
             sprintf(
                 self::TEMPLATE_CONFIG_PROVIDER,
                 $moduleName
