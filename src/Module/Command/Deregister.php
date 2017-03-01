@@ -15,7 +15,7 @@ use ZF\ComposerAutoloading\Exception\RuntimeException;
 class Deregister extends AbstractCommand
 {
     /**
-     * Deregisters the expressive module from configuration and composer autoloading.
+     * Deregister module from application configuration, and disable autoloading of module via composer.
      *
      * {@inheritdoc}
      */

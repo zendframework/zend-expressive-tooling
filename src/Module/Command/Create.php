@@ -74,7 +74,7 @@ class ConfigProvider
 EOT;
 
     /**
-     * Creates skeleton of the expressive module and register it in configuration and composer autoloading.
+     * Create source tree for the expressive module and register it in configuration and composer autoloading.
      *
      * {@inheritdoc}
      */

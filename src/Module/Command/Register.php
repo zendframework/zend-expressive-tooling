@@ -16,7 +16,7 @@ use ZF\ComposerAutoloading\Exception\RuntimeException;
 class Register extends AbstractCommand
 {
     /**
-     * Registers the expressive module in configuration and composer autoloading.
+     * Register module in application configuration, and enable autoloading of module via composer.
      *
      * {@inheritdoc}
      */

@@ -19,9 +19,11 @@ class Help
 <info>Commands:</info>
 
   <info>help</info>          Display this help/usage message
-  <info>create</info>        Create skeleton of the expressive module and register it
-  <info>register</info>      Register module in configuration and composer autoloading
-  <info>deregister</info>    Deregister module from configuration and composer autoloading
+  <info>create</info>        Create source tree for the expressive module and register it
+  <info>register</info>      Register module in application configuration,
+                       and enable autoloading of module via composer
+  <info>deregister</info>    Deregister module from application configuration,
+                       and disable autoloading of module via composer
 
 <info>Options:</info>
 
