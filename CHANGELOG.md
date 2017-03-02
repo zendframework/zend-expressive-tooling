@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 0.3.1 - TBD
+
+### Added
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#14](https://github.com/zendframework/zend-expressive-tooling/pull/14) fixes
+  the `public/index.php` template to remove the `error_reporting()` declaration,
+  as it is no longer necessary with Stratigily 2 and the upcoming Expressive 2
+  release.
+
 ## 0.3.0 - 2017-03-01
 
 ### Added
