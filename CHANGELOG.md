@@ -2,11 +2,12 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 0.3.1 - TBD
+## 0.3.1 - 2017-03-02
 
 ### Added
 
-- Nothing.
+- [#15](https://github.com/zendframework/zend-expressive-tooling/pull/15) adds
+  documentation for the `expressive-module` command to the README file.
 
 ### Deprecated
 
