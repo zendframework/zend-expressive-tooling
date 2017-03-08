@@ -103,9 +103,9 @@ EOT;
 
     const TEMPLATE_ROUTED_METHOD_WITH_NAME = '$app->%s(\'%s\', %s, \'%s\')';
 
-    const TEMPLATE_ROUTED_NO_METHOD_NO_NAME = '$app->route(\'%s\', %s, \\Zend\\Expressive\\Router\\Route::HTTP_METHOD_ANY)';
+    const TEMPLATE_ROUTED_NO_METHOD_NO_NAME = '$app->route(\'%s\', %s, null)';
 
-    const TEMPLATE_ROUTED_NO_METHOD_WITH_NAME = '$app->route(\'%s\', %s, \\Zend\\Expressive\\Router\\Route::HTTP_METHOD_ANY, \'%s\')'; 
+    const TEMPLATE_ROUTED_NO_METHOD_WITH_NAME = '$app->route(\'%s\', %s, null, \'%s\')'; 
 
     const TEMPLATE_ROUTED_METHODS_NO_NAME = '$app->route(\'%s\', %s, %s)';
 
