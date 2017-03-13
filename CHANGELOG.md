@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 0.3.2 - 2017-03-13
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- [#17](https://github.com/zendframework/zend-expressive-tooling/pull/17)
+  changes the reference to the `DefaultDelegate` in the generated
+  `config/autoload/programmatic-pipeline.global.php` to be a string instead of
+  using `::class` notation. Using a string name makes it clear the service is
+  not a concrete class or interface name.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
 ## 0.3.1 - 2017-03-02
 
 ### Added
