@@ -16,7 +16,7 @@ $app->route('/rest/post', [
     'Api\\Middleware\\Negotiation',
     'Api\\Middleware\\Validation',
     'Api\\Action\\PostAction',
-], \Zend\Expressive\Router\Route::HTTP_METHOD_ANY, 'api.rest.post')
+], null, 'api.rest.post')
     ->setOptions([
         'sort' => 'updated',
         'order' => 'desc',
