@@ -33,7 +33,6 @@ use Zend\Expressive\Container\ErrorHandlerFactory;
 use Zend\Expressive\Container\ErrorResponseGeneratorFactory;
 use Zend\Expressive\Container\NotFoundDelegateFactory;
 use Zend\Expressive\Container\NotFoundHandlerFactory;
-use Zend\Expressive\Delegate\DefaultDelegate;
 use Zend\Expressive\Delegate\NotFoundDelegate;
 use Zend\Expressive\Middleware\ErrorResponseGenerator;
 use Zend\Expressive\Middleware\ImplicitHeadMiddleware;
@@ -46,7 +45,7 @@ return [
     'dependencies' => [
         'aliases' => [
             // Override the following to provide an alternate default delegate.
-            DefaultDelegate::class => NotFoundDelegate::class,
+            'Zend\Expressive\Delegate\DefaultDelegate' => NotFoundDelegate::class,
         ],
         'invokables' => [
             ImplicitHeadMiddleware::class => ImplicitHeadMiddleware::class,
@@ -105,11 +104,11 @@ EOT;
 
     const TEMPLATE_ROUTED_NO_METHOD_NO_NAME = '$app->route(\'%s\', %s, \\Zend\\Expressive\\Router\\Route::HTTP_METHOD_ANY)';
 
-    const TEMPLATE_ROUTED_NO_METHOD_WITH_NAME = '$app->route(\'%s\', %s, \\Zend\\Expressive\\Router\\Route::HTTP_METHOD_ANY, \'%s\')'; 
+    const TEMPLATE_ROUTED_NO_METHOD_WITH_NAME = '$app->route(\'%s\', %s, \\Zend\\Expressive\\Router\\Route::HTTP_METHOD_ANY, \'%s\')';
 
     const TEMPLATE_ROUTED_METHODS_NO_NAME = '$app->route(\'%s\', %s, %s)';
 
-    const TEMPLATE_ROUTED_METHODS_WITH_NAME = '$app->route(\'%s\', %s, %s, \'%s\')'; 
+    const TEMPLATE_ROUTED_METHODS_WITH_NAME = '$app->route(\'%s\', %s, %s, \'%s\')';
     // @codingStandardsIgnoreEnd
 
     /**
