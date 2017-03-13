@@ -7,7 +7,6 @@ use Zend\Expressive\Container\ErrorHandlerFactory;
 use Zend\Expressive\Container\ErrorResponseGeneratorFactory;
 use Zend\Expressive\Container\NotFoundDelegateFactory;
 use Zend\Expressive\Container\NotFoundHandlerFactory;
-use Zend\Expressive\Delegate\DefaultDelegate;
 use Zend\Expressive\Delegate\NotFoundDelegate;
 use Zend\Expressive\Middleware\ErrorResponseGenerator;
 use Zend\Expressive\Middleware\ImplicitHeadMiddleware;
@@ -20,7 +19,7 @@ return [
     'dependencies' => [
         'aliases' => [
             // Override the following to provide an alternate default delegate.
-            DefaultDelegate::class => NotFoundDelegate::class,
+            'Zend\Expressive\Delegate\DefaultDelegate' => NotFoundDelegate::class,
         ],
         'invokables' => [
             ImplicitHeadMiddleware::class => ImplicitHeadMiddleware::class,
