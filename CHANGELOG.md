@@ -26,7 +26,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#16](https://github.com/zendframework/zend-expressive-tooling/pull/16) fixes
+  generation of routes where no HTTP method is specified to use a `null` instead
+  of the `Zend\Expressive\Router\Route::HTTP_METHOD_ANY` constant.
 
 ## 0.3.1 - 2017-03-02
 
