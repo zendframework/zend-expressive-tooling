@@ -79,3 +79,4 @@ after_script:
 notifications:
   irc: "irc.freenode.org#zftalk.dev"
   email: false
+  slack: zendframework:vkzFexxh309yaL89JtXOZkCS
