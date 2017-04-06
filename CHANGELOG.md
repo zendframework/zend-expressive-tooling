@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 0.4.0 - TBD
+
+### Added
+
+- [#22](https://github.com/zendframework/zend-expressive-tooling/pull/22) adds
+  the command `expressive-create-middleware`, which allows creating an
+  http-interop middleware class file. The command expects a fully-qualified
+  class name, and will match the namespace against existing PSR-4 namespaces in
+  your `composer.json` in order to determine where to create the class file.
+
+- [#22](https://github.com/zendframework/zend-expressive-tooling/pull/22) adds
+  the metacommand `expressive`, which allows executing any of the other commands
+  provided in the package, minus their `expressive-` prefix. The command also
+  provides the ability to ask for individual command help using the syntax
+  `expressive help <command>` or `expressive <command> help`.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
 ## 0.3.2 - 2017-03-13
 
 ### Added
