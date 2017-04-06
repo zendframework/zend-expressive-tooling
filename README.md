@@ -15,6 +15,16 @@ $ composer require --dev zendframework/zend-expressive-tooling
 
 ## Tools
 
+- `vendor/bin/expressive`: Meta-command for invoking all other commands. When
+  using this command, you can call any of the other commands minus the
+  `expressive-` prefix: e.g., `expressive module create Foo`. This command also
+  supports `help` operations of either the form `expressive help <command>` or
+  `expressive <command> help`.
+
+- `vendor/bin/expressive-create-middleware`: Create an http-interop middleware
+  class name; the class file is created based on matching a PSR-4 autoloader
+  defined in your `composer.json`.
+
 - `vendor/bin/expressive-migrate-original-messages`: Ensure your application
   does not use the Stratigility-specific PSR-7 message decorators.
 
