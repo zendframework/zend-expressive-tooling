@@ -42,6 +42,8 @@
       }
     },
     "bin": [
+        "bin/expressive",
+        "bin/expressive-create-middleware",
         "bin/expressive-migrate-original-messages",
         "bin/expressive-module",
         "bin/expressive-pipeline-from-config",

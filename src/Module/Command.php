@@ -18,7 +18,7 @@ class Command
     /**
      * @var string
      */
-    private $projectDir = '.';
+    public $projectDir = '.';
 
     /**
      * @var string
