@@ -13,17 +13,27 @@ Install via composer:
 $ composer require --dev zendframework/zend-expressive-tooling
 ```
 
-## Tools
+## `expressive` Tool
 
-- `vendor/bin/expressive`: Meta-command for invoking all other commands. When
-  using this command, you can call any of the other commands minus the
-  `expressive-` prefix: e.g., `expressive module create Foo`. This command also
-  supports `help` operations of either the form `expressive help <command>` or
-  `expressive <command> help`.
+- `vendor/bin/expressive`: Entry point for all tooling. Currently exposes the
+  following:
 
-- `vendor/bin/expressive-create-middleware`: Create an http-interop middleware
-  class name; the class file is created based on matching a PSR-4 autoloader
-  defined in your `composer.json`.
+  - **middleware:create**: Create an http-interop middleware class file.
+  - **migrate:error-middleware-scanner**: Scan for legacy error middleware or
+    error middleware invocation.
+  - **migrate:original-messages**: Migrate getOriginal*() calls to request
+    attributes.
+  - **migrate:pipeline**: Generate a programmatic pipeline and routes from
+    configuration.
+  - **module:create**: Create and register a middleware module with the
+    application.
+  - **module:deregister**: Deregister a middleware module from the application.
+  - **module:register**: Register a middleware module with the application.
+
+## Legacy Tooling
+
+Prior to the 0.4.0 release, the following tools were exposed. They are still
+present in 0.4.0, but will be removed at some point in the future, likely 1.0.0:
 
 - `vendor/bin/expressive-migrate-original-messages`: Ensure your application
   does not use the Stratigility-specific PSR-7 message decorators.

@@ -8,16 +8,20 @@
 namespace Zend\Expressive\Tooling\GenerateProgrammaticPipelineFromConfig;
 
 use ArrayObject;
+use Symfony\Component\Console\Output\OutputInterface;
 use Traversable;
 use Zend\Expressive\Application;
 use Zend\Expressive\Middleware\ImplicitHeadMiddleware;
 use Zend\Expressive\Middleware\ImplicitOptionsMiddleware;
 use Zend\Expressive\Router\Route;
+use Zend\Expressive\Tooling\ErrorConsoleTrait;
 use Zend\Stdlib\ConsoleHelper;
 use Zend\Stdlib\SplPriorityQueue;
 
 class Generator
 {
+    use ErrorConsoleTrait;
+
     const PATH_APPLICATION = '/public/index.php';
     const PATH_CONFIG      = '/config/autoload/programmatic-pipeline.global.php';
     const PATH_PIPELINE    = '/config/pipeline.php';
@@ -122,9 +126,9 @@ EOT;
     private $console;
 
     /**
-     * @param ConsoleHelper $console
+     * @param OutputInterface $console
      */
-    public function __construct(ConsoleHelper $console)
+    public function __construct(OutputInterface $console)
     {
         $this->console = $console;
     }
@@ -240,10 +244,11 @@ EOT;
             $error      = isset($spec['error']) ? (bool) $spec['error'] : false;
 
             if ($error) {
-                $this->console->writeLine(sprintf(
+                $console = $this->getErrorConsole($this->console);
+                $console->writeln(sprintf(
                     '<error>Encountered error middleware "%s"; did not add to pipeline</error>',
                     $middleware
-                ), true, STDERR);
+                ));
                 continue;
             }
 

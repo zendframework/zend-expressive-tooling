@@ -12,7 +12,7 @@ use IteratorAggregate;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
-use Zend\Stdlib\ConsoleHelper;
+use Symfony\Component\Console\Output\OutputInterface;
 use Zend\Stratigility\ErrorMiddlewareInterface;
 
 class Scanner implements Countable, IteratorAggregate
@@ -34,9 +34,9 @@ class Scanner implements Countable, IteratorAggregate
 
     /**
      * @param string $path
-     * @param ConsoleHelper $console
+     * @param OutputInterface $console
      */
-    public function __construct($path, ConsoleHelper $console)
+    public function __construct($path, OutputInterface $console)
     {
         $this->path    = $path;
         $this->console = $console;
@@ -86,7 +86,7 @@ class Scanner implements Countable, IteratorAggregate
             return;
         }
         $this->count += 1;
-        $this->console->writeLine(sprintf(
+        $this->console->writeln(sprintf(
             '- File <info>%s</info> contains a class <error>implementing %s</error>',
             (string) $file,
             ErrorMiddlewareInterface::class
@@ -105,7 +105,7 @@ class Scanner implements Countable, IteratorAggregate
             return;
         }
         $this->count += 1;
-        $this->console->writeLine(sprintf(
+        $this->console->writeln(sprintf(
             '- File <info>%s</info> MAY contain a class <error>implementing invokable error middleware</error>',
             (string) $file
         ));
@@ -123,7 +123,7 @@ class Scanner implements Countable, IteratorAggregate
             return;
         }
         $this->count += 1;
-        $this->console->writeLine(sprintf(
+        $this->console->writeln(sprintf(
             '- File <info>%s</info> MAY contain a <error>call to $next with an error argument</error>',
             (string) $file
         ));

@@ -10,7 +10,9 @@
 
 namespace Zend\Expressive\Tooling\MigrateOriginalMessageCalls;
 
-use Zend\Stdlib\ConsoleHelper;
+use Symfony\Component\Console\Application;
+
+const VERSION = '%version%';
 
 // Setup/verify autoloading
 if (file_exists($a = __DIR__ . '/../../../autoload.php')) {
@@ -22,6 +24,6 @@ if (file_exists($a = __DIR__ . '/../../../autoload.php')) {
     exit(1);
 }
 
-$command = new Command($argv[0], new ConsoleHelper());
-$return = $command->process(array_slice($argv, 1));
-exit($return);
+$application = new Application('expressive-migrate-original-messages', VERSION);
+$application->add(new MigrateOriginalMessageCallsCommand('scan'));
+$application->run();

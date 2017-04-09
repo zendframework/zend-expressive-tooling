@@ -5,11 +5,11 @@
  * @license   https://github.com/zendframework/zend-expressive-tooling/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Expressive\Tooling\Module\Command;
+namespace Zend\Expressive\Tooling\Module;
 
 use Zend\Expressive\Tooling\Module\Exception;
 
-class Create extends AbstractCommand
+class Create
 {
     const TEMPLATE_CONFIG_PROVIDER = <<< 'EOT'
 <?php
@@ -74,13 +74,16 @@ class ConfigProvider
 EOT;
 
     /**
-     * Create source tree for the expressive module and register it in configuration and composer autoloading.
+     * Create source tree for the expressive module.
      *
-     * {@inheritdoc}
+     * @param string $moduleName
+     * @param string $modulesPath
+     * @param string $projectDir
+     * @return string
      */
-    public function process($moduleName)
+    public function process($moduleName, $modulesPath, $projectDir)
     {
-        $modulePath = sprintf('%s/%s/%s', $this->projectDir, $this->modulesPath, $moduleName);
+        $modulePath = sprintf('%s/%s/%s', $projectDir, $modulesPath, $moduleName);
 
         $this->createDirectoryStructure($modulePath, $moduleName);
         $this->createConfigProvider($modulePath, $moduleName);
