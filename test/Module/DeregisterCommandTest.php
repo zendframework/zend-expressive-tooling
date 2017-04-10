@@ -5,7 +5,7 @@
  * @license   https://github.com/zendframework/zend-expressive-tooling/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Expressive\Tooling\Module\Command;
+namespace ZendTest\Expressive\Tooling\Module;
 
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
@@ -13,13 +13,12 @@ use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\TestCase;
 use Zend\ComponentInstaller\Injector\ConfigAggregatorInjector;
-use Zend\ComponentInstaller\Injector\InjectorInterface;
-use Zend\Expressive\Tooling\Module\Command\Register;
+use Zend\Expressive\Tooling\Module\DeregisterCommand;
 use Zend\Expressive\Tooling\Module\Exception;
-use ZF\ComposerAutoloading\Command\Enable;
+use ZF\ComposerAutoloading\Command\Disable;
 use ZF\ComposerAutoloading\Exception\RuntimeException;
 
-class RegisterTest extends TestCase
+class DeregisterCommandTest extends TestCase
 {
     use MockeryPHPUnitIntegration;
 
@@ -29,7 +28,7 @@ class RegisterTest extends TestCase
     /** @var string */
     private $composer = 'my-composer';
 
-    /** @var Register */
+    /** @var Deregister */
     private $command;
 
     protected function setUp()
@@ -37,76 +36,68 @@ class RegisterTest extends TestCase
         parent::setUp();
 
         $this->dir = vfsStream::setup('project');
-        $this->command = new Register($this->dir->url(), 'my-modules', $this->composer);
+        $this->command = new DeregisterCommand($this->dir->url(), 'my-modules', $this->composer);
     }
 
-    public function injectedEnabled()
+    public function removedDisabled()
     {
         return [
-            // $injected, $enabled
-            [true,        true],
-            [true,        false],
-            [false,       true],
-            [false,       false],
+            // $removed, $disabled
+            [true,       true],
+            [true,       false],
+            [false,      true],
+            [false,      false],
         ];
     }
 
     /**
-     * @dataProvider injectedEnabled
+     * @dataProvider removedDisabled
      *
-     * @param bool $injected
-     * @param bool $enabled
+     * @param bool $removed
+     * @param bool $disabled
      */
-    public function testInjectConfigurationAndEnableModule($injected, $enabled)
+    public function testRemoveFromConfigurationAndDisableModule($removed, $disabled)
     {
         $injectorMock = Mockery::mock('overload:' . ConfigAggregatorInjector::class);
         $injectorMock
             ->shouldReceive('isRegistered')
             ->with('MyApp\ConfigProvider')
-            ->andReturn(! $injected)
+            ->andReturn($removed)
             ->once();
-        if ($injected) {
+        if ($removed) {
             $injectorMock
-                ->shouldReceive('inject')
-                ->with('MyApp\ConfigProvider', InjectorInterface::TYPE_CONFIG_PROVIDER)
+                ->shouldReceive('remove')
+                ->with('MyApp\ConfigProvider')
                 ->once();
         } else {
             $injectorMock
-                ->shouldNotReceive('inject');
+                ->shouldNotReceive('remove');
         }
 
-        $enableMock = Mockery::mock('overload:' . Enable::class);
-        $enableMock
-            ->shouldReceive('setMoveModuleClass')
-            ->with(false)
-            ->once();
-        $enableMock
+        $disableMock = Mockery::mock('overload:' . Disable::class);
+        $disableMock
             ->shouldReceive('process')
             ->with('MyApp')
-            ->andReturn($enabled)
+            ->andReturn($disabled)
             ->once();
 
         $this->assertEquals(
-            'Registered autoloading rules and added configuration entry for module MyApp',
+            'Removed autoloading rules and configuration entries for module MyApp',
             $this->command->process('MyApp')
         );
     }
 
-    public function testThrowsRuntimeExceptionFromModuleWhenEnableThrowsException()
+    public function testThrowsRuntimeExceptionFromModuleWhenDisableThrowsException()
     {
         $injectorMock = Mockery::mock('overload:' . ConfigAggregatorInjector::class);
         $injectorMock
             ->shouldReceive('isRegistered')
             ->with('MyApp\ConfigProvider')
-            ->andReturn(true)
+            ->andReturn(false)
             ->once();
 
-        $enableMock = Mockery::mock('overload:' . Enable::class);
-        $enableMock
-            ->shouldReceive('setMoveModuleClass')
-            ->with(false)
-            ->once();
-        $enableMock
+        $disableMock = Mockery::mock('overload:' . Disable::class);
+        $disableMock
             ->shouldReceive('process')
             ->with('MyApp')
             ->andThrow(RuntimeException::class, 'Testing Exception Message')

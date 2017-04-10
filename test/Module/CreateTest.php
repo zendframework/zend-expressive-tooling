@@ -5,13 +5,13 @@
  * @license   https://github.com/zendframework/zend-expressive-tooling/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Expressive\Tooling\Module\Command;
+namespace ZendTest\Expressive\Tooling\Module;
 
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use phpmock\phpunit\PHPMock;
 use PHPUnit\Framework\TestCase;
-use Zend\Expressive\Tooling\Module\Command\Create;
+use Zend\Expressive\Tooling\Module\Create;
 use Zend\Expressive\Tooling\Module\Exception;
 
 class CreateTest extends TestCase
