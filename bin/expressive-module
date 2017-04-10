@@ -25,7 +25,9 @@ if (file_exists($a = __DIR__ . '/../../../autoload.php')) {
 }
 
 $application = new Application('expressive-module', VERSION);
-$application->add(new CreateCommand('create'));
-$application->add(new DeregisterCommand('deregister'));
-$application->add(new RegisterCommand('register'));
+$application->addCommands([
+    new CreateCommand('create'),
+    new DeregisterCommand('deregister'),
+    new RegisterCommand('register'),
+]);
 $application->run();

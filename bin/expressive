@@ -25,11 +25,13 @@ if (file_exists($a = __DIR__ . '/../../../autoload.php')) {
 }
 
 $application = new Application('expressive', VERSION);
-$application->add(new CreateMiddleware\CreateMiddlewareCommand('middleware:create'));
-$application->add(new GenerateProgrammaticPipelineFromConfig\PipelineFromConfigCommand('migrate:pipeline'));
-$application->add(new MigrateOriginalMessageCalls\MigrateOriginalMessageCallsCommand('migrate:original-messages'));
-$application->add(new ScanForErrorMiddleware\ScanForErrorMiddlewareCommand('migrate:error-middleware-scanner'));
-$application->add(new Module\CreateCommand('module:create'));
-$application->add(new Module\DeregisterCommand('module:deregister'));
-$application->add(new Module\RegisterCommand('module:register'));
+$application->addCommands([
+    new CreateMiddleware\CreateMiddlewareCommand('middleware:create'),
+    new GenerateProgrammaticPipelineFromConfig\PipelineFromConfigCommand('migrate:pipeline'),
+    new MigrateOriginalMessageCalls\MigrateOriginalMessageCallsCommand('migrate:original-messages'),
+    new ScanForErrorMiddleware\ScanForErrorMiddlewareCommand('migrate:error-middleware-scanner'),
+    new Module\CreateCommand('module:create'),
+    new Module\DeregisterCommand('module:deregister'),
+    new Module\RegisterCommand('module:register'),
+]);
 $application->run();
