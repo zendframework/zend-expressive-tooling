@@ -239,8 +239,7 @@ EOT;
             $error      = isset($spec['error']) ? (bool) $spec['error'] : false;
 
             if ($error) {
-                $console = $this->getErrorConsole($this->console);
-                $console->writeln(sprintf(
+                $this->console->writeln(sprintf(
                     '<error>Encountered error middleware "%s"; did not add to pipeline</error>',
                     $middleware
                 ));
