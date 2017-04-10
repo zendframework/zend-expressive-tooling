@@ -18,6 +18,12 @@ class CreateTest extends TestCase
 {
     use PHPMock;
 
+    /** @var string */
+    private $composer = 'my-composer';
+
+    /** @var Create */
+    private $command;
+
     /** @var vfsStreamDirectory */
     private $dir;
 
@@ -25,18 +31,19 @@ class CreateTest extends TestCase
     private $modulesDir;
 
     /** @var string */
-    private $composer = 'my-composer';
+    private $modulesPath = 'my-modules';
 
-    /** @var Create */
-    private $command;
+    /** @var string */
+    private $projectDir;
 
     protected function setUp()
     {
         parent::setUp();
 
         $this->dir = vfsStream::setup('project');
-        $this->modulesDir = vfsStream::newDirectory('my-modules')->at($this->dir);
-        $this->command = new Create($this->dir->url(), 'my-modules', $this->composer);
+        $this->modulesDir = vfsStream::newDirectory($this->modulesPath)->at($this->dir);
+        $this->projectDir = vfsStream::url('project');
+        $this->command = new Create();
     }
 
     public function testErrorsWhenModuleDirectoryAlreadyExists()
@@ -45,14 +52,14 @@ class CreateTest extends TestCase
 
         $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('Module "MyApp" already exists');
-        $this->command->process('MyApp');
+        $this->command->process('MyApp', $this->modulesPath, $this->projectDir);
     }
 
     public function testErrorsWhenCannotCreateModuleDirectory()
     {
         $baseModulePath = sprintf('%s/my-modules/MyApp', $this->dir->url());
 
-        $mkdir = $this->getFunctionMock('Zend\Expressive\Tooling\Module\Command', 'mkdir');
+        $mkdir = $this->getFunctionMock('Zend\Expressive\Tooling\Module', 'mkdir');
         $mkdir->expects($this->once())
             ->with($baseModulePath)
             ->willReturn(false);
@@ -62,14 +69,14 @@ class CreateTest extends TestCase
             'Module directory "%s" cannot be created',
             $baseModulePath
         ));
-        $this->command->process('MyApp');
+        $this->command->process('MyApp', $this->modulesPath, $this->projectDir);
     }
 
     public function testErrorsWhenCannotCreateModuleSrcDirectory()
     {
         $baseModulePath = sprintf('%s/my-modules/MyApp', $this->dir->url());
 
-        $mkdir = $this->getFunctionMock('Zend\Expressive\Tooling\Module\Command', 'mkdir');
+        $mkdir = $this->getFunctionMock('Zend\Expressive\Tooling\Module', 'mkdir');
         $mkdir->expects($this->at(0))
             ->with($baseModulePath)
             ->willReturn(true);
@@ -83,14 +90,14 @@ class CreateTest extends TestCase
             'Module source directory "%s/src" cannot be created',
             $baseModulePath
         ));
-        $this->command->process('MyApp');
+        $this->command->process('MyApp', $this->modulesPath, $this->projectDir);
     }
 
     public function testErrorsWhenCannotCreateModuleTemplatesDirectory()
     {
         $baseModulePath = sprintf('%s/my-modules/MyApp', $this->dir->url());
 
-        $mkdir = $this->getFunctionMock('Zend\Expressive\Tooling\Module\Command', 'mkdir');
+        $mkdir = $this->getFunctionMock('Zend\Expressive\Tooling\Module', 'mkdir');
         $mkdir->expects($this->at(0))
             ->with($baseModulePath)
             ->willReturn(true);
@@ -108,7 +115,7 @@ class CreateTest extends TestCase
             'Module templates directory "%s/templates" cannot be created',
             $baseModulePath
         ));
-        $this->command->process('MyApp');
+        $this->command->process('MyApp', $this->modulesPath, $this->projectDir);
     }
 
     public function testCreatesConfigProvider()
@@ -116,7 +123,7 @@ class CreateTest extends TestCase
         $configProvider = vfsStream::url('project/my-modules/MyApp/src/ConfigProvider.php');
         $this->assertEquals(
             sprintf('Created module MyApp in %s/MyApp', $this->modulesDir->url()),
-            $this->command->process('MyApp')
+            $this->command->process('MyApp', $this->modulesPath, $this->projectDir)
         );
         $this->assertFileExists($configProvider);
         $configProviderContent = file_get_contents($configProvider);

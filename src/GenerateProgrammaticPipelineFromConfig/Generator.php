@@ -18,14 +18,9 @@ use Zend\Expressive\Tooling\ErrorConsoleTrait;
 use Zend\Stdlib\ConsoleHelper;
 use Zend\Stdlib\SplPriorityQueue;
 
-class Generator
+class Generator implements Constants
 {
     use ErrorConsoleTrait;
-
-    const PATH_APPLICATION = '/public/index.php';
-    const PATH_CONFIG      = '/config/autoload/programmatic-pipeline.global.php';
-    const PATH_PIPELINE    = '/config/pipeline.php';
-    const PATH_ROUTES      = '/config/routes.php';
 
     const TEMPLATE_CONFIG = <<< 'EOT'
 <?php

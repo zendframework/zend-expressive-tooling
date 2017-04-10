@@ -11,9 +11,9 @@ use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Symfony\Component\Console\Output\OutputInterface;
 use Zend\Expressive\Tooling\GenerateProgrammaticPipelineFromConfig\Generator;
 use Zend\Expressive\Tooling\GenerateProgrammaticPipelineFromConfig\GeneratorException;
-use Zend\Stdlib\ConsoleHelper;
 
 class GeneratorTest extends TestCase
 {
@@ -26,7 +26,7 @@ class GeneratorTest extends TestCase
     public function setUp()
     {
         $this->dir = vfsStream::setup('project');
-        $this->console = $this->prophesize(ConsoleHelper::class);
+        $this->console = $this->prophesize(OutputInterface::class);
         $this->generator = new Generator($this->console->reveal());
         $this->generator->projectDir = vfsStream::url('project');
     }
@@ -50,11 +50,7 @@ class GeneratorTest extends TestCase
         $this->generatePipeline();
 
         $this->console
-            ->writeLine(
-                Argument::containingString('ErrorMiddleware'),
-                true,
-                STDERR
-            )
+            ->writeln(Argument::containingString('ErrorMiddleware'))
             ->shouldBeCalled();
 
         $configFile = vfsStream::url('project/config/config.php');

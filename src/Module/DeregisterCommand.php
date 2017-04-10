@@ -39,6 +39,11 @@ EOT;
         $this->addDefaultOptionsAndArguments();
     }
 
+    /**
+     * Deregister module.
+     *
+     * {@inheritDoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $module = $input->getArgument('module');
@@ -55,7 +60,7 @@ EOT;
             $disable = new Disable($this->projectDir, $modulesPath, $composer);
             $disable->process($module);
         } catch (RuntimeException $ex) {
-            $console = $this->getErrorConsole();
+            $console = $this->getErrorConsole($output);
             $console->writeln('<error>Error during execution:</error>');
             $console->writeln(sprintf('  <error>%s</error>', $ex->getMessage()));
             return 1;

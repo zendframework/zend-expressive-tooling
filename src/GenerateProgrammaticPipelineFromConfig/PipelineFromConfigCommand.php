@@ -13,7 +13,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Zend\Expressive\Tooling\ErrorConsoleTrait;
 
-class PipelineFromConfigCommand extends Command
+class PipelineFromConfigCommand extends Command implements Constants
 {
     use ErrorConsoleTrait;
 
@@ -78,21 +78,21 @@ EOT;
         $output->writeln('<info>Success!</info>');
         $output->writeln(sprintf(
             '<info>- Created %s, enabling programmatic pipelines</info>',
-            Generator::PATH_CONFIG
+            self::PATH_CONFIG
         ));
         $output->writeln(sprintf(
             '<info>- Created %s, defining the pipeline</info>',
-            Generator::PATH_PIPELINE
+            self::PATH_PIPELINE
         ));
         $output->writeln(sprintf(
             '<info>- Created %s, defining the routes</info>',
-            Generator::PATH_ROUTES
+            self::PATH_ROUTES
         ));
         $output->writeln(sprintf(
             '<info>- Updated %s to include %s and %s before running the application</info>',
-            Generator::PATH_APPLICATION,
-            Generator::PATH_PIPELINE,
-            Generator::PATH_ROUTES
+            self::PATH_APPLICATION,
+            self::PATH_PIPELINE,
+            self::PATH_ROUTES
         ));
 
         return 0;

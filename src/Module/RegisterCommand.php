@@ -65,7 +65,7 @@ EOT;
             $enable->setMoveModuleClass(false);
             $enable->process($module);
         } catch (RuntimeException $ex) {
-            $console = $this->getErrorConsole();
+            $console = $this->getErrorConsole($output);
             $console->writeln('<error>Error during execution:</error>');
             $console->writeln(sprintf('  <error>%s</error>', $ex->getMessage()));
             return 1;

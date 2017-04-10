@@ -14,9 +14,9 @@ use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ProphecyInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Zend\Expressive\Tooling\ScanForErrorMiddleware\ErrorMiddlewareFilter;
 use Zend\Expressive\Tooling\ScanForErrorMiddleware\Scanner;
-use Zend\Stdlib\ConsoleHelper;
 use Zend\Stratigility\ErrorMiddlewareInterface;
 
 class ScannerTest extends TestCase
@@ -100,7 +100,7 @@ EOC;
     {
         $this->dir = vfsStream::setup('scanner');
         $this->path = vfsStream::url('scanner');
-        $this->console = $this->prophesize(ConsoleHelper::class);
+        $this->console = $this->prophesize(OutputInterface::class);
         $this->scanner = new Scanner($this->path, $this->console->reveal());
     }
 
@@ -137,7 +137,7 @@ EOC;
             ->setContent(self::BASIC_MIDDLEWARE);
 
         $this->console
-            ->writeLine(
+            ->writeln(
                 Argument::that(function ($arg) {
                     if (false === strpos($arg, 'src/ErrorMiddleware.php')) {
                         return false;
@@ -154,7 +154,7 @@ EOC;
             ->shouldBeCalled();
 
         $this->console
-            ->writeLine(
+            ->writeln(
                 Argument::that(function ($arg) {
                     if (false === strpos($arg, 'src/DuckTypedErrorMiddleware.php')) {
                         return false;
@@ -168,7 +168,7 @@ EOC;
             ->shouldBeCalled();
 
         $this->console
-            ->writeLine(
+            ->writeln(
                 Argument::that(function ($arg) {
                     if (false === strpos($arg, 'src/InvokeErrorMiddleware.php')) {
                         return false;

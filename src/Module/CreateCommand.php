@@ -60,8 +60,8 @@ EOT;
             $output->writeln(sprintf('<info>%s</info>', $message));
         } catch (Exception\RuntimeException $e) {
             $console = $this->getErrorConsole($output);
-            $console->writeln('<error>Error during execution:</error>', true, STDERR);
-            $console->writeln(sprintf('  <error>%s</error>', $ex->getMessage()), true, STDERR);
+            $console->writeln('<error>Error during execution:</error>');
+            $console->writeln(sprintf('  <error>%s</error>', $e->getMessage()));
             return 1;
         }
 

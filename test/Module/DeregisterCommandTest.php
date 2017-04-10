@@ -12,6 +12,11 @@ use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Argument;
+use ReflectionMethod;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Zend\ComponentInstaller\Injector\ConfigAggregatorInjector;
 use Zend\Expressive\Tooling\Module\DeregisterCommand;
 use Zend\Expressive\Tooling\Module\Exception;
@@ -20,6 +25,7 @@ use ZF\ComposerAutoloading\Exception\RuntimeException;
 
 class DeregisterCommandTest extends TestCase
 {
+    use CommonOptionsAndAttributesTrait;
     use MockeryPHPUnitIntegration;
 
     /** @var vfsStreamDirectory */
@@ -36,7 +42,27 @@ class DeregisterCommandTest extends TestCase
         parent::setUp();
 
         $this->dir = vfsStream::setup('project');
-        $this->command = new DeregisterCommand($this->dir->url(), 'my-modules', $this->composer);
+        $this->input = $this->prophesize(InputInterface::class);
+        $this->output = $this->prophesize(ConsoleOutputInterface::class);
+        $this->command = new DeregisterCommand('module:deregister');
+        $this->expectedModuleArgumentDescription = DeregisterCommand::HELP_ARG_MODULE;
+    }
+
+    private function reflectExecuteMethod()
+    {
+        $r = new ReflectionMethod($this->command, 'execute');
+        $r->setAccessible(true);
+        return $r;
+    }
+
+    public function testConfigureSetsExpectedDescription()
+    {
+        $this->assertContains('Deregister a middleware module', $this->command->getDescription());
+    }
+
+    public function testConfigureSetsExpectedHelp()
+    {
+        $this->assertEquals(DeregisterCommand::HELP, $this->command->getHelp());
     }
 
     public function removedDisabled()
@@ -56,7 +82,7 @@ class DeregisterCommandTest extends TestCase
      * @param bool $removed
      * @param bool $disabled
      */
-    public function testRemoveFromConfigurationAndDisableModule($removed, $disabled)
+    public function testRemoveFromConfigurationAndDisableModuleEmitsExpectedMessages($removed, $disabled)
     {
         $injectorMock = Mockery::mock('overload:' . ConfigAggregatorInjector::class);
         $injectorMock
@@ -81,13 +107,26 @@ class DeregisterCommandTest extends TestCase
             ->andReturn($disabled)
             ->once();
 
-        $this->assertEquals(
-            'Removed autoloading rules and configuration entries for module MyApp',
-            $this->command->process('MyApp')
-        );
+        $this->input->getArgument('module')->willReturn('MyApp');
+        $this->input->getOption('composer')->willReturn('composer.phar');
+        $this->input->getOption('modules-path')->willReturn('./library/modules');
+
+        $this->output
+            ->writeln(Argument::containingString(
+                'Removed autoloading rules and configuration entries for module MyApp'
+            ))
+            ->shouldBeCalled();
+
+        $method = $this->reflectExecuteMethod();
+
+        $this->assertSame(0, $method->invoke(
+            $this->command,
+            $this->input->reveal(),
+            $this->output->reveal()
+        ));
     }
 
-    public function testThrowsRuntimeExceptionFromModuleWhenDisableThrowsException()
+    public function testEmitsExpectedErrorMessagesWhenDisableThrowsException()
     {
         $injectorMock = Mockery::mock('overload:' . ConfigAggregatorInjector::class);
         $injectorMock
@@ -103,8 +142,21 @@ class DeregisterCommandTest extends TestCase
             ->andThrow(RuntimeException::class, 'Testing Exception Message')
             ->once();
 
-        $this->expectException(Exception\RuntimeException::class);
-        $this->expectExceptionMessage('Testing Exception Message');
-        $this->command->process('MyApp');
+        $this->input->getArgument('module')->willReturn('MyApp');
+        $this->input->getOption('composer')->willReturn('composer.phar');
+        $this->input->getOption('modules-path')->willReturn('./library/modules');
+
+        $output = $this->prophesize(OutputInterface::class);
+        $output->writeln(Argument::containingString('Error during execution'));
+        $output->writeln(Argument::containingString('Testing Exception Message'));
+        $this->output->getErrorOutput()->will([$output, 'reveal']);
+
+        $method = $this->reflectExecuteMethod();
+
+        $this->assertSame(1, $method->invoke(
+            $this->command,
+            $this->input->reveal(),
+            $this->output->reveal()
+        ));
     }
 }

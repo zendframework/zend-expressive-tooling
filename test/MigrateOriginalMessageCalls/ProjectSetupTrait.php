@@ -12,7 +12,7 @@ use Prophecy\Argument;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
-use Zend\Stdlib\ConsoleHelper;
+use Symfony\Component\Console\Output\OutputInterface;
 
 trait ProjectSetupTrait
 {
@@ -46,24 +46,24 @@ trait ProjectSetupTrait
 
     public function setupConsoleHelper()
     {
-        $console = $this->prophesize(ConsoleHelper::class);
+        $console = $this->prophesize(OutputInterface::class);
 
         $console
-            ->writeLine(Argument::containingString('src/FileContainingOriginalRequest.php'))
+            ->writeln(Argument::containingString('src/FileContainingOriginalRequest.php'))
             ->shouldBeCalled();
         $console
-            ->writeLine(Argument::containingString('src/FileContainingOriginalUri.php'))
+            ->writeln(Argument::containingString('src/FileContainingOriginalUri.php'))
             ->shouldBeCalled();
         $console
-            ->writeLine(Argument::containingString(
+            ->writeln(Argument::containingString(
                 'src/subdir/FileContainingOriginalResponse.php contains one or more getOriginalResponse() calls'
             ))
             ->shouldBeCalled();
         $console
-            ->writeLine(Argument::containingString('src/subdir/nested/FileContainingManyStatements.php'))
+            ->writeln(Argument::containingString('src/subdir/nested/FileContainingManyStatements.php'))
             ->shouldBeCalled();
         $console
-            ->writeLine(Argument::containingString(
+            ->writeln(Argument::containingString(
                 'src/subdir/nested/FileContainingManyStatements.php contains one or more getOriginalResponse() calls'
             ))
             ->shouldBeCalled();

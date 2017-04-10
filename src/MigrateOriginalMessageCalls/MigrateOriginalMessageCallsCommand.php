@@ -115,7 +115,7 @@ EOT;
     private function getSrcDir(InputInterface $input)
     {
         $path = $input->getOption('src') ?: self::DEFAULT_SRC;
-        $path = $this->projectDir . DIRECTORY_SEPARATOR . $path;
+        $path = $this->projectDir . '/' . $path;
 
         if (! is_dir($path)) {
             throw new ArgvException(sprintf(

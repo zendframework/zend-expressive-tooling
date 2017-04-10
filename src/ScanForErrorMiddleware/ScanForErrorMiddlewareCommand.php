@@ -86,12 +86,13 @@ EOT;
         $scanner = new Scanner($src, $output);
         $scanner->scan();
 
-        if (count($scanner) !== 0) {
+        $count = $scanner->count();
+        if ($count > 0) {
             $output->writeln('');
             $output->writeln(sprintf(
                 '<error>%d file%s contained error middleware or called error middleware.</error>',
-                count($scanner),
-                count($scanner) > 1 ? 's' : ''
+                $count,
+                $count > 1 ? 's' : ''
             ));
             $output->writeln('');
             $output->writeln('<info>Check the above logs to determine which files need attention.</info>');
