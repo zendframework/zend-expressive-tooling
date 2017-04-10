@@ -18,7 +18,7 @@ use Zend\Stratigility\ErrorMiddlewareInterface;
 class Scanner implements Countable, IteratorAggregate
 {
     /**
-     * @var ConsoleHelper
+     * @var OutputInterface
      */
     private $console;
 
