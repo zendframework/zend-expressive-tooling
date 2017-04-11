@@ -1,0 +1,57 @@
+#!/usr/bin/env php
+<?php
+/**
+ * Command for bumping the VERSION constants of all scripts.
+ *
+ * @see       https://github.com/zendframework/zend-expressive-tooling for the canonical source repository
+ * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   https://github.com/zendframework/zend-expressive-tooling/blob/master/LICENSE.md New BSD License
+ */
+
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+
+require __DIR__ . '/../vendor/autoload.php';
+
+$app = new Application('bump-version');
+
+$to = $app->register('to');
+$to->setDescription('Bump all scripts to specified release version.');
+$to->setHelp('Bump all vendor binary scripts to the specified release version.');
+$to->addArgument('version', InputArgument::REQUIRED, 'Version to which to bump');
+$to->setCode(function (InputInterface $input, OutputInterface $output) {
+    $version = addslashes($input->getArgument('version'));
+
+    $output->writeln(sprintf('<info>Setting script versions to %s</info>', $version));
+
+    foreach (glob(__DIR__ . '/expressive*') as $script) {
+        $output->writeln(sprintf('  <info>- Updating script %s</info>', $script));
+        $contents = file_get_contents($script);
+
+        $contents = preg_replace(
+            '/^const VERSION \= \'(.*?)\';$/m',
+            'const VERSION = \'' . $version . '\';',
+            $contents
+        );
+
+        file_put_contents($script, $contents);
+    }
+    $output->writeln('<info>[DONE!]</info>');
+});
+
+$dev = $app->register('dev');
+$dev->setDescription('Set all scripts to development version');
+$dev->setHelp('Set all vendory binary scripts to the development version string.');
+$dev->setCode(function (InputInterface $input, OutputInterface $output) {
+    $to = $this->getApplication()->find('to');
+    return $to->run(new ArrayInput([
+        'command' => 'to',
+        'version' => '%version%',
+    ]), $output);
+});
+
+$app->run();

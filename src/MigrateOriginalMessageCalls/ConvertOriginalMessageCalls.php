@@ -10,7 +10,7 @@ namespace Zend\Expressive\Tooling\MigrateOriginalMessageCalls;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
-use Zend\Stdlib\ConsoleHelper;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class ConvertOriginalMessageCalls
 {
@@ -21,7 +21,7 @@ class ConvertOriginalMessageCalls
     const REGEX_VARNAME = '[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*';
 
     /**
-     * @var ConsoleHelper
+     * @var OutputInterface
      */
     private $console;
 
@@ -31,9 +31,9 @@ class ConvertOriginalMessageCalls
     private $originalResponseCount = 0;
 
     /**
-     * @param ConsoleHelper $console
+     * @param OutputInterface $console
      */
-    public function __construct(ConsoleHelper $console)
+    public function __construct(OutputInterface $console)
     {
         $this->console = $console;
     }
@@ -78,7 +78,7 @@ class ConvertOriginalMessageCalls
 
         if ($this->locateOriginalResponse($original)) {
             $this->originalResponseCount += 1;
-            $this->console->writeLine(sprintf(
+            $this->console->writeln(sprintf(
                 '<error>File %s contains one or more getOriginalResponse() calls</error>',
                 $filename
             ));
@@ -91,7 +91,7 @@ class ConvertOriginalMessageCalls
             return;
         }
 
-        $this->console->writeLine(sprintf('<info>- Updating %s</info>', $filename));
+        $this->console->writeln(sprintf('<info>- Updating %s</info>', $filename));
 
         file_put_contents($filename, $contents);
     }

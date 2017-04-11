@@ -10,7 +10,9 @@
 
 namespace Zend\Expressive\Tooling;
 
-use Zend\Stdlib\ConsoleHelper;
+use Symfony\Component\Console\Application;
+
+const VERSION = '%version%';
 
 // Setup/verify autoloading
 if (file_exists($a = __DIR__ . '/../../../autoload.php')) {
@@ -22,6 +24,14 @@ if (file_exists($a = __DIR__ . '/../../../autoload.php')) {
     exit(1);
 }
 
-$command = new ExpressiveCommand($argv[0], new ConsoleHelper());
-$return = $command->process(array_slice($argv, 1));
-exit($return);
+$application = new Application('expressive', VERSION);
+$application->addCommands([
+    new CreateMiddleware\CreateMiddlewareCommand('middleware:create'),
+    new GenerateProgrammaticPipelineFromConfig\PipelineFromConfigCommand('migrate:pipeline'),
+    new MigrateOriginalMessageCalls\MigrateOriginalMessageCallsCommand('migrate:original-messages'),
+    new ScanForErrorMiddleware\ScanForErrorMiddlewareCommand('migrate:error-middleware-scanner'),
+    new Module\CreateCommand('module:create'),
+    new Module\DeregisterCommand('module:deregister'),
+    new Module\RegisterCommand('module:register'),
+]);
+$application->run();

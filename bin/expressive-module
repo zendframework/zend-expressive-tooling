@@ -10,7 +10,12 @@
 
 namespace Zend\Expressive\Tooling\Module;
 
-use Zend\Stdlib\ConsoleHelper;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Style\SymfonyStyle;
+
+const VERSION = '%version%';
 
 // Setup/verify autoloading
 if (file_exists($a = __DIR__ . '/../../../autoload.php')) {
@@ -22,6 +27,13 @@ if (file_exists($a = __DIR__ . '/../../../autoload.php')) {
     exit(1);
 }
 
-$command = new Command($argv[0], new ConsoleHelper());
-$return = $command->process(array_slice($argv, 1));
-exit($return);
+$io = new SymfonyStyle(new ArgvInput(), new ConsoleOutput());
+$io->caution('This script is DEPRECATED. Consider using "expressive module:(create|register|deregister)" instead.');
+
+$application = new Application('expressive-module', VERSION);
+$application->addCommands([
+    new CreateCommand('create'),
+    new DeregisterCommand('deregister'),
+    new RegisterCommand('register'),
+]);
+$application->run();

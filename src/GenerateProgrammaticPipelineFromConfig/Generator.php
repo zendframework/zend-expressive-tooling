@@ -8,6 +8,7 @@
 namespace Zend\Expressive\Tooling\GenerateProgrammaticPipelineFromConfig;
 
 use ArrayObject;
+use Symfony\Component\Console\Output\OutputInterface;
 use Traversable;
 use Zend\Expressive\Application;
 use Zend\Expressive\Middleware\ImplicitHeadMiddleware;
@@ -16,13 +17,8 @@ use Zend\Expressive\Router\Route;
 use Zend\Stdlib\ConsoleHelper;
 use Zend\Stdlib\SplPriorityQueue;
 
-class Generator
+class Generator implements Constants
 {
-    const PATH_APPLICATION = '/public/index.php';
-    const PATH_CONFIG      = '/config/autoload/programmatic-pipeline.global.php';
-    const PATH_PIPELINE    = '/config/pipeline.php';
-    const PATH_ROUTES      = '/config/routes.php';
-
     const TEMPLATE_CONFIG = <<< 'EOT'
 <?php
 /**
@@ -114,7 +110,7 @@ EOT;
     /**
      * @var string Root path against which paths are relative.
      */
-    public $projectDir = '.';
+    private $projectDir;
 
     /**
      * @var ConsoleHelper
@@ -122,11 +118,12 @@ EOT;
     private $console;
 
     /**
-     * @param ConsoleHelper $console
+     * @param OutputInterface $console
      */
-    public function __construct(ConsoleHelper $console)
+    public function __construct(OutputInterface $console, $projectDir = '.')
     {
         $this->console = $console;
+        $this->projectDir = $projectDir;
     }
 
     /**
@@ -240,10 +237,10 @@ EOT;
             $error      = isset($spec['error']) ? (bool) $spec['error'] : false;
 
             if ($error) {
-                $this->console->writeLine(sprintf(
+                $this->console->writeln(sprintf(
                     '<error>Encountered error middleware "%s"; did not add to pipeline</error>',
                     $middleware
-                ), true, STDERR);
+                ));
                 continue;
             }
 
