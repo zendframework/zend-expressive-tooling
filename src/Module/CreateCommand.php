@@ -54,7 +54,7 @@ EOT;
         $modulesPath = $this->getModulesPath($input);
 
         $creation = new Create();
-        $message = $creation->process($module, $modulesPath, $this->projectDir);
+        $message = $creation->process($module, $modulesPath, getcwd());
         $output->writeln(sprintf('<info>%s</info>', $message));
 
         $registerCommand = $this->getRegisterCommandName();

@@ -45,7 +45,18 @@ Any middleware that calls $next() with the third "$err" argument should
 be updated to raise an exception instead.
 EOT;
 
-    public $projectDir = '.';
+    /**
+     * @var null|string Project root against which to scan.
+     */
+    private $projectDir;
+
+    /**
+     * @param string $path
+     */
+    public function setProjectDir($path)
+    {
+        $this->projectDir = $path;
+    }
 
     /**
      * Configure the console command.
@@ -95,6 +106,18 @@ EOT;
     }
 
     /**
+     * Retrieve the project root directory.
+     *
+     * Uses result of getcwd() if not previously set.
+     *
+     * @return string
+     */
+    private function getProjectDir()
+    {
+        return $this->projectDir ?: getcwd();
+    }
+
+    /**
      * @param InputInterface $input
      * @return string
      * @throws ArgvException
@@ -102,7 +125,7 @@ EOT;
     private function getSrcDir(InputInterface $input)
     {
         $path = $input->getOption('dir') ?: self::DEFAULT_SRC;
-        $path = $this->projectDir . DIRECTORY_SEPARATOR . $path;
+        $path = $this->getProjectDir() . DIRECTORY_SEPARATOR . $path;
 
         if (! is_dir($path)
             || ! is_readable($path)

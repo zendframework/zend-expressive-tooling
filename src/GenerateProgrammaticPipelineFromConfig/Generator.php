@@ -110,7 +110,7 @@ EOT;
     /**
      * @var string Root path against which paths are relative.
      */
-    public $projectDir = '.';
+    private $projectDir;
 
     /**
      * @var ConsoleHelper
@@ -120,9 +120,10 @@ EOT;
     /**
      * @param OutputInterface $console
      */
-    public function __construct(OutputInterface $console)
+    public function __construct(OutputInterface $console, $projectDir = '.')
     {
         $this->console = $console;
+        $this->projectDir = $projectDir;
     }
 
     /**

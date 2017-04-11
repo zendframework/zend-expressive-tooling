@@ -36,8 +36,6 @@ The file is expected to return a PHP array value containing all
 configuration.
 EOT;
 
-    public $projectDir = '.';
-
     /**
      * Configure the console command.
      */
@@ -62,7 +60,6 @@ EOT;
         );
 
         $generator = new Generator($output);
-        $generator->projectDir = $this->projectDir;
         $generator->process($this->locateConfigFile($input));
 
         $output->writeln('<info>Success!</info>');
@@ -100,6 +97,7 @@ EOT;
     private function locateConfigFile(InputInterface $input)
     {
         $configFile = $input->getOption('config-file') ?: self::DEFAULT_CONFIG_FILE;
-        return $this->projectDir . $configFile;
+        $configFile = '/' . ltrim($configFile, '/');
+        return getcwd() . $configFile;
     }
 }

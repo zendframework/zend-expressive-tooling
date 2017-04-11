@@ -50,7 +50,7 @@ EOT;
         $composer = $input->getOption('composer') ?: 'composer';
         $modulesPath = $this->getModulesPath($input);
 
-        $injector = new ConfigAggregatorInjector($this->projectDir);
+        $injector = new ConfigAggregatorInjector(getcwd());
         $configProvider = sprintf('%s\ConfigProvider', $module);
         if (! $injector->isRegistered($configProvider)) {
             $injector->inject(
@@ -59,7 +59,7 @@ EOT;
             );
         }
 
-        $enable = new Enable($this->projectDir, $modulesPath, $composer);
+        $enable = new Enable(getcwd(), $modulesPath, $composer);
         $enable->setMoveModuleClass(false);
         $enable->process($module);
 

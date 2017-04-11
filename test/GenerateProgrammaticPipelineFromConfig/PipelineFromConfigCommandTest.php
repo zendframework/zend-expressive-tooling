@@ -66,7 +66,7 @@ class PipelineFromConfigCommandTest extends TestCase
         $generator = Mockery::mock('overload:' . Generator::class);
         $generator->shouldReceive('process')
             ->once()
-            ->with('./config/config.php')
+            ->with(getcwd() . '/config/config.php')
             ->andReturnNull();
 
         $this->output->writeln(Argument::containingString('Generating programmatic pipeline'))->shouldBeCalled();

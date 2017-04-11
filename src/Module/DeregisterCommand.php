@@ -49,13 +49,13 @@ EOT;
         $composer = $input->getOption('composer') ?: 'composer';
         $modulesPath = $this->getModulesPath($input);
 
-        $injector = new ConfigAggregatorInjector($this->projectDir);
+        $injector = new ConfigAggregatorInjector(getcwd());
         $configProvider = sprintf('%s\ConfigProvider', $module);
         if ($injector->isRegistered($configProvider)) {
             $injector->remove($configProvider);
         }
 
-        $disable = new Disable($this->projectDir, $modulesPath, $composer);
+        $disable = new Disable(getcwd(), $modulesPath, $composer);
         $disable->process($module);
 
         $output->writeln(sprintf('Removed autoloading rules and configuration entries for module %s', $module));

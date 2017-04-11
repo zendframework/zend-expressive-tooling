@@ -65,7 +65,7 @@ class CreateMiddlewareCommandTest extends TestCase
         $generator = Mockery::mock('overload:' . CreateMiddleware::class);
         $generator->shouldReceive('process')
             ->once()
-            ->with('Foo\TestMiddleware', __DIR__)
+            ->with('Foo\TestMiddleware')
             ->andReturn(__DIR__);
 
         $this->input->getArgument('middleware')->willReturn('Foo\TestMiddleware');
@@ -79,7 +79,6 @@ class CreateMiddlewareCommandTest extends TestCase
             ->writeln(Argument::containingString('Created class Foo\TestMiddleware, in file ' . __DIR__))
             ->shouldBeCalled();
 
-        $this->command->projectDir = __DIR__;
         $method = $this->reflectExecuteMethod();
 
         $this->assertSame(0, $method->invoke(
@@ -94,7 +93,7 @@ class CreateMiddlewareCommandTest extends TestCase
         $generator = Mockery::mock('overload:' . CreateMiddleware::class);
         $generator->shouldReceive('process')
             ->once()
-            ->with('Foo\TestMiddleware', __DIR__)
+            ->with('Foo\TestMiddleware')
             ->andThrow(CreateMiddlewareException::class, 'ERROR THROWN');
 
         $this->input->getArgument('middleware')->willReturn('Foo\TestMiddleware');
@@ -106,7 +105,6 @@ class CreateMiddlewareCommandTest extends TestCase
             ->writeln(Argument::containingString('Success'))
             ->shouldNotBeCalled();
 
-        $this->command->projectDir = __DIR__;
         $method = $this->reflectExecuteMethod();
 
         $this->expectException(CreateMiddlewareException::class);

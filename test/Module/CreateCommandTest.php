@@ -102,7 +102,7 @@ class CreateCommandTest extends TestCase
         $creation = Mockery::mock('overload:' . Create::class);
         $creation->shouldReceive('process')
             ->once()
-            ->with('Foo', 'library/modules', __DIR__)
+            ->with('Foo', 'library/modules', getcwd())
             ->andReturn('SUCCESSFULLY RAN CREATE');
 
         $this->input->getArgument('module')->willReturn('Foo');
@@ -120,7 +120,6 @@ class CreateCommandTest extends TestCase
             $this->output->reveal()
         );
         $this->command->setApplication($app->reveal());
-        $this->command->projectDir = __DIR__;
 
         $method = $this->reflectExecuteMethod();
         $this->assertSame(0, $method->invoke(
@@ -135,7 +134,7 @@ class CreateCommandTest extends TestCase
         $creation = Mockery::mock('overload:' . Create::class);
         $creation->shouldReceive('process')
             ->once()
-            ->with('Foo', 'library/modules', __DIR__)
+            ->with('Foo', 'library/modules', getcwd())
             ->andReturn('SUCCESSFULLY RAN CREATE');
 
         $this->input->getArgument('module')->willReturn('Foo');
@@ -153,7 +152,6 @@ class CreateCommandTest extends TestCase
             $this->output->reveal()
         );
         $this->command->setApplication($app->reveal());
-        $this->command->projectDir = __DIR__;
 
         $method = $this->reflectExecuteMethod();
         $this->assertSame(1, $method->invoke(
@@ -167,15 +165,13 @@ class CreateCommandTest extends TestCase
     {
         $creation = Mockery::mock('overload:' . Create::class);
         $creation->shouldReceive('process')
-            ->with('Foo', 'library/modules', __DIR__)
+            ->with('Foo', 'library/modules', getcwd())
             ->once()
             ->andThrow(RuntimeException::class, 'ERROR THROWN');
 
         $this->input->getArgument('module')->willReturn('Foo');
         $this->input->getOption('composer')->willReturn('composer.phar');
         $this->input->getOption('modules-path')->willReturn('./library/modules');
-
-        $this->command->projectDir = __DIR__;
 
         $method = $this->reflectExecuteMethod();
 

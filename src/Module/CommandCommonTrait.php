@@ -14,11 +14,6 @@ use Symfony\Component\Console\Input\InputOption;
 trait CommandCommonTrait
 {
     /**
-     * @var string Root of project.
-     */
-    public $projectDir = '.';
-
-    /**
      * Add default arguments and options used by all commands.
      */
     private function addDefaultOptionsAndArguments()

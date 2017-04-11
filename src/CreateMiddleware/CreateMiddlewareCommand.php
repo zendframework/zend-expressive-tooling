@@ -41,8 +41,6 @@ should be quoted to ensure namespace separators are not interpreted as
 escape sequences by your shell.
 EOT;
 
-    public $projectDir = '.';
-
     /**
      * Configure the console command.
      */
@@ -67,7 +65,7 @@ EOT;
         $output->writeln(sprintf('<info>Creating middleware %s...</info>', $middleware));
 
         $generator = new CreateMiddleware();
-        $path = $generator->process($middleware, $this->projectDir);
+        $path = $generator->process($middleware);
 
         $output->writeln('<info>Success!</info>');
         $output->writeln(sprintf(

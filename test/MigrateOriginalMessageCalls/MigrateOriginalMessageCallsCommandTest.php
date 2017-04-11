@@ -95,7 +95,7 @@ class MigrateOriginalMessageCallsCommandTest extends TestCase
             ->writeln(Argument::containingString('Done!'))
             ->shouldBeCalled();
 
-        $this->command->projectDir = $path;
+        $this->command->setProjectDir($path);
         $method = $this->reflectExecuteMethod();
 
         $this->assertSame(0, $method->invoke(
@@ -129,7 +129,7 @@ class MigrateOriginalMessageCallsCommandTest extends TestCase
             ->writeln(Argument::containingString('Done!'))
             ->shouldBeCalled();
 
-        $this->command->projectDir = $path;
+        $this->command->setProjectDir($path);
         $method = $this->reflectExecuteMethod();
 
         $this->assertSame(0, $method->invoke(
@@ -150,7 +150,7 @@ class MigrateOriginalMessageCallsCommandTest extends TestCase
 
         $this->input->getOption('src')->willReturn('src');
 
-        $this->command->projectDir = $path;
+        $this->command->setProjectDir($path);
         $method = $this->reflectExecuteMethod();
 
         $this->expectException(ArgvException::class);

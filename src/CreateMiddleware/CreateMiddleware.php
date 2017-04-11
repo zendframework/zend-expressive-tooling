@@ -40,12 +40,14 @@ EOS;
 
     /**
      * @param string $class
-     * @param string $projectRoot
+     * @param string|null $projectRoot
      * @return string
      * @throws CreateMiddlewareException
      */
-    public function process($class, $projectRoot)
+    public function process($class, $projectRoot = null)
     {
+        $projectRoot = $projectRoot ?: getcwd();
+
         $path = $this->getClassPath($class, $projectRoot);
 
         list($namespace, $class) = $this->getNamespaceAndClass($class);

@@ -27,8 +27,7 @@ class GeneratorTest extends TestCase
     {
         $this->dir = vfsStream::setup('project');
         $this->console = $this->prophesize(OutputInterface::class);
-        $this->generator = new Generator($this->console->reveal());
-        $this->generator->projectDir = vfsStream::url('project');
+        $this->generator = new Generator($this->console->reveal(), vfsStream::url('project'));
     }
 
     public function generatePipeline()

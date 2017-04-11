@@ -54,9 +54,17 @@ to:
 EOT;
 
     /**
-     * @var string Path from which to resolve default src directory
+     * @var null|string Path from which to resolve default src directory
      */
-    public $projectDir = '.';
+    private $projectDir;
+
+    /**
+     * @var null|string Project root against which to scan.
+     */
+    public function setProjectDir($path)
+    {
+        $this->projectDir = $path;
+    }
 
     /**
      * Configure the console command.
@@ -96,6 +104,18 @@ EOT;
     }
 
     /**
+     * Retrieve the project root directory.
+     *
+     * Uses result of getcwd() if not previously set.
+     *
+     * @return string
+     */
+    private function getProjectDir()
+    {
+        return $this->projectDir ?: getcwd();
+    }
+
+    /**
      * @param InputInterface $input
      * @return string
      * @throws ArgvException
@@ -103,7 +123,7 @@ EOT;
     private function getSrcDir(InputInterface $input)
     {
         $path = $input->getOption('src') ?: self::DEFAULT_SRC;
-        $path = $this->projectDir . '/' . $path;
+        $path = $this->getProjectDir() . '/' . $path;
 
         if (! is_dir($path)) {
             throw new ArgvException(sprintf(
