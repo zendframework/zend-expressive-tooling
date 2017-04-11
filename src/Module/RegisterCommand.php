@@ -16,8 +16,6 @@ use ZF\ComposerAutoloading\Command\Enable;
 
 class RegisterCommand extends Command
 {
-    use CommandCommonTrait;
-
     const HELP = <<< 'EOT'
 Register an existing middleware module with the application, by:
 
@@ -36,7 +34,7 @@ EOT;
     {
         $this->setDescription('Register a middleware module with the application');
         $this->setHelp(self::HELP);
-        $this->addDefaultOptionsAndArguments();
+        CommandCommonOptions::addDefaultOptionsAndArguments($this);
     }
 
     /**
@@ -48,7 +46,7 @@ EOT;
     {
         $module = $input->getArgument('module');
         $composer = $input->getOption('composer') ?: 'composer';
-        $modulesPath = $this->getModulesPath($input);
+        $modulesPath = CommandCommonOptions::getModulesPath($input);
 
         $injector = new ConfigAggregatorInjector(getcwd());
         $configProvider = sprintf('%s\ConfigProvider', $module);

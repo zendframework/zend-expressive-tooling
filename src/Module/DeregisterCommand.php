@@ -15,8 +15,6 @@ use ZF\ComposerAutoloading\Command\Disable;
 
 class DeregisterCommand extends Command
 {
-    use CommandCommonTrait;
-
     const HELP = <<< 'EOT'
 Deregister an existing middleware module from the application, by:
 
@@ -35,7 +33,7 @@ EOT;
     {
         $this->setDescription('Deregister a middleware module from the application');
         $this->setHelp(self::HELP);
-        $this->addDefaultOptionsAndArguments();
+        CommandCommonOptions::addDefaultOptionsAndArguments($this);
     }
 
     /**
@@ -47,7 +45,7 @@ EOT;
     {
         $module = $input->getArgument('module');
         $composer = $input->getOption('composer') ?: 'composer';
-        $modulesPath = $this->getModulesPath($input);
+        $modulesPath = CommandCommonOptions::getModulesPath($input);
 
         $injector = new ConfigAggregatorInjector(getcwd());
         $configProvider = sprintf('%s\ConfigProvider', $module);

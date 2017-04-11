@@ -14,8 +14,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CreateCommand extends Command
 {
-    use CommandCommonTrait;
-
     const HELP = <<< 'EOT'
 Create a new middleware module for the application.
 
@@ -36,7 +34,7 @@ EOT;
     {
         $this->setDescription('Create and register a middleware module with the application');
         $this->setHelp(self::HELP);
-        $this->addDefaultOptionsAndArguments();
+        CommandCommonOptions::addDefaultOptionsAndArguments($this);
     }
 
     /**
@@ -51,7 +49,7 @@ EOT;
     {
         $module = $input->getArgument('module');
         $composer = $input->getOption('composer') ?: 'composer';
-        $modulesPath = $this->getModulesPath($input);
+        $modulesPath = CommandCommonOptions::getModulesPath($input);
 
         $creation = new Create();
         $message = $creation->process($module, $modulesPath, getcwd());

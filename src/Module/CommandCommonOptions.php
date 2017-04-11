@@ -7,31 +7,35 @@
 
 namespace Zend\Expressive\Tooling\Module;
 
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
-trait CommandCommonTrait
+/**
+ * @internal
+ */
+final class CommandCommonOptions
 {
     /**
      * Add default arguments and options used by all commands.
      */
-    private function addDefaultOptionsAndArguments()
+    public static function addDefaultOptionsAndArguments(Command $command)
     {
-        $this->addArgument(
+        $command->addArgument(
             'module',
             InputArgument::REQUIRED,
-            self::HELP_ARG_MODULE
+            $command::HELP_ARG_MODULE
         );
 
-        $this->addOption(
+        $command->addOption(
             'composer',
             'c',
             InputOption::VALUE_REQUIRED,
             'Specify the path to the composer binary; defaults to "composer"'
         );
 
-        $this->addOption(
+        $command->addOption(
             'modules-path',
             'p',
             InputOption::VALUE_REQUIRED,
@@ -45,7 +49,7 @@ trait CommandCommonTrait
      * @param InputInterface $input
      * @return string
      */
-    private function getModulesPath(InputInterface $input)
+    public static function getModulesPath(InputInterface $input)
     {
         $modulesPath = $input->getOption('modules-path') ?: 'src';
         $modulesPath = preg_replace('/^\.\//', '', str_replace('\\', '/', $modulesPath));
