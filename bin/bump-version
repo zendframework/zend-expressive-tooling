@@ -9,6 +9,7 @@
  */
 
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -46,19 +47,11 @@ $dev = $app->register('dev');
 $dev->setDescription('Set all scripts to development version');
 $dev->setHelp('Set all vendory binary scripts to the development version string.');
 $dev->setCode(function (InputInterface $input, OutputInterface $output) {
-    $output->writeln('<info>Reverting script versions to %version%</info>');
-
-    foreach (glob(__DIR__ . '/expressive*') as $script) {
-        $output->writeln(sprintf('  <info>- Updating script %s</info>', $script));
-        $contents = file_get_contents($script);
-        $contents = preg_replace(
-            '/^const VERSION \= \'.*?\';$/m',
-            'const VERSION = \'%version%\';',
-            $contents
-        );
-        file_put_contents($script, $contents);
-    }
-    $output->writeln('<info>[DONE!]</info>');
+    $to = $this->getApplication()->find('to');
+    return $to->run(new ArrayInput([
+        'command' => 'to',
+        'version' => '%version%',
+    ]), $output);
 });
 
 $app->run();
