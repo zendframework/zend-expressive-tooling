@@ -10,12 +10,9 @@ namespace Zend\Expressive\Tooling\Module;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Zend\Expressive\Tooling\ErrorConsoleTrait;
 
 trait CommandCommonTrait
 {
-    use ErrorConsoleTrait;
-
     /**
      * @var string Root of project.
      */

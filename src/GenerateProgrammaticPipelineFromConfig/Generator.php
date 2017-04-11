@@ -14,14 +14,11 @@ use Zend\Expressive\Application;
 use Zend\Expressive\Middleware\ImplicitHeadMiddleware;
 use Zend\Expressive\Middleware\ImplicitOptionsMiddleware;
 use Zend\Expressive\Router\Route;
-use Zend\Expressive\Tooling\ErrorConsoleTrait;
 use Zend\Stdlib\ConsoleHelper;
 use Zend\Stdlib\SplPriorityQueue;
 
 class Generator implements Constants
 {
-    use ErrorConsoleTrait;
-
     const TEMPLATE_CONFIG = <<< 'EOT'
 <?php
 /**

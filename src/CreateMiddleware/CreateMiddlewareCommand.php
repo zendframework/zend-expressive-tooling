@@ -11,12 +11,9 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Zend\Expressive\Tooling\ErrorConsoleTrait;
 
 class CreateMiddlewareCommand extends Command
 {
-    use ErrorConsoleTrait;
-
     const DEFAULT_SRC = '/src';
 
     const TEMPLATE_RESPONSE_DETAILS = <<< 'EOT'
@@ -70,15 +67,7 @@ EOT;
         $output->writeln(sprintf('<info>Creating middleware %s...</info>', $middleware));
 
         $generator = new CreateMiddleware();
-
-        try {
-            $path = $generator->process($middleware, $this->projectDir);
-        } catch (CreateMiddlewareException $e) {
-            $console = $this->getErrorConsole($output);
-            $console->writeln('<error>Error during generation:</error>');
-            $console->writeln(sprintf('  <error>%s</error>', $e->getMessage()));
-            return 1;
-        }
+        $path = $generator->process($middleware, $this->projectDir);
 
         $output->writeln('<info>Success!</info>');
         $output->writeln(sprintf(

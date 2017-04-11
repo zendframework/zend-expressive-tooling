@@ -75,7 +75,6 @@ class PipelineFromConfigCommandTest extends TestCase
         $this->output->writeln(Argument::containingString('Created ' . Constants::PATH_PIPELINE))->shouldBeCalled();
         $this->output->writeln(Argument::containingString('Created ' . Constants::PATH_ROUTES))->shouldBeCalled();
         $this->output->writeln(Argument::containingString('Updated ' . Constants::PATH_APPLICATION))->shouldBeCalled();
-        $this->output->getErrorOutput()->shouldNotBeCalled();
 
         $method = $this->reflectExecuteMethod($this->command);
 

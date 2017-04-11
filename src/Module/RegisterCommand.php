@@ -13,7 +13,6 @@ use Zend\ComponentInstaller\Injector\InjectorInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use ZF\ComposerAutoloading\Command\Enable;
-use ZF\ComposerAutoloading\Exception\RuntimeException;
 
 class RegisterCommand extends Command
 {
@@ -60,16 +59,9 @@ EOT;
             );
         }
 
-        try {
-            $enable = new Enable($this->projectDir, $modulesPath, $composer);
-            $enable->setMoveModuleClass(false);
-            $enable->process($module);
-        } catch (RuntimeException $ex) {
-            $console = $this->getErrorConsole($output);
-            $console->writeln('<error>Error during execution:</error>');
-            $console->writeln(sprintf('  <error>%s</error>', $ex->getMessage()));
-            return 1;
-        }
+        $enable = new Enable($this->projectDir, $modulesPath, $composer);
+        $enable->setMoveModuleClass(false);
+        $enable->process($module);
 
         $output->writeln(sprintf('Registered autoloading rules and added configuration entry for module %s', $module));
         return 0;

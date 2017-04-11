@@ -11,12 +11,9 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Zend\Expressive\Tooling\ErrorConsoleTrait;
 
 class MigrateOriginalMessageCallsCommand extends Command
 {
-    use ErrorConsoleTrait;
-
     const DEFAULT_SRC = '/src';
 
     const HELP = <<< 'EOT'
@@ -80,16 +77,7 @@ EOT;
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        try {
-            $src = $this->getSrcDir($input);
-        } catch (ArgvException $e) {
-            $console = $this->getErrorConsole($output);
-            $console->writeln(sprintf(
-                '<error>Unable to determine src directory: %s</error>',
-                $e->getMessage()
-            ));
-            return 1;
-        }
+        $src = $this->getSrcDir($input);
 
         $output->writeln('<info>Scanning for usage of Stratigility HTTP message decorators...</info>');
 

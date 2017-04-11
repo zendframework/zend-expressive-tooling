@@ -16,7 +16,6 @@ use Prophecy\Argument;
 use ReflectionMethod;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Zend\ComponentInstaller\Injector\ConfigAggregatorInjector;
 use Zend\Expressive\Tooling\Module\DeregisterCommand;
 use Zend\Expressive\Tooling\Module\Exception;
@@ -146,17 +145,15 @@ class DeregisterCommandTest extends TestCase
         $this->input->getOption('composer')->willReturn('composer.phar');
         $this->input->getOption('modules-path')->willReturn('./library/modules');
 
-        $output = $this->prophesize(OutputInterface::class);
-        $output->writeln(Argument::containingString('Error during execution'));
-        $output->writeln(Argument::containingString('Testing Exception Message'));
-        $this->output->getErrorOutput()->will([$output, 'reveal']);
-
         $method = $this->reflectExecuteMethod();
 
-        $this->assertSame(1, $method->invoke(
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Testing Exception Message');
+
+        $method->invoke(
             $this->command,
             $this->input->reveal(),
             $this->output->reveal()
-        ));
+        );
     }
 }

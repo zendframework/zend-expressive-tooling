@@ -16,6 +16,7 @@ use ReflectionMethod;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Zend\Expressive\Tooling\MigrateOriginalMessageCalls\ArgvException;
 use Zend\Expressive\Tooling\MigrateOriginalMessageCalls\ConvertOriginalMessageCalls;
 use Zend\Expressive\Tooling\MigrateOriginalMessageCalls\MigrateOriginalMessageCallsCommand;
 
@@ -149,17 +150,16 @@ class MigrateOriginalMessageCallsCommandTest extends TestCase
 
         $this->input->getOption('src')->willReturn('src');
 
-        $output = $this->prophesize(OutputInterface::class);
-        $output->writeln(Argument::containingString('Unable to determine src directory'))->shouldBeCalled();
-        $this->output->getErrorOutput()->will([$output, 'reveal']);
-
         $this->command->projectDir = $path;
         $method = $this->reflectExecuteMethod();
 
-        $this->assertSame(1, $method->invoke(
+        $this->expectException(ArgvException::class);
+        $this->expectExceptionMessage('Invalid --src argument');
+
+        $method->invoke(
             $this->command,
             $this->input->reveal(),
             $this->output->reveal()
-        ));
+        );
     }
 }

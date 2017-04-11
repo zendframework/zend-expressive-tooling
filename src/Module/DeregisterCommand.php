@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Zend\ComponentInstaller\Injector\ConfigAggregatorInjector;
 use ZF\ComposerAutoloading\Command\Disable;
-use ZF\ComposerAutoloading\Exception\RuntimeException;
 
 class DeregisterCommand extends Command
 {
@@ -56,15 +55,8 @@ EOT;
             $injector->remove($configProvider);
         }
 
-        try {
-            $disable = new Disable($this->projectDir, $modulesPath, $composer);
-            $disable->process($module);
-        } catch (RuntimeException $ex) {
-            $console = $this->getErrorConsole($output);
-            $console->writeln('<error>Error during execution:</error>');
-            $console->writeln(sprintf('  <error>%s</error>', $ex->getMessage()));
-            return 1;
-        }
+        $disable = new Disable($this->projectDir, $modulesPath, $composer);
+        $disable->process($module);
 
         $output->writeln(sprintf('Removed autoloading rules and configuration entries for module %s', $module));
         return 0;

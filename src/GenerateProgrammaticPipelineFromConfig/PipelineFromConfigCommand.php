@@ -11,12 +11,9 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Zend\Expressive\Tooling\ErrorConsoleTrait;
 
 class PipelineFromConfigCommand extends Command implements Constants
 {
-    use ErrorConsoleTrait;
-
     const DEFAULT_CONFIG_FILE = '/config/config.php';
 
     const HELP = <<< 'EOT'
@@ -64,16 +61,9 @@ EOT;
             '<info>Generating programmatic pipeline for an existing Expressive application...</info>'
         );
 
-        try {
-            $generator = new Generator($output);
-            $generator->projectDir = $this->projectDir;
-            $generator->process($this->locateConfigFile($input));
-        } catch (GeneratorException $e) {
-            $console = $this->getErrorConsole($output);
-            $console->writeln('<error>Error during generation:</error>');
-            $console->writeln(sprintf('  <error>%s</error>', $e->getMessage()));
-            return 1;
-        }
+        $generator = new Generator($output);
+        $generator->projectDir = $this->projectDir;
+        $generator->process($this->locateConfigFile($input));
 
         $output->writeln('<info>Success!</info>');
         $output->writeln(sprintf(

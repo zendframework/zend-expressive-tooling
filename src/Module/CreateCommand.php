@@ -11,7 +11,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Zend\Expressive\Tooling\Module\Exception;
 
 class CreateCommand extends Command
 {
@@ -54,16 +53,9 @@ EOT;
         $composer = $input->getOption('composer') ?: 'composer';
         $modulesPath = $this->getModulesPath($input);
 
-        try {
-            $creation = new Create();
-            $message = $creation->process($module, $modulesPath, $this->projectDir);
-            $output->writeln(sprintf('<info>%s</info>', $message));
-        } catch (Exception\RuntimeException $e) {
-            $console = $this->getErrorConsole($output);
-            $console->writeln('<error>Error during execution:</error>');
-            $console->writeln(sprintf('  <error>%s</error>', $e->getMessage()));
-            return 1;
-        }
+        $creation = new Create();
+        $message = $creation->process($module, $modulesPath, $this->projectDir);
+        $output->writeln(sprintf('<info>%s</info>', $message));
 
         $registerCommand = $this->getRegisterCommandName();
         $register = $this->getApplication()->find($registerCommand);

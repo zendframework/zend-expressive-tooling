@@ -19,7 +19,6 @@ use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Zend\Expressive\Tooling\Module\Create;
 use Zend\Expressive\Tooling\Module\CreateCommand;
 use Zend\Expressive\Tooling\Module\Exception\RuntimeException;
@@ -164,7 +163,7 @@ class CreateCommandTest extends TestCase
         ));
     }
 
-    public function testCommandEmitsExpectedErrorMessages()
+    public function testCommandAllowsExceptionsToBubbleUp()
     {
         $creation = Mockery::mock('overload:' . Create::class);
         $creation->shouldReceive('process')
@@ -176,18 +175,16 @@ class CreateCommandTest extends TestCase
         $this->input->getOption('composer')->willReturn('composer.phar');
         $this->input->getOption('modules-path')->willReturn('./library/modules');
 
-        $output = $this->prophesize(OutputInterface::class);
-        $output->writeln(Argument::containingString('Error during execution'))->shouldBeCalled();
-        $output->writeln(Argument::containingString('ERROR THROWN'))->shouldBeCalled();
-        $this->output->getErrorOutput()->will([$output, 'reveal']);
-
         $this->command->projectDir = __DIR__;
 
         $method = $this->reflectExecuteMethod();
-        $this->assertSame(1, $method->invoke(
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('ERROR THROWN');
+        $method->invoke(
             $this->command,
             $this->input->reveal(),
             $this->output->reveal()
-        ));
+        );
     }
 }

@@ -14,7 +14,6 @@ use Prophecy\Argument;
 use ReflectionMethod;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Zend\Expressive\Tooling\CreateMiddleware\CreateMiddleware;
 use Zend\Expressive\Tooling\CreateMiddleware\CreateMiddlewareCommand;
 use Zend\Expressive\Tooling\CreateMiddleware\CreateMiddlewareException;
@@ -103,12 +102,6 @@ class CreateMiddlewareCommandTest extends TestCase
             ->writeln(Argument::containingString('Creating middleware Foo\TestMiddleware'))
             ->shouldBeCalled();
 
-        $output = $this->prophesize(OutputInterface::class);
-        $output->writeln(Argument::containingString('Error during generation'))->shouldBeCalled();
-        $output->writeln(Argument::containingString('ERROR THROWN'))->shouldBeCalled();
-
-        $this->output->getErrorOutput()->will([$output, 'reveal']);
-
         $this->output
             ->writeln(Argument::containingString('Success'))
             ->shouldNotBeCalled();
@@ -116,10 +109,13 @@ class CreateMiddlewareCommandTest extends TestCase
         $this->command->projectDir = __DIR__;
         $method = $this->reflectExecuteMethod();
 
-        $this->assertSame(1, $method->invoke(
+        $this->expectException(CreateMiddlewareException::class);
+        $this->expectExceptionMessage('ERROR THROWN');
+
+        $method->invoke(
             $this->command,
             $this->input->reveal(),
             $this->output->reveal()
-        ));
+        );
     }
 }

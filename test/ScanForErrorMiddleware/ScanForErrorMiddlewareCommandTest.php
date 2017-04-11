@@ -15,7 +15,7 @@ use Prophecy\Argument;
 use ReflectionMethod;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Zend\Expressive\Tooling\ScanForErrorMiddleware\ArgvException;
 use Zend\Expressive\Tooling\ScanForErrorMiddleware\ScanForErrorMiddlewareCommand;
 use Zend\Expressive\Tooling\ScanForErrorMiddleware\Scanner;
 
@@ -153,17 +153,16 @@ class ScanForErrorMiddlewareCommandTest extends TestCase
 
         $this->input->getOption('dir')->willReturn('src');
 
-        $output = $this->prophesize(OutputInterface::class);
-        $output->writeln(Argument::containingString('Unable to determine source directory'))->shouldBeCalled();
-        $this->output->getErrorOutput()->will([$output, 'reveal']);
-
         $this->command->projectDir = $path;
         $method = $this->reflectExecuteMethod();
 
-        $this->assertSame(1, $method->invoke(
+        $this->expectException(ArgvException::class);
+        $this->expectExceptionMessage('Invalid --dir argument');
+
+        $method->invoke(
             $this->command,
             $this->input->reveal(),
             $this->output->reveal()
-        ));
+        );
     }
 }
