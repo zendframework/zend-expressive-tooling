@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 0.4.1 - TBD
+## 0.4.1 - 2017-04-11
 
 ### Added
 
@@ -18,7 +18,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- Updates zend-component-installer minimum version to 0.7.1, which provides a
+  fix for detection of config providers; prior to this fix, `module:degister`
+  could not remove globally qualified config providers for a module.
 
 ## 0.4.0 - 2017-04-11
 
