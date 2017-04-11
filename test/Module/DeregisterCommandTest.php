@@ -125,7 +125,7 @@ class DeregisterCommandTest extends TestCase
         ));
     }
 
-    public function testEmitsExpectedErrorMessagesWhenDisableThrowsException()
+    public function testAllowsExceptionsThrownFromDisableToBubbleUp()
     {
         $injectorMock = Mockery::mock('overload:' . ConfigAggregatorInjector::class);
         $injectorMock

@@ -142,7 +142,7 @@ class ScanForErrorMiddlewareCommandTest extends TestCase
         ));
     }
 
-    public function testInvalidDirArgumentEmitsExpectedErrorMessages()
+    public function testAllowsExceptionsFromInvalidDirArgumentToBubbleUp()
     {
         $dir = vfsStream::setup('ErrorMiddleware');
         $path = vfsStream::url('ErrorMiddleware');

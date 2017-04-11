@@ -139,7 +139,7 @@ class MigrateOriginalMessageCallsCommandTest extends TestCase
         ));
     }
 
-    public function testInvalidSrcDirectoryCausesCommandToEmitErrorMessages()
+    public function testAllowsExceptionsFromInvalidSrcDirectoryArgumentToBubbleUp()
     {
         $dir = vfsStream::setup('migrate');
         $path = vfsStream::url('migrate');

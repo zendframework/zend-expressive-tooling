@@ -89,7 +89,7 @@ class CreateMiddlewareCommandTest extends TestCase
         ));
     }
 
-    public function testExecutionErrorsEmitErrorMessages()
+    public function testAllowsExceptionsRaisedFromCreateMiddlewareToBubbleUp()
     {
         $generator = Mockery::mock('overload:' . CreateMiddleware::class);
         $generator->shouldReceive('process')

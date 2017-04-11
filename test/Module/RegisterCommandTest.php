@@ -130,7 +130,7 @@ class RegisterCommandTest extends TestCase
         ));
     }
 
-    public function testEmitsExpectedErrorMessagesWhenRuntimeExceptionThrownFromEnable()
+    public function testAllowsRuntimeExceptionsThrownFromEnableToBubbleUp()
     {
         $injectorMock = Mockery::mock('overload:' . ConfigAggregatorInjector::class);
         $injectorMock
