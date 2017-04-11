@@ -6,17 +6,23 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#22](https://github.com/zendframework/zend-expressive-tooling/pull/22) adds
-  the command `expressive-create-middleware`, which allows creating an
-  http-interop middleware class file. The command expects a fully-qualified
-  class name, and will match the namespace against existing PSR-4 namespaces in
-  your `composer.json` in order to determine where to create the class file.
+- [#22](https://github.com/zendframework/zend-expressive-tooling/pull/22) and
+  [#23](https://github.com/zendframework/zend-expressive-tooling/pull/23) add
+  the script `expressive`, which allows executing any of the other commands
+  provided in the package, including a new command for middleware creation. The
+  exposed commands are:
 
-- [#22](https://github.com/zendframework/zend-expressive-tooling/pull/22) adds
-  the metacommand `expressive`, which allows executing any of the other commands
-  provided in the package, minus their `expressive-` prefix. The command also
-  provides the ability to ask for individual command help using the syntax
-  `expressive help <command>` or `expressive <command> help`.
+  - **middleware:create**: Create an http-interop middleware class file.
+  - **migrate:error-middleware-scanner**: Scan for legacy error middleware or error middleware invocation.
+  - **migrate:original-messages**: Migrate getOriginal*() calls to request attributes.
+  - **migrate:pipeline**: Generate a programmatic pipeline and routes from configuration.
+  - **module:create**: Create and register a middleware module with the application
+  - **module:deregister**: Deregister a middleware module from the application
+  - **module:register**: Register a middleware module with the application
+
+  All previous scripts (e.g., `expressive-pipeline-from-config`) are still
+  present and continue to work, but are deprecated in favor of the `expressive`
+  script.
 
 ### Deprecated
 
