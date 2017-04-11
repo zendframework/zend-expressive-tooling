@@ -219,6 +219,30 @@ repository, we suggest doing some cleanup of these branches.
    $ git push {username} :<branchname>
    ```
 
+## Releases
+
+When preparing a release, please do the following:
+
+- Checkout a new branch based on the master branch: 
+  `git checkout -b versions/new-version`
+
+- Run the `bin/bump-version` script to bump the version to the new release:
+  `./bin/bump-version to release-number`
+
+- Add the updated scripts and check them in: 
+  `git commit -a -m 'release-number readiness'`
+
+- Tag from that branch: `git tag -s release-number`
+
+- Once done, checkout the master branch and delete the release branch:
+  `git checkout master ; git branch -D versions/new-version`
+
+If you accidently check-in the scripts with the updated version, you can easily
+revert the version string with the same tool:
+
+```bash
+$ ./bin/bump-version dev
+```
 
 ## Conduct
 
