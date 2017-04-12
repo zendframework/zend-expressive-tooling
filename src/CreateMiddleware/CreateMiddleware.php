@@ -24,7 +24,7 @@ namespace %namespace%;
 
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
-use Psr\Http\ServerRequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class %class% implements MiddlewareInterface
 {
