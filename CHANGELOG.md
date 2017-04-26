@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 0.4.2 - TBD
+## 0.4.2 - 2017-04-26
 
 ### Added
 
@@ -18,7 +18,11 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#26](https://github.com/zendframework/zend-expressive-tooling/pull/26)
+  updates the constraints for:
+  - zend-expressive to `^2.0` only, since that has now been released.
+  - zend-component-installer to `^1.0 || ^0.7.1`, fixing an issue when
+    installing Expressive with modular support due to constraint violations.
 
 ## 0.4.1 - 2017-04-11
 
