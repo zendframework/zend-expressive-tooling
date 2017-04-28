@@ -18,7 +18,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#24](https://github.com/zendframework/zend-expressive-tooling/pull/24) fixes
+  incorrect use statement in `CreateMiddleware::CLASS_SKELETON`.
 
 ## 0.4.2 - 2017-04-26
 
