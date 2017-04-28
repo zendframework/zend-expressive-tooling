@@ -21,6 +21,9 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#24](https://github.com/zendframework/zend-expressive-tooling/pull/24) fixes
   incorrect use statement in `CreateMiddleware::CLASS_SKELETON`.
 
+- [#25](https://github.com/zendframework/zend-expressive-tooling/pull/25) fixes
+  symfony/console required version to be less restrictive.
+
 ## 0.4.2 - 2017-04-26
 
 ### Added
