@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 0.4.4 - TBD
+## 0.4.4 - 2017-05-09
 
 ### Added
 
