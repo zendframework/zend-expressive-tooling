@@ -18,7 +18,10 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#28](https://github.com/zendframework/zend-expressive-tooling/pull/28) adds
+  to the bootstrap of the the `expressive` command another path to check for the
+  autoloader; this new path is necessary to enable autoloading to work correctly
+  on MacOS.
 
 ## 0.4.3 - 2017-04-28
 
