@@ -18,7 +18,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Zend\ComponentInstaller\Injector\ConfigAggregatorInjector;
 use Zend\Expressive\Tooling\Module\DeregisterCommand;
-use Zend\Expressive\Tooling\Module\Exception;
 use ZF\ComposerAutoloading\Command\Disable;
 use ZF\ComposerAutoloading\Exception\RuntimeException;
 

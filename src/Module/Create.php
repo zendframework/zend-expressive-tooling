@@ -7,8 +7,6 @@
 
 namespace Zend\Expressive\Tooling\Module;
 
-use Zend\Expressive\Tooling\Module\Exception;
-
 class Create
 {
     const TEMPLATE_CONFIG_PROVIDER = <<< 'EOT'

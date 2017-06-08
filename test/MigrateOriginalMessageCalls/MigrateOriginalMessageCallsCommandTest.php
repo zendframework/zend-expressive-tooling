@@ -15,7 +15,6 @@ use Prophecy\Argument;
 use ReflectionMethod;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Zend\Expressive\Tooling\MigrateOriginalMessageCalls\ArgvException;
 use Zend\Expressive\Tooling\MigrateOriginalMessageCalls\ConvertOriginalMessageCalls;
 use Zend\Expressive\Tooling\MigrateOriginalMessageCalls\MigrateOriginalMessageCallsCommand;

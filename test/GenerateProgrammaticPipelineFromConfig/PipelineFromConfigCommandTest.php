@@ -14,7 +14,6 @@ use Prophecy\Argument;
 use ReflectionMethod;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Zend\Expressive\Tooling\GenerateProgrammaticPipelineFromConfig\Constants;
 use Zend\Expressive\Tooling\GenerateProgrammaticPipelineFromConfig\Generator;
 use Zend\Expressive\Tooling\GenerateProgrammaticPipelineFromConfig\PipelineFromConfigCommand;

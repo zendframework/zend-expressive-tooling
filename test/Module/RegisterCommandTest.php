@@ -19,7 +19,6 @@ use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Zend\ComponentInstaller\Injector\ConfigAggregatorInjector;
 use Zend\ComponentInstaller\Injector\InjectorInterface;
 use Zend\Expressive\Tooling\Module\RegisterCommand;
-use Zend\Expressive\Tooling\Module\Exception;
 use ZF\ComposerAutoloading\Command\Enable;
 use ZF\ComposerAutoloading\Exception\RuntimeException;
 

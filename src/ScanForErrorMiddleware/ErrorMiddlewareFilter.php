@@ -111,6 +111,7 @@ class ErrorMiddlewareFilter extends FilterIterator
     {
         return array_reduce(
             $class->getMethods(),
+
             /**
              * @param bool $found
              * @param MethodScanner $method

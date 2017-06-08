@@ -50,7 +50,7 @@ return [
             'middleware' => \App\Middleware\ErrorMiddleware::class,
             'error' => true,
             'priority' => -10000,
-        ]
+        ],
     ],
     'routes' => [
         [

@@ -244,7 +244,7 @@ EOT;
                 continue;
             }
 
-            $pipeline[] = (null === $path)
+            $pipeline[] = null === $path
                 ? sprintf(self::TEMPLATE_PIPELINE_NO_PATH, $middleware)
                 : sprintf(self::TEMPLATE_PIPELINE_WITH_PATH, $this->createOptionValue($path), $middleware);
         }
