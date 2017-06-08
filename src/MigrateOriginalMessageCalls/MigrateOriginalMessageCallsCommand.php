@@ -59,7 +59,7 @@ EOT;
     private $projectDir;
 
     /**
-     * @var null|string Project root against which to scan.
+     * @param null|string $path Project root against which to scan.
      */
     public function setProjectDir($path)
     {

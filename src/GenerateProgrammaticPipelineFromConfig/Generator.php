@@ -119,6 +119,7 @@ EOT;
 
     /**
      * @param OutputInterface $console
+     * @param string $projectDir
      */
     public function __construct(OutputInterface $console, $projectDir = '.')
     {

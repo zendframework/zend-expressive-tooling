@@ -90,7 +90,7 @@ EOC;
         $this->assertFalse($scanner->scan());
     }
 
-    public function messageVariablesProvider()
+    public function messageVariables()
     {
         return [
             'vars-only'              => [self::INVOKE_VARS_ONLY],
@@ -104,7 +104,7 @@ EOC;
     }
 
     /**
-     * @dataProvider messageVariablesProvider
+     * @dataProvider messageVariables
      *
      * @param string $method
      */
@@ -116,7 +116,7 @@ EOC;
     }
 
     /**
-     * @dataProvider messageVariablesProvider
+     * @dataProvider messageVariables
      *
      * @param string $method
      */
