@@ -64,4 +64,18 @@ class CreateMiddlewareException extends RuntimeException
             $class
         ));
     }
+
+    /**
+     * @param string $path
+     * @param string $class
+     * @return self
+     */
+    public static function classExists($path, $class)
+    {
+        return new self(sprintf(
+            'Class %s already exists in directory %s',
+            $class,
+            $path
+        ));
+    }
 }

@@ -52,4 +52,14 @@ class CreateMiddlewareExceptionTest extends TestCase
         $this->assertContains('directory ' . $path, $e->getMessage());
         $this->assertContains('class ' . $class, $e->getMessage());
     }
+
+    public function testClassExistsReturnsInstanceUsingPathAndClassProvided()
+    {
+        $path = __FILE__;
+        $class = __CLASS__;
+        $e = CreateMiddlewareException::classExists($path, $class);
+        $this->assertInstanceOf(CreateMiddlewareException::class, $e);
+        $this->assertContains('directory ' . $path, $e->getMessage());
+        $this->assertContains('Class ' . $class, $e->getMessage());
+    }
 }
