@@ -45,7 +45,7 @@ EOS;
      * @return string
      * @throws CreateMiddlewareException
      */
-    public function process($class, $projectRoot = null, $classSkeleton = null)
+    public function process($class, $projectRoot = null, $classSkeleton = self::CLASS_SKELETON)
     {
         $projectRoot = $projectRoot ?: getcwd();
 
@@ -56,7 +56,7 @@ EOS;
         $content = str_replace(
             ['%namespace%', '%class%'],
             [$namespace, $class],
-            $classSkeleton ?: self::CLASS_SKELETON
+            $classSkeleton
         );
 
         if (is_file($path)) {
