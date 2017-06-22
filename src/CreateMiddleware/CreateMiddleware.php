@@ -56,7 +56,7 @@ EOS;
         $content = str_replace(
             ['%namespace%', '%class%'],
             [$namespace, $class],
-            $classSkeleton !== null ? $classSkeleton : self::CLASS_SKELETON
+            $classSkeleton ?: self::CLASS_SKELETON
         );
 
         if (is_file($path)) {
