@@ -41,7 +41,7 @@ EOS;
     /**
      * @param string $class
      * @param string|null $projectRoot
-     * @param string|null $classSkeleton
+     * @param string $classSkeleton
      * @return string
      * @throws CreateMiddlewareException
      */
