@@ -67,11 +67,6 @@ after_script:
 
 notifications:
   email: false
-  irc:
-    channels:
-      - "irc.freenode.org#zftalk.dev"
-    on_success: change
-    on_failure: always
   slack:
     rooms:
       - secure: "GS3+RkDETX42GrjKMJNQy/JJZYJawBgcOIMJZHQS0xdv2DbnEE21z/sn3d+AV10CqCicovcCjYPKgQH/aSDI2dNJf1ZnqvM5JICDl9TjBkEQC/xybm645iy0NpgC2T8yuL56agz20fsDONt+vA05X9Ytm8z+Ipy0uKXYrrsL0FlpEStaTeG3z2wk/5cww93tKLcg6QLRa6AeensrAEiz+hvNWu0OR7pEziY28tC+4F5KlZIE0s8TkJ5TZ6pvZ7pcwpK+mtxlmkOKVN93QcvBRjd1xuuRHOHN7Pmp5CiIYbTQTzruF2l1R7bnVVgfeXgWqJOxy0lH3H1gQDqj3fo7uHjm2Zg4Hr0Ev22dFM19N9+SIAELUpDoHNnuhJ/o6fpNd9VQVSgeki8YzNwJrhX5gnFtLV/4wyrmsRxdpKdtxoSINu5HyklamKiVRmbQaIuOPw1NQkOAYL4vHQIwjuwcn8YQArCwwvO4vh3yBQo0mtT9BbkajJ5R118F6jUIOYe9BVFicf+xyrVwCfxziq+jqPOHmtF7Oeb4jRASzTAZsIIVe7TkuckFCNqpRiBmNkbHOU4fZiNfGfPhsx9u0uEoD7tnurx4XFA5Xa2xnBOMQd3ZIAFGtMipnHfIgnEZ9IVNnQZv9q5Fs8/EH5MsR5GJpihEJOGKBn1E/i2mOfE+EsU="
