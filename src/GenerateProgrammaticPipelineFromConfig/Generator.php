@@ -14,7 +14,6 @@ use Zend\Expressive\Application;
 use Zend\Expressive\Middleware\ImplicitHeadMiddleware;
 use Zend\Expressive\Middleware\ImplicitOptionsMiddleware;
 use Zend\Expressive\Router\Route;
-use Zend\Stdlib\ConsoleHelper;
 use Zend\Stdlib\SplPriorityQueue;
 
 class Generator implements Constants
@@ -113,7 +112,7 @@ EOT;
     private $projectDir;
 
     /**
-     * @var ConsoleHelper
+     * @var OutputInterface
      */
     private $console;
 
