@@ -10,9 +10,10 @@ namespace ZendTest\Expressive\Tooling\CreateMiddleware;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\TestCase;
-use const Webimpress\HttpMiddlewareCompatibility\HANDLER_METHOD;
 use Zend\Expressive\Tooling\CreateMiddleware\CreateMiddleware;
 use Zend\Expressive\Tooling\CreateMiddleware\CreateMiddlewareException;
+
+use const Webimpress\HttpMiddlewareCompatibility\HANDLER_METHOD;
 
 class CreateMiddlewareTest extends TestCase
 {
