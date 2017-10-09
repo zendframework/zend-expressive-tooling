@@ -17,14 +17,21 @@
             "dev-master": "1.0-dev"
         }
     },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/webimpress/zend-expressive.git"
+        }
+    ],
     "require": {
         "php": "^5.6 || ^7.0",
         "symfony/console": "^3.0 || ^2.8",
+        "webimpress/http-middleware-compatibility": "^0.1.1",
         "zendframework/zend-code": "^3.1 || ^2.6.3",
         "zendframework/zend-component-installer": "^1.0 || ^0.7.1",
-        "zendframework/zend-expressive": "^2.0",
+        "zendframework/zend-expressive": "dev-feature/http-middleware-0.5",
         "zendframework/zend-stdlib": "^3.1",
-        "zendframework/zend-stratigility": "^2.0",
+        "zendframework/zend-stratigility": "^2.1",
         "zfcampus/zf-composer-autoloading": "^2.0"
     },
     "require-dev": {
