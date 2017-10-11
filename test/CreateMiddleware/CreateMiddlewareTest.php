@@ -226,7 +226,8 @@ class CreateMiddlewareTest extends TestCase
         // http-interop/http-middleware 0.5.0
         if (HANDLER_METHOD === 'handle') {
             $this->assertRegexp(
-                '#^\s{4}public function process\(ServerRequestInterface \$request, RequestHandlerInterface \$handler\)$#m',
+                '#^\s{4}public function process\(ServerRequestInterface \$request,'
+                    . ' RequestHandlerInterface \$handler\)$#m',
                 $content
             );
         } else {
