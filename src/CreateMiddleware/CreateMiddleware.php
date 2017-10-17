@@ -7,6 +7,8 @@
 
 namespace Zend\Expressive\Tooling\CreateMiddleware;
 
+use const Webimpress\HttpMiddlewareCompatibility\HANDLER_METHOD;
+
 /**
  * Create middleware
  *
@@ -38,6 +40,27 @@ class %class% implements MiddlewareInterface
 }
 EOS;
 
+    const CLASS_SKELETON_05 = <<< 'EOS'
+<?php
+
+namespace %namespace%;
+
+use Interop\Http\Server\MiddlewareInterface;
+use Interop\Http\Server\RequestHandlerInterface;
+use Psr\Http\Message\ServerRequestInterface;
+
+class %class% implements MiddlewareInterface
+{
+    /**
+     * {@inheritDoc}
+     */
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler)
+    {
+        // $response = $handler->handle($request);
+    }
+}
+EOS;
+
     /**
      * @param string $class
      * @param string|null $projectRoot
@@ -55,7 +78,9 @@ EOS;
         $content = str_replace(
             ['%namespace%', '%class%'],
             [$namespace, $class],
-            self::CLASS_SKELETON
+            HANDLER_METHOD === 'handle'
+                ? self::CLASS_SKELETON_05
+                : self::CLASS_SKELETON
         );
 
         file_put_contents($path, $content);

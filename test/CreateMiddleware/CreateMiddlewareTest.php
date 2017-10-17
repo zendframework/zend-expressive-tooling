@@ -13,6 +13,8 @@ use PHPUnit\Framework\TestCase;
 use Zend\Expressive\Tooling\CreateMiddleware\CreateMiddleware;
 use Zend\Expressive\Tooling\CreateMiddleware\CreateMiddlewareException;
 
+use const Webimpress\HttpMiddlewareCompatibility\HANDLER_METHOD;
+
 class CreateMiddlewareTest extends TestCase
 {
     /** @var vfsStreamDirectory */
@@ -135,10 +137,7 @@ class CreateMiddlewareTest extends TestCase
         $this->assertRegexp('#^\<\?php#s', $classFileContents);
         $this->assertRegexp('#^namespace Foo;$#m', $classFileContents);
         $this->assertRegexp('#^class BarMiddleware implements MiddlewareInterface$#m', $classFileContents);
-        $this->assertRegexp(
-            '#^\s{4}public function process\(ServerRequestInterface \$request, DelegateInterface \$delegate\)$#m',
-            $classFileContents
-        );
+        $this->assertProcessSignature($classFileContents);
     }
 
     public function testProcessCanCreateMiddlewareInSubNamespacePath()
@@ -165,10 +164,7 @@ class CreateMiddlewareTest extends TestCase
         $this->assertRegexp('#^\<\?php#s', $classFileContents);
         $this->assertRegexp('#^namespace Foo\\\\Bar;$#m', $classFileContents);
         $this->assertRegexp('#^class BazMiddleware implements MiddlewareInterface$#m', $classFileContents);
-        $this->assertRegexp(
-            '#^\s{4}public function process\(ServerRequestInterface \$request, DelegateInterface \$delegate\)$#m',
-            $classFileContents
-        );
+        $this->assertProcessSignature($classFileContents);
     }
 
     public function testProcessCanCreateMiddlewareInModuleNamespaceRoot()
@@ -195,10 +191,7 @@ class CreateMiddlewareTest extends TestCase
         $this->assertRegexp('#^\<\?php#s', $classFileContents);
         $this->assertRegexp('#^namespace Foo;$#m', $classFileContents);
         $this->assertRegexp('#^class BarMiddleware implements MiddlewareInterface$#m', $classFileContents);
-        $this->assertRegexp(
-            '#^\s{4}public function process\(ServerRequestInterface \$request, DelegateInterface \$delegate\)$#m',
-            $classFileContents
-        );
+        $this->assertProcessSignature($classFileContents);
     }
 
     public function testProcessCanCreateMiddlewareInModuleSubNamespacePath()
@@ -225,9 +218,23 @@ class CreateMiddlewareTest extends TestCase
         $this->assertRegexp('#^\<\?php#s', $classFileContents);
         $this->assertRegexp('#^namespace Foo\\\\Bar;$#m', $classFileContents);
         $this->assertRegexp('#^class BazMiddleware implements MiddlewareInterface$#m', $classFileContents);
-        $this->assertRegexp(
-            '#^\s{4}public function process\(ServerRequestInterface \$request, DelegateInterface \$delegate\)$#m',
-            $classFileContents
-        );
+        $this->assertProcessSignature($classFileContents);
+    }
+
+    private function assertProcessSignature($content)
+    {
+        // http-interop/http-middleware 0.5.0
+        if (HANDLER_METHOD === 'handle') {
+            $this->assertRegexp(
+                '#^\s{4}public function process\(ServerRequestInterface \$request,'
+                    . ' RequestHandlerInterface \$handler\)$#m',
+                $content
+            );
+        } else {
+            $this->assertRegexp(
+                '#^\s{4}public function process\(ServerRequestInterface \$request, DelegateInterface \$delegate\)$#m',
+                $content
+            );
+        }
     }
 }

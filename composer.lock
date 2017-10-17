@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "5ab2971d6a3beb8af56265d3db44cfca",
+    "content-hash": "c9f09f9383571764da5b4f1139c7bedf",
     "packages": [
         {
             "name": "fig/http-message-util",
@@ -434,6 +434,98 @@
             "time": "2016-11-14T01:06:16+00:00"
         },
         {
+            "name": "webimpress/composer-extra-dependency",
+            "version": "0.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webimpress/composer-extra-dependency.git",
+                "reference": "31fa56391d30f03b1180c87610cbe22254780ad9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/webimpress/composer-extra-dependency/zipball/31fa56391d30f03b1180c87610cbe22254780ad9",
+                "reference": "31fa56391d30f03b1180c87610cbe22254780ad9",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.1",
+                "php": "^5.6 || ^7.0"
+            },
+            "require-dev": {
+                "composer/composer": "^1.5.2",
+                "mikey179/vfsstream": "^1.6.5",
+                "phpunit/phpunit": "^5.7.22 || ^6.4.1",
+                "zendframework/zend-coding-standard": "~1.0.0"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "Webimpress\\ComposerExtraDependency\\Plugin"
+            },
+            "autoload": {
+                "psr-4": {
+                    "Webimpress\\ComposerExtraDependency\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "description": "Composer plugin to require extra dependencies",
+            "homepage": "https://github.com/webimpress/composer-extra-dependency",
+            "keywords": [
+                "composer",
+                "dependency",
+                "webimpress"
+            ],
+            "time": "2017-10-17T17:15:14+00:00"
+        },
+        {
+            "name": "webimpress/http-middleware-compatibility",
+            "version": "0.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webimpress/http-middleware-compatibility.git",
+                "reference": "8ed1c2c7523dce0035b98bc4f3a73ca9cd1d3717"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/webimpress/http-middleware-compatibility/zipball/8ed1c2c7523dce0035b98bc4f3a73ca9cd1d3717",
+                "reference": "8ed1c2c7523dce0035b98bc4f3a73ca9cd1d3717",
+                "shasum": ""
+            },
+            "require": {
+                "http-interop/http-middleware": "^0.1.1 || ^0.2 || ^0.3 || ^0.4.1 || ^0.5",
+                "php": "^5.6 || ^7.0",
+                "webimpress/composer-extra-dependency": "^0.2.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7.23 || ^6.4.3"
+            },
+            "type": "library",
+            "extra": {
+                "dependency": [
+                    "http-interop/http-middleware"
+                ]
+            },
+            "autoload": {
+                "files": [
+                    "autoload/http-middleware.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "description": "Compatibility library for Draft PSR-15 HTTP Middleware",
+            "homepage": "https://github.com/webimpress/http-middleware-compatibility",
+            "keywords": [
+                "middleware",
+                "psr-15",
+                "webimpress"
+            ],
+            "time": "2017-10-17T17:31:10+00:00"
+        },
+        {
             "name": "zendframework/zend-code",
             "version": "3.1.0",
             "source": {
@@ -682,27 +774,22 @@
         },
         {
             "name": "zendframework/zend-expressive",
-            "version": "2.0.3",
+            "version": "dev-feature/http-middleware-0.5",
             "source": {
                 "type": "git",
-                "url": "https://github.com/zendframework/zend-expressive.git",
-                "reference": "293145df73f288b16107d1388995282c4e8599fd"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-expressive/zipball/293145df73f288b16107d1388995282c4e8599fd",
-                "reference": "293145df73f288b16107d1388995282c4e8599fd",
-                "shasum": ""
+                "url": "https://github.com/webimpress/zend-expressive.git",
+                "reference": "cff548fb02582596bb47af74bbd7dc30ffeb4143"
             },
             "require": {
                 "fig/http-message-util": "^1.1.2",
                 "php": "^5.6 || ^7.0",
                 "psr/container": "^1.0",
                 "psr/http-message": "^1.0.1",
+                "webimpress/http-middleware-compatibility": "^0.1.1",
                 "zendframework/zend-diactoros": "^1.3.10",
-                "zendframework/zend-expressive-router": "^2.1",
+                "zendframework/zend-expressive-router": "^2.2",
                 "zendframework/zend-expressive-template": "^1.0.4",
-                "zendframework/zend-stratigility": "^2.0.1"
+                "zendframework/zend-stratigility": "^2.1"
             },
             "conflict": {
                 "container-interop/container-interop": "<1.2.0"
@@ -741,42 +828,83 @@
                     "Zend\\Expressive\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "ZendTest\\Expressive\\": "test/"
+                },
+                "files": [
+                    "test/class_exists.php"
+                ]
+            },
+            "scripts": {
+                "check": [
+                    "@license-check",
+                    "@cs-check",
+                    "@test"
+                ],
+                "upload-coverage": [
+                    "coveralls -v"
+                ],
+                "cs-check": [
+                    "phpcs"
+                ],
+                "cs-fix": [
+                    "phpcbf"
+                ],
+                "test": [
+                    "phpunit --colors=always"
+                ],
+                "test-coverage": [
+                    "phpunit --coverage-clover clover.xml"
+                ],
+                "license-check": [
+                    "vendor/bin/docheader check src/ test/"
+                ]
+            },
             "license": [
                 "BSD-3-Clause"
             ],
             "description": "PSR-7 Middleware Microframework based on Stratigility",
+            "homepage": "https://docs.zendframework.com/zend-expressive/",
             "keywords": [
                 "http",
                 "middleware",
                 "psr",
+                "psr-11",
                 "psr-7"
             ],
-            "time": "2017-03-28T15:56:53+00:00"
+            "support": {
+                "docs": "https://docs.zendframework.com/zend-expressive/",
+                "issues": "https://github.com/zendframework/zend-expressive/issues",
+                "source": "https://github.com/zendframework/zend-expressive",
+                "slack": "https://zendframework-slack.herokuapp.com",
+                "forum": "https://discourse.zendframework.com/c/questions/expressive"
+            },
+            "time": "2017-10-09T19:30:20+00:00"
         },
         {
             "name": "zendframework/zend-expressive-router",
-            "version": "2.1.0",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-expressive-router.git",
-                "reference": "88d711aee740ac8fbd684472469e16b85435cc79"
+                "reference": "f6eac53d39cdbf7b6db11b3e6bb3565896633de4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-expressive-router/zipball/88d711aee740ac8fbd684472469e16b85435cc79",
-                "reference": "88d711aee740ac8fbd684472469e16b85435cc79",
+                "url": "https://api.github.com/repos/zendframework/zend-expressive-router/zipball/f6eac53d39cdbf7b6db11b3e6bb3565896633de4",
+                "reference": "f6eac53d39cdbf7b6db11b3e6bb3565896633de4",
                 "shasum": ""
             },
             "require": {
-                "fig/http-message-util": "^1.1",
-                "http-interop/http-middleware": "^0.4.1",
+                "fig/http-message-util": "^1.1.2",
                 "php": "^5.6 || ^7.0",
-                "psr/http-message": "^1.0"
+                "psr/http-message": "^1.0.1",
+                "webimpress/http-middleware-compatibility": "^0.1.1"
             },
             "require-dev": {
                 "malukenho/docheader": "^0.1.5",
-                "phpunit/phpunit": "^4.7 || ^5.6",
+                "phpunit/phpunit": "^6.0.8 || ^5.7.15",
                 "zendframework/zend-coding-standard": "~1.0.0"
             },
             "suggest": {
@@ -787,8 +915,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1-dev",
-                    "dev-develop": "2.2-dev"
+                    "dev-master": "2.2-dev",
+                    "dev-develop": "2.3-dev"
                 }
             },
             "autoload": {
@@ -808,7 +936,7 @@
                 "psr",
                 "psr-7"
             ],
-            "time": "2017-01-24T22:28:12+00:00"
+            "time": "2017-10-09T18:44:11+00:00"
         },
         {
             "name": "zendframework/zend-expressive-template",
@@ -906,27 +1034,27 @@
         },
         {
             "name": "zendframework/zend-stratigility",
-            "version": "2.0.1",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-stratigility.git",
-                "reference": "229e7d94010d09d9e68096ff6f1d35f354d8dac9"
+                "reference": "74617cffd44180bef0aea63daca830d0b675c1c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-stratigility/zipball/229e7d94010d09d9e68096ff6f1d35f354d8dac9",
-                "reference": "229e7d94010d09d9e68096ff6f1d35f354d8dac9",
+                "url": "https://api.github.com/repos/zendframework/zend-stratigility/zipball/74617cffd44180bef0aea63daca830d0b675c1c8",
+                "reference": "74617cffd44180bef0aea63daca830d0b675c1c8",
                 "shasum": ""
             },
             "require": {
-                "http-interop/http-middleware": "^0.4.1",
                 "php": "^5.6 || ^7.0",
                 "psr/http-message": "^1.0",
+                "webimpress/http-middleware-compatibility": "^0.1.1",
                 "zendframework/zend-escaper": "^2.3"
             },
             "require-dev": {
                 "malukenho/docheader": "^0.1.5",
-                "phpunit/phpunit": "^5.7",
+                "phpunit/phpunit": "^6.0.8 || ^5.7.15",
                 "zendframework/zend-coding-standard": "~1.0.0",
                 "zendframework/zend-diactoros": "^1.0"
             },
@@ -936,8 +1064,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0.0-dev",
-                    "dev-develop": "2.1.0-dev"
+                    "dev-master": "2.1.0-dev",
+                    "dev-develop": "2.2.0-dev"
                 }
             },
             "autoload": {
@@ -956,7 +1084,7 @@
                 "middleware",
                 "psr-7"
             ],
-            "time": "2017-01-25T19:16:16+00:00"
+            "time": "2017-10-09T19:25:33+00:00"
         },
         {
             "name": "zfcampus/zf-composer-autoloading",
@@ -2992,7 +3120,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "zendframework/zend-expressive": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
