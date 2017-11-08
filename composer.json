@@ -11,14 +11,6 @@
         "zendframework",
         "zend-expressive"
     ],
-    "config": {
-        "sort-packages": true
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0-dev"
-        }
-    },
     "support": {
         "issues": "https://github.com/zendframework/zend-expressive-tooling/issues",
         "source": "https://github.com/zendframework/zend-expressive-tooling",
@@ -52,6 +44,14 @@
     "autoload-dev": {
         "psr-4": {
             "ZendTest\\Expressive\\Tooling\\": "test/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
         }
     },
     "bin": [
