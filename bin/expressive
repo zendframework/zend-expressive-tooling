@@ -30,6 +30,7 @@ $application = new Application('expressive', VERSION);
 $application->addCommands([
     new CreateMiddleware\CreateMiddlewareCommand('middleware:create'),
     new GenerateProgrammaticPipelineFromConfig\PipelineFromConfigCommand('migrate:pipeline'),
+    new MigrateInteropMiddleware\MigrateInteropMiddlewareCommand('migrate:interop-middleware'),
     new MigrateOriginalMessageCalls\MigrateOriginalMessageCallsCommand('migrate:original-messages'),
     new ScanForErrorMiddleware\ScanForErrorMiddlewareCommand('migrate:error-middleware-scanner'),
     new Module\CreateCommand('module:create'),
