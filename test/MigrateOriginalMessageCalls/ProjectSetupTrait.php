@@ -8,6 +8,7 @@
 namespace ZendTest\Expressive\Tooling\MigrateOriginalMessageCalls;
 
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\Assert;
 use Prophecy\Argument;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -69,5 +70,25 @@ trait ProjectSetupTrait
             ->shouldBeCalled();
 
         return $console;
+    }
+
+    public function assertExpected(string $dir)
+    {
+        $base = $dir;
+        $rdi = new RecursiveDirectoryIterator($dir);
+        $rii = new RecursiveIteratorIterator($rdi);
+
+        /** @var SplFileInfo $file */
+        foreach ($rii as $file) {
+            if (! $this->isPhpFile($file)) {
+                continue;
+            }
+
+            $filename = $file->getPathname();
+            $content = file_get_contents($filename);
+            $name = strtr($filename, [$base . '/src' => __DIR__ . '/TestAsset/expected', DIRECTORY_SEPARATOR => '/']);
+
+            Assert::assertSame(file_get_contents($name), $content);
+        }
     }
 }
