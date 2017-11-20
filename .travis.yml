@@ -5,68 +5,44 @@ language: php
 cache:
   directories:
     - $HOME/.composer/cache
-    - vendor
 
 env:
   global:
     - COMPOSER_ARGS="--no-interaction"
     - COVERAGE_DEPS="satooshi/php-coveralls"
-    - LEGACY_DEPS="phpunit/phpunit php-mock/php-mock-phpunit"
 
 matrix:
   include:
-    - php: 5.6
+    - php: 7.1
       env:
         - DEPS=lowest
-    - php: 5.6
-      env:
-        - DEPS=locked
-        - TEST_COVERAGE=true
-    - php: 5.6
-      env:
-        - DEPS=latest
-    - php: 7
-      env:
-        - DEPS=lowest
-    - php: 7
+    - php: 7.1
       env:
         - DEPS=locked
         - CS_CHECK=true
-    - php: 7
+        - TEST_COVERAGE=true
+    - php: 7.1
       env:
         - DEPS=latest
-    - php: 7.1
+    - php: 7.2
       env:
         - DEPS=lowest
-    - php: 7.1
+    - php: 7.2
       env:
         - DEPS=locked
-    - php: 7.1
+    - php: 7.2
       env:
         - DEPS=latest
-    - php: hhvm
-      env:
-        - DEPS=lowest
-    - php: hhvm
-      env:
-        - DEPS=locked
-    - php: hhvm
-      env:
-        - DEPS=latest
-  allow_failures:
-    - php: hhvm
 
 before_install:
   - if [[ $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
-  - travis_retry composer self-update
 
 install:
-  - travis_retry composer install $COMPOSER_ARGS --ignore-platform-reqs
-  - if [[ $TRAVIS_PHP_VERSION =~ ^5.6 ]]; then travis_retry composer update $COMPOSER_ARGS --with-dependencies $LEGACY_DEPS ; fi
+  - travis_retry composer install $COMPOSER_ARGS
   - if [[ $DEPS == 'latest' ]]; then travis_retry composer update $COMPOSER_ARGS ; fi
   - if [[ $DEPS == 'lowest' ]]; then travis_retry composer update --prefer-lowest --prefer-stable $COMPOSER_ARGS ; fi
   - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer require --dev $COMPOSER_ARGS $COVERAGE_DEPS ; fi
-  - composer show
+  - stty cols 120 && composer show
 
 script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then composer test-coverage ; else composer test ; fi
@@ -74,17 +50,7 @@ script:
   - if [[ $CS_CHECK == 'true' ]]; then composer license-check ; fi
 
 after_script:
-  - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer upload-coverage ; fi
+  - if [[ $TEST_COVERAGE == 'true' ]]; then composer upload-coverage ; fi
 
 notifications:
   email: false
-  irc:
-    channels:
-      - "irc.freenode.org#zftalk.dev"
-    on_success: change
-    on_failure: always
-  slack:
-    rooms:
-      - secure: "GS3+RkDETX42GrjKMJNQy/JJZYJawBgcOIMJZHQS0xdv2DbnEE21z/sn3d+AV10CqCicovcCjYPKgQH/aSDI2dNJf1ZnqvM5JICDl9TjBkEQC/xybm645iy0NpgC2T8yuL56agz20fsDONt+vA05X9Ytm8z+Ipy0uKXYrrsL0FlpEStaTeG3z2wk/5cww93tKLcg6QLRa6AeensrAEiz+hvNWu0OR7pEziY28tC+4F5KlZIE0s8TkJ5TZ6pvZ7pcwpK+mtxlmkOKVN93QcvBRjd1xuuRHOHN7Pmp5CiIYbTQTzruF2l1R7bnVVgfeXgWqJOxy0lH3H1gQDqj3fo7uHjm2Zg4Hr0Ev22dFM19N9+SIAELUpDoHNnuhJ/o6fpNd9VQVSgeki8YzNwJrhX5gnFtLV/4wyrmsRxdpKdtxoSINu5HyklamKiVRmbQaIuOPw1NQkOAYL4vHQIwjuwcn8YQArCwwvO4vh3yBQo0mtT9BbkajJ5R118F6jUIOYe9BVFicf+xyrVwCfxziq+jqPOHmtF7Oeb4jRASzTAZsIIVe7TkuckFCNqpRiBmNkbHOU4fZiNfGfPhsx9u0uEoD7tnurx4XFA5Xa2xnBOMQd3ZIAFGtMipnHfIgnEZ9IVNnQZv9q5Fs8/EH5MsR5GJpihEJOGKBn1E/i2mOfE+EsU="
-    on_success: change
-    on_failure: always
