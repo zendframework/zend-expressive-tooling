@@ -25,5 +25,7 @@ class ConvertOriginalMessageCallsTest extends TestCase
 
         $converter = new ConvertOriginalMessageCalls($console->reveal());
         $converter->process($path);
+
+        $this->assertExpected($path);
     }
 }
