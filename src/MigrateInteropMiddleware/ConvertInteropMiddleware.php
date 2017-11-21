@@ -98,12 +98,14 @@ class ConvertInteropMiddleware
 
         if ($middleware
             && preg_match('#class\s+[^{]+?implements\s*([^{]+?,\s*)*' . $middleware . '(\s|,|{)#i', $contents)
-            && preg_match('#public\s+function\s+process\([^\)]+?\)\s*{#', $contents, $matches)
+            && preg_match('#public\s+function\s+process\(\s*.+?,\s*.+?\s+(\$.+?)\s*\)\s*{#', $contents, $matches)
         ) {
             $ri = $this->getResponseInterface($contents);
             $replacement = preg_replace('#\)#', ') : ' . $ri, $matches[0]);
 
             $contents = str_replace($matches[0], $replacement, $contents);
+            $preg = '/' . preg_quote($matches[1], '\\') . '\s*->\s*process\(/';
+            $contents = preg_replace($preg, $matches[1] . '->handle(', $contents);
         }
 
         if ($original === $contents) {

@@ -10,6 +10,11 @@ class MyInteropMiddleware implements MiddlewareInterface
 {
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-        // do something
+        $response = $delegate->process($request);
+
+        $another = $request->getAttribute('my-attribute');
+        $another->process($request);
+
+        return $response;
     }
 }

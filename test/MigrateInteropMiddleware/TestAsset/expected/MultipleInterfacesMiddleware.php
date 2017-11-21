@@ -6,6 +6,7 @@ use Interop\Http\Server\RequestHandlerInterface as DelegateInterface;
 use Interop\Http\Server\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Zend\Diactoros\Response\JsonResponse;
 
 class MultipleInterfacesMiddleware implements
     MyInterface,
@@ -18,6 +19,10 @@ class MultipleInterfacesMiddleware implements
      * @return ResponseInterface
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate) : ResponseInterface {
-        // do something
+        if ($request->hasHeader('Custom')) {
+            return $delegate->handle($request);
+        }
+
+        return new JsonResponse(['status' => 1]);
     }
 }
