@@ -11,7 +11,7 @@ class MyClass
     {
     }
 
-    public function delegate(ServerRequestInterface $request)
+    public function handle(ServerRequestInterface $request)
     {
     }
 }

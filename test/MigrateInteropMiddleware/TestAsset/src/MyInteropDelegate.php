@@ -7,7 +7,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class MyInteropDelegate implements DelegateInterface
 {
-    public function delegate(ServerRequestInterface $request)
+    public function process(ServerRequestInterface $request)
     {
     }
 }
