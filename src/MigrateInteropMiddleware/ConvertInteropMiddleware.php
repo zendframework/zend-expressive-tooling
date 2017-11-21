@@ -85,9 +85,9 @@ class ConvertInteropMiddleware
         // if delegate and class implements delegate interface
         if ($delegate
             && preg_match('#class\s+[^{]+?implements\s*([^{]+?,\s*)*' . $delegate . '(\s|,|{)#i', $contents)
-            && preg_match('#public\s+function\s+delegate\s*\([^\)]+?\)\s*(:?)#', $contents, $matches)
+            && preg_match('#public\s+function\s+process\s*\([^\)]+?\)\s*(:?)#', $contents, $matches)
         ) {
-            $replacement = str_replace('delegate', 'handle', $matches[0]);
+            $replacement = str_replace('process', 'handle', $matches[0]);
             if ($matches[1] !== ':') {
                 $ri = $this->getResponseInterface($contents);
                 $replacement = preg_replace('#\)#', ') : ' . $ri, $replacement);
