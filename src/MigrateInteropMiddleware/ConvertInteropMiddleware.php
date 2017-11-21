@@ -43,7 +43,7 @@ class ConvertInteropMiddleware
             && $file->isWritable();
     }
 
-    private function processFile($filename) : void
+    private function processFile(string $filename) : void
     {
         $original = file_get_contents($filename);
         $contents = $original;
