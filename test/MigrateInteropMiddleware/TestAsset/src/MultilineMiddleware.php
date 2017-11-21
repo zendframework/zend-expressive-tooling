@@ -12,6 +12,6 @@ class MultilineMiddleware implements MiddlewareInterface
         ServerRequestInterface $request,
         DelegateInterface $delegate
     ) {
-        // do something
+        return $delegate->process($request);
     }
 }

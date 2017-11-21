@@ -12,6 +12,6 @@ class MultilineMiddleware implements MiddlewareInterface
         ServerRequestInterface $request,
         DelegateInterface $delegate
     ) : \Psr\Http\Message\ResponseInterface {
-        // do something
+        return $delegate->handle($request);
     }
 }
