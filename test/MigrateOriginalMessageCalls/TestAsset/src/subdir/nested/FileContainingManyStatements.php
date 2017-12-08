@@ -5,6 +5,8 @@
  * @license   https://github.com/zendframework/zend-expressive-tooling/blob/master/LICENSE.md New BSD License
  */
 
+declare(strict_types=1);
+
 $originalPath = $request->getOriginalRequest()->getUri()->getPath();
 
 $middleware = function ($req, $res, $next) {
