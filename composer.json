@@ -20,26 +20,18 @@
     "repositories": [
         {
             "type": "git",
-            "url": "https://github.com/webimpress/zend-expressive-router.git"
-        },
-        {
-            "type": "git",
             "url": "https://github.com/webimpress/zend-expressive.git"
-        },
-        {
-            "type": "git",
-            "url": "https://github.com/webimpress/zend-stratigility.git"
         }
     ],
     "require": {
         "php": "^7.1",
-        "symfony/console": "^2.8 || ^3.0",
+        "symfony/console": "^2.8 || ^3.0 || ^4.0",
         "zendframework/zend-code": "^2.6.3 || ^3.3",
         "zendframework/zend-component-installer": "^1.1",
-        "zendframework/zend-expressive": "dev-feature/psr-15 as 2.2",
-        "zendframework/zend-expressive-router": "dev-feature/psr-15 as 2.2",
+        "zendframework/zend-expressive": "dev-feature/psr-15 as 3.0",
+        "zendframework/zend-expressive-router": "^3.0.0-dev",
         "zendframework/zend-stdlib": "^3.1",
-        "zendframework/zend-stratigility": "dev-feature/psr-15 as 2.2",
+        "zendframework/zend-stratigility": "^3.0.0-dev",
         "zfcampus/zf-composer-autoloading": "^2.0"
     },
     "require-dev": {
@@ -47,7 +39,7 @@
         "mikey179/vfsStream": "^1.6.5",
         "mockery/mockery": "^1.0",
         "php-mock/php-mock-phpunit": "^2.0",
-        "phpunit/phpunit": "^6.4.4",
+        "phpunit/phpunit": "^6.4.4, <6.5",
         "zendframework/zend-coding-standard": "~1.0.0"
     },
     "autoload": {
