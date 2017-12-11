@@ -230,4 +230,25 @@ class CreateMiddlewareTest extends TestCase
             $classFileContents
         );
     }
+
+    public function testProcessThrowsExceptionIfClassAlreadyExists()
+    {
+        file_put_contents($this->projectRoot . '/composer.json', json_encode([
+            'autoload' => [
+                'psr-4' => [
+                    'App\\' => 'src/App/',
+                ],
+            ],
+        ]));
+
+        vfsStream::newDirectory('src/App/Foo', 0775)->at($this->dir);
+        file_put_contents($this->projectRoot . '/src/App/Foo/BarMiddleware.php', 'App\Foo\BarMiddleware');
+
+        $generator = new CreateMiddleware();
+
+        $this->expectException(CreateMiddlewareException::class);
+        $this->expectExceptionMessage('Class BarMiddleware already exists');
+
+        $generator->process('App\Foo\BarMiddleware', $this->projectRoot);
+    }
 }
