@@ -8,6 +8,10 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - Nothing.
 
+### Changed
+
+- Nothing.
+
 ### Deprecated
 
 - Nothing.
@@ -18,7 +22,10 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#31](https://github.com/zendframework/zend-expressive-tooling/pull/31)
+  provides fixes to the various generators such that they will now throw
+  exceptions if the middleware they are attempting to create already exist on
+  the filesystem.
 
 ## 0.4.4 - 2017-05-09
 
