@@ -1,22 +1,22 @@
 {
     "name": "zendframework/zend-expressive-tooling",
     "description": "Migration and development tooling for Expressive",
-    "type": "library",
     "license": "BSD-3-Clause",
     "keywords": [
         "http",
         "middleware",
         "psr",
-        "psr-7"
+        "psr-7",
+        "zf",
+        "zendframework",
+        "zend-expressive"
     ],
-    "config": {
-        "sort-packages": true
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "0.4.x-dev",
-            "dev-release-1.0.0": "1.0.x-dev"
-        }
+    "support": {
+        "issues": "https://github.com/zendframework/zend-expressive-tooling/issues",
+        "source": "https://github.com/zendframework/zend-expressive-tooling",
+        "rss": "https://github.com/zendframework/zend-expressive-tooling/releases.atom",
+        "slack": "https://zendframework-slack.herokuapp.com",
+        "forum": "https://discourse.zendframework.com/c/questions/expressive"
     },
     "require": {
         "php": "^5.6 || ^7.0",
@@ -30,21 +30,30 @@
     },
     "require-dev": {
         "malukenho/docheader": "^0.1.5",
-        "mikey179/vfsStream": "^1.6.4",
-        "mockery/mockery": "^0.9.8",
-        "php-mock/php-mock-phpunit": "^2.0 || ^1.1.2",
-        "phpunit/phpunit": "^6.0.7 || ^5.7.14",
+        "mikey179/vfsStream": "^1.6.5",
+        "mockery/mockery": "^1.0",
+        "php-mock/php-mock-phpunit": "^1.1.2 || ^2.0",
+        "phpunit/phpunit": "^5.7.23 || ^6.4.3",
         "zendframework/zend-coding-standard": "~1.0.0"
     },
     "autoload": {
-      "psr-4": {
-        "Zend\\Expressive\\Tooling\\": "src/"
-      }
+        "psr-4": {
+            "Zend\\Expressive\\Tooling\\": "src/"
+        }
     },
     "autoload-dev": {
-      "psr-4": {
-        "ZendTest\\Expressive\\Tooling\\": "test/"
-      }
+        "psr-4": {
+            "ZendTest\\Expressive\\Tooling\\": "test/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.4.x-dev",
+            "dev-release-1.0.0": "1.0.x-dev"
+        }
     },
     "bin": [
         "bin/expressive",
@@ -61,9 +70,9 @@
         ],
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
-        "license-check": "vendor/bin/docheader check src/",
         "test": "phpunit --colors=always",
-        "test-coverage": "phpunit --coverage-clover clover.xml",
-        "upload-coverage": "coveralls -v"
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
+        "upload-coverage": "coveralls -v",
+        "license-check": "docheader check src/"
     }
 }
