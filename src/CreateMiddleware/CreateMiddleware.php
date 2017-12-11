@@ -58,6 +58,10 @@ EOS;
             self::CLASS_SKELETON
         );
 
+        if (is_file($path)) {
+            throw CreateMiddlewareException::classExists($path, $class);
+        }
+
         file_put_contents($path, $content);
         return $path;
     }
@@ -135,7 +139,6 @@ EOS;
      */
     private function discoverNamespaceAndPath($class, array $autoloaders)
     {
-        $discoveredPath = false;
         foreach ($autoloaders as $namespace => $path) {
             if (0 === strpos($class, $namespace)) {
                 $path = trim(

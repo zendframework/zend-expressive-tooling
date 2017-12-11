@@ -19,6 +19,8 @@ final class CommandCommonOptions
 {
     /**
      * Add default arguments and options used by all commands.
+     *
+     * @param Command $command
      */
     public static function addDefaultOptionsAndArguments(Command $command)
     {
