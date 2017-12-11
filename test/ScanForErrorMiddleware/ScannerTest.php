@@ -13,7 +13,7 @@ use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
-use Prophecy\Prophecy\ProphecyInterface;
+use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\Console\Output\OutputInterface;
 use Zend\Expressive\Tooling\ScanForErrorMiddleware\ErrorMiddlewareFilter;
 use Zend\Expressive\Tooling\ScanForErrorMiddleware\Scanner;
@@ -90,7 +90,7 @@ EOC;
     /** @var string */
     private $path;
 
-    /** @var ConsoleHelper|ProphecyInterface */
+    /** @var OutputInterface|ObjectProphecy */
     private $console;
 
     /** @var Scanner */
