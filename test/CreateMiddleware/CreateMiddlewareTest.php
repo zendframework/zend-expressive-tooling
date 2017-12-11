@@ -251,4 +251,28 @@ class CreateMiddlewareTest extends TestCase
 
         $generator->process('App\Foo\BarMiddleware', $this->projectRoot);
     }
+
+    public function testTheClassSkeletonParameterOverridesTheConstant()
+    {
+        file_put_contents($this->projectRoot . '/composer.json', json_encode([
+            'autoload' => [
+                'psr-4' => [
+                    'App\\' => 'src/App/',
+                    'Foo\\' => 'src/Foo/',
+                ],
+            ],
+        ]));
+        vfsStream::newDirectory('src/Foo/src', 0775)->at($this->dir);
+
+        $generator = new CreateMiddleware();
+
+        $expectedPath = vfsStream::url('project/src/Foo/Bar/BazMiddleware.php');
+        $this->assertEquals(
+            $expectedPath,
+            $generator->process('Foo\Bar\BazMiddleware', $this->projectRoot, 'class Foo\Bar\BazMiddleware')
+        );
+
+        $classFileContents = file_get_contents($expectedPath);
+        $this->assertContains('class Foo\Bar\BazMiddleware', $classFileContents);
+    }
 }
