@@ -6,7 +6,10 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- [#32](https://github.com/zendframework/zend-expressive-tooling/pull/32) adds a
+  new argument to `CreateMiddleware::process()`, `$classSkeleton`; if provided,
+  the value will be used as the skeleton for a new middleware class to generate,
+  instead of the default provided with the tooling.
 
 ### Changed
 
