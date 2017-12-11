@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 1.0.0alpha1 - TBD
+
+### Added
+
+- [#39](https://github.com/zendframework/zend-expressive-tooling/pull/39) adds
+  support for PSR-15.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- [#39](https://github.com/zendframework/zend-expressive-tooling/pull/39)
+  removes support for http-interop/http-middleware.
+
+- [#39](https://github.com/zendframework/zend-expressive-tooling/pull/39)
+  removes support for PHP versions prior to PHP 7.1.
+
+### Fixed
+
+- Nothing.
+
 ## 0.4.5 - 2017-12-11
 
 ### Added
