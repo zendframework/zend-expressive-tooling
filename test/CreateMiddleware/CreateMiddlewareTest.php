@@ -1,9 +1,11 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-expressive-tooling for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-tooling/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace ZendTest\Expressive\Tooling\CreateMiddleware;
 
@@ -136,7 +138,8 @@ class CreateMiddlewareTest extends TestCase
         $this->assertRegexp('#^namespace Foo;$#m', $classFileContents);
         $this->assertRegexp('#^class BarMiddleware implements MiddlewareInterface$#m', $classFileContents);
         $this->assertRegexp(
-            '#^\s{4}public function process\(ServerRequestInterface \$request, DelegateInterface \$delegate\)$#m',
+            '#^\s{4}public function process\(ServerRequestInterface \$request,'
+                . ' RequestHandlerInterface \$handler\) : ResponseInterface$#m',
             $classFileContents
         );
     }
@@ -166,7 +169,8 @@ class CreateMiddlewareTest extends TestCase
         $this->assertRegexp('#^namespace Foo\\\\Bar;$#m', $classFileContents);
         $this->assertRegexp('#^class BazMiddleware implements MiddlewareInterface$#m', $classFileContents);
         $this->assertRegexp(
-            '#^\s{4}public function process\(ServerRequestInterface \$request, DelegateInterface \$delegate\)$#m',
+            '#^\s{4}public function process\(ServerRequestInterface \$request,'
+                . ' RequestHandlerInterface \$handler\) : ResponseInterface$#m',
             $classFileContents
         );
     }
@@ -196,7 +200,8 @@ class CreateMiddlewareTest extends TestCase
         $this->assertRegexp('#^namespace Foo;$#m', $classFileContents);
         $this->assertRegexp('#^class BarMiddleware implements MiddlewareInterface$#m', $classFileContents);
         $this->assertRegexp(
-            '#^\s{4}public function process\(ServerRequestInterface \$request, DelegateInterface \$delegate\)$#m',
+            '#^\s{4}public function process\(ServerRequestInterface \$request,'
+                . ' RequestHandlerInterface \$handler\) : ResponseInterface$#m',
             $classFileContents
         );
     }
@@ -226,7 +231,8 @@ class CreateMiddlewareTest extends TestCase
         $this->assertRegexp('#^namespace Foo\\\\Bar;$#m', $classFileContents);
         $this->assertRegexp('#^class BazMiddleware implements MiddlewareInterface$#m', $classFileContents);
         $this->assertRegexp(
-            '#^\s{4}public function process\(ServerRequestInterface \$request, DelegateInterface \$delegate\)$#m',
+            '#^\s{4}public function process\(ServerRequestInterface \$request,'
+                . ' RequestHandlerInterface \$handler\) : ResponseInterface$#m',
             $classFileContents
         );
     }

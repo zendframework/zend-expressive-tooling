@@ -21,6 +21,8 @@ $ composer require --dev zendframework/zend-expressive-tooling
   - **middleware:create**: Create an http-interop middleware class file.
   - **migrate:error-middleware-scanner**: Scan for legacy error middleware or
     error middleware invocation.
+  - **migrate:interop-middleware**: Migrate interop middlewares and delegators
+    to PSR-15 middlewares and request handlers.
   - **migrate:original-messages**: Migrate getOriginal*() calls to request
     attributes.
   - **migrate:pipeline**: Generate a programmatic pipeline and routes from

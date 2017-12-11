@@ -4,9 +4,11 @@
  * Wrapper for all other commands
  *
  * @see       https://github.com/zendframework/zend-expressive-tooling for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-tooling/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Expressive\Tooling;
 
@@ -30,6 +32,7 @@ $application = new Application('expressive', VERSION);
 $application->addCommands([
     new CreateMiddleware\CreateMiddlewareCommand('middleware:create'),
     new GenerateProgrammaticPipelineFromConfig\PipelineFromConfigCommand('migrate:pipeline'),
+    new MigrateInteropMiddleware\MigrateInteropMiddlewareCommand('migrate:interop-middleware'),
     new MigrateOriginalMessageCalls\MigrateOriginalMessageCallsCommand('migrate:original-messages'),
     new ScanForErrorMiddleware\ScanForErrorMiddlewareCommand('migrate:error-middleware-scanner'),
     new Module\CreateCommand('module:create'),

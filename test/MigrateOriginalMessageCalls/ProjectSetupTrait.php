@@ -1,13 +1,16 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-expressive-tooling for the canonical source repository
- * @copyright Copyright (c) 2016 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2016-2017 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-tooling/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace ZendTest\Expressive\Tooling\MigrateOriginalMessageCalls;
 
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\Assert;
 use Prophecy\Argument;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -69,5 +72,25 @@ trait ProjectSetupTrait
             ->shouldBeCalled();
 
         return $console;
+    }
+
+    public function assertExpected(string $dir)
+    {
+        $base = $dir;
+        $rdi = new RecursiveDirectoryIterator($dir);
+        $rii = new RecursiveIteratorIterator($rdi);
+
+        /** @var SplFileInfo $file */
+        foreach ($rii as $file) {
+            if (! $this->isPhpFile($file)) {
+                continue;
+            }
+
+            $filename = $file->getPathname();
+            $content = file_get_contents($filename);
+            $name = strtr($filename, [$base . '/src' => __DIR__ . '/TestAsset/expected', DIRECTORY_SEPARATOR => '/']);
+
+            Assert::assertSame(file_get_contents($name), $content);
+        }
     }
 }
