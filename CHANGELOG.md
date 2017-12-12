@@ -9,6 +9,10 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#39](https://github.com/zendframework/zend-expressive-tooling/pull/39) adds
   support for PSR-15.
 
+- [#39](https://github.com/zendframework/zend-expressive-tooling/pull/39) adds
+  new tool: **migrate:interop-middleware**: Migrate interop middlewares and
+  delegators to PSR-15 middlewares and request handlers.
+
 ### Changed
 
 - Nothing.
