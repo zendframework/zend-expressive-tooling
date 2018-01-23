@@ -9,15 +9,14 @@ declare(strict_types=1);
 
 namespace ZendTest\Expressive\Tooling\MigrateOriginalMessageCalls;
 
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Mockery;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use ReflectionMethod;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Zend\Expressive\Tooling\MigrateOriginalMessageCalls\ArgvException;
 use Zend\Expressive\Tooling\MigrateOriginalMessageCalls\ConvertOriginalMessageCalls;
 use Zend\Expressive\Tooling\MigrateOriginalMessageCalls\MigrateOriginalMessageCallsCommand;
