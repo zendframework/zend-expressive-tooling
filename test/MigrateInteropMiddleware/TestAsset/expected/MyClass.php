@@ -2,7 +2,7 @@
 
 namespace ZendTest\Expressive\Tooling\MigrateInteropMiddleware\TestAsset;
 
-use Interop\Http\Server\RequestHandlerInterface as Handler;
+use Psr\Http\Server\RequestHandlerInterface as Handler;
 use Psr\Http\Message\ServerRequestInterface;
 
 class MyClass

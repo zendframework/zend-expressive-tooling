@@ -61,6 +61,9 @@ trait ProjectSetupTrait
             ->writeln(Argument::containingString('src/MultipleInterfacesMiddleware.php'))
             ->shouldBeCalled();
         $console
+            ->writeln(Argument::containingString('src/MyClass.php'))
+            ->shouldBeCalled();
+        $console
             ->writeln(Argument::containingString('src/MyInteropDelegate.php'))
             ->shouldBeCalled();
         $console
