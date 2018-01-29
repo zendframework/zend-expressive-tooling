@@ -2,11 +2,12 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 0.4.6 - TBD
+## 0.4.6 - 2018-01-29
 
 ### Added
 
-- Nothing.
+- [#46](https://github.com/zendframework/zend-expressive-tooling/pull/46) adds
+  compatibility with symfony/console `^4.0`.
 
 ### Changed
 
@@ -22,8 +23,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#46](https://github.com/zendframework/zend-expressive-tooling/pull/46) allows
-  installation of symfony/console ^4.0.
+- Nothing.
 
 ## 0.4.5 - 2017-12-11
 
