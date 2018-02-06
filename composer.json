@@ -62,7 +62,6 @@
         "bin/expressive",
         "bin/expressive-migrate-original-messages",
         "bin/expressive-module",
-        "bin/expressive-pipeline-from-config",
         "bin/expressive-scan-for-error-middleware"
     ],
     "scripts": {
