@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "05087359637e6aea2af1fb1de1a84739",
+    "content-hash": "15786d58bf4a9559adc22dcac54e1109",
     "packages": [
         {
             "name": "fig/http-message-util",
@@ -443,21 +443,21 @@
         },
         {
             "name": "zendframework/zend-component-installer",
-            "version": "1.1.1",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-component-installer.git",
-                "reference": "5e9beda3b81d29d4d080b110d67f8c8c44d93605"
+                "reference": "5000ba93c270ab8b59b6f582e2d566aedf8ba065"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-component-installer/zipball/5e9beda3b81d29d4d080b110d67f8c8c44d93605",
-                "reference": "5e9beda3b81d29d4d080b110d67f8c8c44d93605",
+                "url": "https://api.github.com/repos/zendframework/zend-component-installer/zipball/5000ba93c270ab8b59b6f582e2d566aedf8ba065",
+                "reference": "5000ba93c270ab8b59b6f582e2d566aedf8ba065",
                 "shasum": ""
             },
             "require": {
                 "composer-plugin-api": "^1.0",
-                "php": "^5.6 || ^7.0"
+                "php": "^7.1"
             },
             "require-dev": {
                 "composer/composer": "^1.5.2",
@@ -469,8 +469,8 @@
             "type": "composer-plugin",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1-dev",
-                    "dev-develop": "1.2-dev"
+                    "dev-master": "2.0.x-dev",
+                    "dev-develop": "2.1.x-dev"
                 },
                 "class": "Zend\\ComponentInstaller\\ComponentInstaller"
             },
@@ -491,7 +491,7 @@
                 "plugin",
                 "zf"
             ],
-            "time": "2018-01-11T15:03:06+00:00"
+            "time": "2018-02-06T17:12:45+00:00"
         },
         {
             "name": "zendframework/zend-diactoros",
