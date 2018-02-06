@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace ZendTest\Expressive\Tooling\MigrateInteropMiddleware;
 
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Mockery;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
