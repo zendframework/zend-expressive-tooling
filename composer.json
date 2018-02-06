@@ -59,10 +59,7 @@
         }
     },
     "bin": [
-        "bin/expressive",
-        "bin/expressive-migrate-original-messages",
-        "bin/expressive-module",
-        "bin/expressive-scan-for-error-middleware"
+        "bin/expressive"
     ],
     "scripts": {
         "check": [
