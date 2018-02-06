@@ -14,7 +14,7 @@ namespace Zend\Expressive\Tooling;
 
 use Symfony\Component\Console\Application;
 
-const VERSION = '1.0.0alpha1';
+const VERSION = '%version%';
 
 // Setup/verify autoloading
 if (file_exists($a = __DIR__ . '/../../../autoload.php')) {
