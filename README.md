@@ -23,8 +23,6 @@ $ composer require --dev zendframework/zend-expressive-tooling
     error middleware invocation.
   - **migrate:interop-middleware**: Migrate interop middlewares and delegators
     to PSR-15 middlewares and request handlers.
-  - **migrate:original-messages**: Migrate getOriginal*() calls to request
-    attributes.
   - **module:create**: Create and register a middleware module with the
     application.
   - **module:deregister**: Deregister a middleware module from the application.
