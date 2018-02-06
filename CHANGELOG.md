@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 1.0.0alpha2 - 2018-02-06
+
+### Added
+
+- Adds support for zend-component-installer `^2.0`.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Removes support for zend-component-installer `^1.1`.
+
+### Fixed
+
+- Nothing.
+
 ## 1.0.0alpha1 - 2018-02-06
 
 ### Added
