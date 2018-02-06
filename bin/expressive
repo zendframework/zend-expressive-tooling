@@ -32,7 +32,6 @@ $application = new Application('expressive', VERSION);
 $application->addCommands([
     new CreateMiddleware\CreateMiddlewareCommand('middleware:create'),
     new MigrateInteropMiddleware\MigrateInteropMiddlewareCommand('migrate:interop-middleware'),
-    new ScanForErrorMiddleware\ScanForErrorMiddlewareCommand('migrate:error-middleware-scanner'),
     new Module\CreateCommand('module:create'),
     new Module\DeregisterCommand('module:deregister'),
     new Module\RegisterCommand('module:register'),
