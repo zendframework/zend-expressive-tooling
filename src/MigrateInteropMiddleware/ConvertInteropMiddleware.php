@@ -1,7 +1,7 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-expressive-tooling for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (https://www.zend.com)
+ * @copyright Copyright (c) 2017-2018 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-tooling/blob/master/LICENSE.md New BSD License
  */
 
@@ -52,19 +52,21 @@ class ConvertInteropMiddleware
 
         $delegate = null;
         if (preg_match(
-            '#use\s+Interop\\\\Http\\\\ServerMiddleware\\\\DelegateInterface(\s*)(;|as\s*([^; ]+)\s*;)#',
+            // @codingStandardsIgnoreStart
+            '#use\s+Interop\\\\Http\\\\Server(Middleware)?\\\\(DelegateInterface|RequestHandlerInterface)(\s*)(;|as\s*([^; ]+)\s*;)#',
+            // @codingStandardsIgnoreEnd
             $contents,
             $matches
         )) {
-            $delegate = $matches[2] === ';' ? 'DelegateInterface' : $matches[3];
+            $delegate = $matches[4] === ';' ? $matches[2] : $matches[5];
 
-            $replacement = $matches[2] === ';'
-                ? ' as DelegateInterface;'
-                : $matches[1] . $matches[2];
+            $replacement = $matches[4] === ';'
+                ? sprintf(' as %s;', $matches[2])
+                : $matches[3] . $matches[4];
 
             $contents = str_replace(
                 $matches[0],
-                'use Interop\\Http\\Server\\RequestHandlerInterface' . $replacement,
+                'use Psr\\Http\\Server\\RequestHandlerInterface' . $replacement,
                 $contents
             );
         }
@@ -79,7 +81,7 @@ class ConvertInteropMiddleware
 
             $contents = str_replace(
                 $matches[0],
-                'use Interop\\Http\\Server\\MiddlewareInterface' . $matches[1] . $matches[2],
+                'use Psr\\Http\\Server\\MiddlewareInterface' . $matches[1] . $matches[2],
                 $contents
             );
         }

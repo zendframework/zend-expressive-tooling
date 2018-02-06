@@ -10,10 +10,10 @@ declare(strict_types=1);
 namespace Zend\Expressive\Tooling\Module;
 
 use Symfony\Component\Console\Command\Command;
-use Zend\ComponentInstaller\Injector\ConfigAggregatorInjector;
-use Zend\ComponentInstaller\Injector\InjectorInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Zend\ComponentInstaller\Injector\ConfigAggregatorInjector;
+use Zend\ComponentInstaller\Injector\InjectorInterface;
 use ZF\ComposerAutoloading\Command\Enable;
 
 class RegisterCommand extends Command

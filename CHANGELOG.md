@@ -2,16 +2,20 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 1.0.0alpha1 - TBD
+## 1.0.0alpha1 - 2018-02-06
 
 ### Added
 
-- [#39](https://github.com/zendframework/zend-expressive-tooling/pull/39) adds
-  support for PSR-15.
+- [#39](https://github.com/zendframework/zend-expressive-tooling/pull/39) and
+  [#44](https://github.com/zendframework/zend-expressive-tooling/pull/44) add
+  support for PSR-15. The `expressive middleware:create` command will now
+  generate PSR-15 middleware.
 
-- [#39](https://github.com/zendframework/zend-expressive-tooling/pull/39) adds
-  new tool: **migrate:interop-middleware**: Migrate interop middleware and
-  delegators to PSR-15 middleware and request handlers.
+- [#39](https://github.com/zendframework/zend-expressive-tooling/pull/39) and
+  [#44](https://github.com/zendframework/zend-expressive-tooling/pull/44) add
+  a new tool: `expressive migrate:interop-middleware`. This tool will migrate
+  existing http-interop middleware, delegators, and/or request handlers of any
+  version to PSR-15 middleware and request handlers.
 
 ### Changed
 
@@ -28,6 +32,18 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#39](https://github.com/zendframework/zend-expressive-tooling/pull/39)
   removes support for PHP versions prior to PHP 7.1.
+
+- [#47](https://github.com/zendframework/zend-expressive-tooling/pull/47)
+  removes a number of legacy commands built to help migration from Expressive
+  version 1 to version 2, as they are no longer compatible with dependencies
+  against with this version works. These commands include:
+
+  - `expressive migrate:pipeline-from-config`
+  - `expressive migrate:original-messages`
+  - `expressive migrate:error-middleware-scanner`
+
+- [#47](https://github.com/zendframework/zend-expressive-tooling/pull/47)
+  removes all scripts other than `expressive` from the package definition.
 
 ### Fixed
 
