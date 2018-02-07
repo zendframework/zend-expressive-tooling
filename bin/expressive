@@ -30,6 +30,7 @@ if (file_exists($a = __DIR__ . '/../../../autoload.php')) {
 
 $application = new Application('expressive', VERSION);
 $application->addCommands([
+    new CreateHandler\CreateHandlerCommand('handler:create'),
     new CreateMiddleware\CreateMiddlewareCommand('middleware:create'),
     new MigrateInteropMiddleware\MigrateInteropMiddlewareCommand('migrate:interop-middleware'),
     new Module\CreateCommand('module:create'),
