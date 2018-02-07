@@ -1,31 +1,31 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-expressive-tooling for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (https://www.zend.com)
+ * @copyright Copyright (c) 2018 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-tooling/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace Zend\Expressive\Tooling\CreateMiddleware;
+namespace Zend\Expressive\Tooling\CreateHandler;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CreateMiddlewareCommand extends Command
+class CreateHandlerCommand extends Command
 {
     const DEFAULT_SRC = '/src';
 
     const HELP = <<< 'EOT'
-Creates a PSR-15 middleware class file named after the provided class. For a
-path, it matches the class namespace against PSR-4 autoloader namespaces in
-your composer.json.
+Creates a PSR-15 request handler class file named after the provided
+class. For a path, it matches the class namespace against PSR-4 autoloader
+namespaces in your composer.json.
 EOT;
 
-    const HELP_ARG_MIDDLEWARE = <<< 'EOT'
-Fully qualified class name of the middleware to create. This value
+    const HELP_ARG_HANDLER = <<< 'EOT'
+Fully qualified class name of the request handler to create. This value
 should be quoted to ensure namespace separators are not interpreted as
 escape sequences by your shell.
 EOT;
@@ -35,9 +35,9 @@ EOT;
      */
     protected function configure()
     {
-        $this->setDescription('Create a PSR-15 middleware class file.');
+        $this->setDescription('Create a PSR-15 request handler class file.');
         $this->setHelp(self::HELP);
-        $this->addArgument('middleware', InputArgument::REQUIRED, self::HELP_ARG_MIDDLEWARE);
+        $this->addArgument('handler', InputArgument::REQUIRED, self::HELP_ARG_HANDLER);
     }
 
     /**
@@ -49,17 +49,17 @@ EOT;
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $middleware = $input->getArgument('middleware');
+        $handler = $input->getArgument('handler');
 
-        $output->writeln(sprintf('<info>Creating middleware %s...</info>', $middleware));
+        $output->writeln(sprintf('<info>Creating request handler %s...</info>', $handler));
 
-        $generator = new CreateMiddleware();
-        $path = $generator->process($middleware);
+        $generator = new CreateHandler();
+        $path = $generator->process($handler);
 
         $output->writeln('<info>Success!</info>');
         $output->writeln(sprintf(
             '<info>- Created class %s, in file %s</info>',
-            $middleware,
+            $handler,
             $path
         ));
 

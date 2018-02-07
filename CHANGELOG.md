@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 1.0.0alpha3 - 2018-02-07
+
+### Added
+
+- [#48](https://github.com/zendframework/zend-expressive-tooling/pull/48) adds a
+  new command, `expressive handler:create`, which will create a PSR-15 request
+  handler using the class name provided.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#48](https://github.com/zendframework/zend-expressive-tooling/pull/48) fixes
+  the description of the `expressive middleware:create` command to reference
+  PSR-15 instead of http-interop.
+
 ## 1.0.0alpha2 - 2018-02-06
 
 ### Added

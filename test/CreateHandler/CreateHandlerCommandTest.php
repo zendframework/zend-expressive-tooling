@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace ZendTest\Expressive\Tooling\CreateMiddleware;
+namespace ZendTest\Expressive\Tooling\CreateHandler;
 
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
@@ -16,15 +16,15 @@ use Prophecy\Argument;
 use ReflectionMethod;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
-use Zend\Expressive\Tooling\CreateMiddleware\CreateMiddleware;
-use Zend\Expressive\Tooling\CreateMiddleware\CreateMiddlewareCommand;
-use Zend\Expressive\Tooling\CreateMiddleware\CreateMiddlewareException;
+use Zend\Expressive\Tooling\CreateHandler\CreateHandler;
+use Zend\Expressive\Tooling\CreateHandler\CreateHandlerCommand;
+use Zend\Expressive\Tooling\CreateHandler\CreateHandlerException;
 
 /**
  * @runTestsInSeparateProcesses
  * @preserveGlobalState disabled
  */
-class CreateMiddlewareCommandTest extends TestCase
+class CreateHandlerCommandTest extends TestCase
 {
     use MockeryPHPUnitIntegration;
 
@@ -33,7 +33,7 @@ class CreateMiddlewareCommandTest extends TestCase
         $this->input = $this->prophesize(InputInterface::class);
         $this->output = $this->prophesize(ConsoleOutputInterface::class);
 
-        $this->command = new CreateMiddlewareCommand('middleware:create');
+        $this->command = new CreateHandlerCommand('handler:create');
     }
 
     private function reflectExecuteMethod()
@@ -45,40 +45,40 @@ class CreateMiddlewareCommandTest extends TestCase
 
     public function testConfigureSetsExpectedDescription()
     {
-        $this->assertContains('Create a PSR-15 middleware', $this->command->getDescription());
+        $this->assertContains('Create a PSR-15 request handler', $this->command->getDescription());
     }
 
     public function testConfigureSetsExpectedHelp()
     {
-        $this->assertEquals(CreateMiddlewareCommand::HELP, $this->command->getHelp());
+        $this->assertEquals(CreateHandlerCommand::HELP, $this->command->getHelp());
     }
 
     public function testConfigureSetsExpectedArguments()
     {
         $definition = $this->command->getDefinition();
-        $this->assertTrue($definition->hasArgument('middleware'));
-        $argument = $definition->getArgument('middleware');
+        $this->assertTrue($definition->hasArgument('handler'));
+        $argument = $definition->getArgument('handler');
         $this->assertTrue($argument->isRequired());
-        $this->assertEquals(CreateMiddlewareCommand::HELP_ARG_MIDDLEWARE, $argument->getDescription());
+        $this->assertEquals(CreateHandlerCommand::HELP_ARG_HANDLER, $argument->getDescription());
     }
 
     public function testSuccessfulExecutionEmitsExpectedMessages()
     {
-        $generator = Mockery::mock('overload:' . CreateMiddleware::class);
+        $generator = Mockery::mock('overload:' . CreateHandler::class);
         $generator->shouldReceive('process')
             ->once()
-            ->with('Foo\TestMiddleware')
+            ->with('Foo\TestHandler')
             ->andReturn(__DIR__);
 
-        $this->input->getArgument('middleware')->willReturn('Foo\TestMiddleware');
+        $this->input->getArgument('handler')->willReturn('Foo\TestHandler');
         $this->output
-            ->writeln(Argument::containingString('Creating middleware Foo\TestMiddleware'))
+            ->writeln(Argument::containingString('Creating request handler Foo\TestHandler'))
             ->shouldBeCalled();
         $this->output
             ->writeln(Argument::containingString('Success'))
             ->shouldBeCalled();
         $this->output
-            ->writeln(Argument::containingString('Created class Foo\TestMiddleware, in file ' . __DIR__))
+            ->writeln(Argument::containingString('Created class Foo\TestHandler, in file ' . __DIR__))
             ->shouldBeCalled();
 
         $method = $this->reflectExecuteMethod();
@@ -90,17 +90,17 @@ class CreateMiddlewareCommandTest extends TestCase
         ));
     }
 
-    public function testAllowsExceptionsRaisedFromCreateMiddlewareToBubbleUp()
+    public function testAllowsExceptionsRaisedFromCreateHandlerToBubbleUp()
     {
-        $generator = Mockery::mock('overload:' . CreateMiddleware::class);
+        $generator = Mockery::mock('overload:' . CreateHandler::class);
         $generator->shouldReceive('process')
             ->once()
-            ->with('Foo\TestMiddleware')
-            ->andThrow(CreateMiddlewareException::class, 'ERROR THROWN');
+            ->with('Foo\TestHandler')
+            ->andThrow(CreateHandlerException::class, 'ERROR THROWN');
 
-        $this->input->getArgument('middleware')->willReturn('Foo\TestMiddleware');
+        $this->input->getArgument('handler')->willReturn('Foo\TestHandler');
         $this->output
-            ->writeln(Argument::containingString('Creating middleware Foo\TestMiddleware'))
+            ->writeln(Argument::containingString('Creating request handler Foo\TestHandler'))
             ->shouldBeCalled();
 
         $this->output
@@ -109,7 +109,7 @@ class CreateMiddlewareCommandTest extends TestCase
 
         $method = $this->reflectExecuteMethod();
 
-        $this->expectException(CreateMiddlewareException::class);
+        $this->expectException(CreateHandlerException::class);
         $this->expectExceptionMessage('ERROR THROWN');
 
         $method->invoke(
