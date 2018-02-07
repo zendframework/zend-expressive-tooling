@@ -45,7 +45,7 @@ class CreateMiddlewareCommandTest extends TestCase
 
     public function testConfigureSetsExpectedDescription()
     {
-        $this->assertContains('Create an http-interop middleware', $this->command->getDescription());
+        $this->assertContains('Create a PSR-15 middleware', $this->command->getDescription());
     }
 
     public function testConfigureSetsExpectedHelp()

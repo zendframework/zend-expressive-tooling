@@ -18,23 +18,10 @@ class CreateMiddlewareCommand extends Command
 {
     const DEFAULT_SRC = '/src';
 
-    const TEMPLATE_RESPONSE_DETAILS = <<< 'EOT'
-To correct these files, look for a request argument, and update the
-following calls ($response may be a different variable):
-
-    $response->getOriginalResponse()
-
-to:
-
-    $request->getAttribute('originalResponse', $response)
-
-($request may be a different variable)
-EOT;
-
     const HELP = <<< 'EOT'
-Creates an http-interop middleware class file named after the provided
-class. For a path, it matches the class namespace against PSR-4 autoloader
-namespaces in your composer.json.
+Creates a PSR-15 middleware class file named after the provided class. For a
+path, it matches the class namespace against PSR-4 autoloader namespaces in
+your composer.json.
 EOT;
 
     const HELP_ARG_MIDDLEWARE = <<< 'EOT'
@@ -48,7 +35,7 @@ EOT;
      */
     protected function configure()
     {
-        $this->setDescription('Create an http-interop middleware class file.');
+        $this->setDescription('Create a PSR-15 middleware class file.');
         $this->setHelp(self::HELP);
         $this->addArgument('middleware', InputArgument::REQUIRED, self::HELP_ARG_MIDDLEWARE);
     }
