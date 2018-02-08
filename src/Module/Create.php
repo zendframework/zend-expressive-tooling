@@ -65,9 +65,7 @@ class ConfigProvider
     {
         return [
             'paths' => [
-                'app'    => [__DIR__ . '/../templates/app'],
-                'error'  => [__DIR__ . '/../templates/error'],
-                'layout' => [__DIR__ . '/../templates/layout'],
+                '%2$s'    => [__DIR__ . '/../templates/'],
             ],
         ];
     }
@@ -124,10 +122,11 @@ EOT;
             ));
         }
 
-        if (! mkdir($modulePath . '/templates')) {
+        $templatePath = sprintf('%s/templates', $modulePath);
+        if (! mkdir($templatePath)) {
             throw new Exception\RuntimeException(sprintf(
-                'Module templates directory "%s/templates" cannot be created',
-                $modulePath
+                'Module templates directory "%s" cannot be created',
+                $templatePath
             ));
         }
     }
@@ -145,8 +144,20 @@ EOT;
             sprintf('%s/src/ConfigProvider.php', $modulePath),
             sprintf(
                 self::TEMPLATE_CONFIG_PROVIDER,
-                $moduleName
+                $moduleName,
+                $this->createTemplateNamespace($moduleName)
             )
         );
+    }
+
+    /**
+     * @param string $moduleName
+     * @return string
+     */
+    private function createTemplateNamespace($moduleName)
+    {
+        $namespace = str_replace('\\', '-', $moduleName);
+        $namespace = strtolower($namespace);
+        return $namespace;
     }
 }

@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 1.0.0alpha4 - TBD
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#49](https://github.com/zendframework/zend-expressive-tooling/pull/49) fixes
+  how the `module:create` command generates template configuration. It no longer
+  produces "layout" and "error" configuration, and renames the "app"
+  template namespace to a normalized version of the module name generated.
+
 ## 1.0.0alpha3 - 2018-02-07
 
 ### Added
