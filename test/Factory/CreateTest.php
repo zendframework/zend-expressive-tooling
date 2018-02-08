@@ -15,6 +15,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Zend\Expressive\Tooling\Factory\ClassNotFoundException;
 use Zend\Expressive\Tooling\Factory\Create;
+use Zend\Expressive\Tooling\Factory\FactoryAlreadyExistsException;
 use Zend\Expressive\Tooling\Factory\FactoryClassGenerator;
 use Zend\Expressive\Tooling\Factory\FactoryWriteException;
 
@@ -42,6 +43,19 @@ class CreateTest extends TestCase
         $class = __CLASS__ . '\NotFound';
         $this->expectException(ClassNotFoundException::class);
         $this->factory->createForClass($class);
+    }
+
+    /**
+     * @runInSeparateProcess
+     */
+    public function testRaisesExceptionWhenFactoryClassFileAlreadyExists()
+    {
+        require $this->projectRoot . '/TestClass.php';
+        $className = 'TestHarness\NotReal\TestClass';
+        file_put_contents($this->projectRoot . '/TestClassFactory.php', '');
+
+        $this->expectException(FactoryAlreadyExistsException::class);
+        $this->factory->createForClass($className);
     }
 
     /**

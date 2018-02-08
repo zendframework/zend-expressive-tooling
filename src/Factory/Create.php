@@ -25,6 +25,8 @@ class Create
 
     /**
      * @return string Filename where factory was created
+     * @throws FactoryAlreadyExistsException if a matching factory class file
+     *     already exists in the filesystem
      * @throws ClassNotFoundException if the class cannot be autoloaded
      * @throws FactoryWriteException if unable to write the factory class file
      */
@@ -34,17 +36,21 @@ class Create
             throw ClassNotFoundException::forClassName($className);
         }
 
-        $factory = $this->generator->createFactory($className);
-
         $factoryFileName = sprintf(
             '%s/%sFactory.php',
             $this->getPathForClass($className),
             $this->getClassName($className)
         );
 
+        if (file_exists($factoryFileName)) {
+            throw FactoryAlreadyExistsException::forClassUsingFile($className, $factoryFileName);
+        }
+
         if (! is_writable(dirname($factoryFileName))) {
             throw FactoryWriteException::whenCreatingFile($factoryFileName);
         }
+
+        $factory = $this->generator->createFactory($className);
 
         if (false === file_put_contents($factoryFileName, $factory)) {
             throw FactoryWriteException::whenCreatingFile($factoryFileName);
