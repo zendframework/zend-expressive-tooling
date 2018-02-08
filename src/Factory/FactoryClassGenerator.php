@@ -53,8 +53,7 @@ EOT;
 
     private function getClassName(string $className) : string
     {
-        $class = substr($className, strrpos($className, '\\') + 1);
-        return $class;
+        return substr($className, strrpos($className, '\\') + 1);
     }
 
     private function getConstructorParameters(string $className) : array
