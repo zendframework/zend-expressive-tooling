@@ -36,7 +36,7 @@ class %class% implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
     {
-        // $response = $handler->process($request);
+        // $response = $handler->handle($request);
     }
 }
 EOS;
