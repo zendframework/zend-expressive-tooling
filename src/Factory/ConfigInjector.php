@@ -19,6 +19,8 @@ namespace Zend\Expressive\Tooling\Factory;
  */
 class ConfigInjector
 {
+    public const CONFIG_FILE = 'config/autoload/zend-expressive-tooling-factories.global.php';
+
     public const TEMPLATE = <<<'EOT'
 <?php
 /**
@@ -38,8 +40,6 @@ return [
 ];
 EOT;
 
-    public const CONFIG_FILE = 'config/autoload/zend-expressive-tooling-factories.global.php';
-
     /**
      * @var string
      */
@@ -52,7 +52,7 @@ EOT;
             : sprintf('%s/%s', rtrim($projectRoot, '/'), self::CONFIG_FILE);
     }
 
-    public function injectFactoryForClass(string $factory, string $class) : void
+    public function injectFactoryForClass(string $factory, string $class) : string
     {
         if (! $this->configIsWritable()) {
             throw ConfigFileNotWritableException::forFile($this->configFile);
@@ -67,6 +67,8 @@ EOT;
             $this->normalizeConfig($config)
         );
         file_put_contents($this->configFile, $configContents);
+
+        return $this->configFile;
     }
 
     private function configIsWritable() : bool

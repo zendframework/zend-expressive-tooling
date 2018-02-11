@@ -19,6 +19,7 @@ use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Zend\Expressive\Tooling\Factory\ClassNotFoundException;
 use Zend\Expressive\Tooling\Factory\Create;
 use Zend\Expressive\Tooling\Factory\CreateFactoryCommand;
+use Zend\Expressive\Tooling\Factory\ConfigInjector;
 
 /**
  * @runTestsInSeparateProcesses
@@ -62,6 +63,14 @@ class CreateFactoryCommandTest extends TestCase
         $this->assertEquals(CreateFactoryCommand::HELP_ARG_CLASS, $argument->getDescription());
     }
 
+    public function testConfigureSetsExpectedOptions()
+    {
+        $definition = $this->command->getDefinition();
+        $this->assertTrue($definition->hasOption('no-register'));
+        $option = $definition->getOption('no-register');
+        $this->assertEquals(CreateFactoryCommand::HELP_OPT_NO_REGISTER, $option->getDescription());
+    }
+
     public function testSuccessfulExecutionEmitsExpectedMessages()
     {
         $generator = Mockery::mock('overload:' . Create::class);
@@ -70,15 +79,28 @@ class CreateFactoryCommandTest extends TestCase
             ->with('Foo\TestHandler')
             ->andReturn(__DIR__);
 
+        $generator = Mockery::mock('overload:' . ConfigInjector::class);
+        $generator->shouldReceive('injectFactoryForClass')
+            ->once()
+            ->with('Foo\TestHandlerFactory', 'Foo\TestHandler')
+            ->andReturn('some-file-name');
+
         $this->input->getArgument('class')->willReturn('Foo\TestHandler');
+        $this->input->getOption('no-register')->willReturn(false);
         $this->output
             ->writeln(Argument::containingString('Creating factory for class Foo\TestHandler'))
+            ->shouldBeCalled();
+        $this->output
+            ->writeln(Argument::containingString('Registering factory with container'))
             ->shouldBeCalled();
         $this->output
             ->writeln(Argument::containingString('Success'))
             ->shouldBeCalled();
         $this->output
             ->writeln(Argument::containingString('Created factory class Foo\TestHandlerFactory, in file ' . __DIR__))
+            ->shouldBeCalled();
+        $this->output
+            ->writeln(Argument::containingString('Registered factory to container'))
             ->shouldBeCalled();
 
         $method = $this->reflectExecuteMethod();
@@ -99,6 +121,7 @@ class CreateFactoryCommandTest extends TestCase
             ->andThrow(ClassNotFoundException::class, 'ERROR THROWN');
 
         $this->input->getArgument('class')->willReturn('Foo\TestHandler');
+        $this->input->getOption('no-register')->willReturn(false);
         $this->output
             ->writeln(Argument::containingString('Creating factory for class Foo\TestHandler'))
             ->shouldBeCalled();
