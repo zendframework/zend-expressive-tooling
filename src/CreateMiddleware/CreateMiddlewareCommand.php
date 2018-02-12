@@ -10,8 +10,10 @@ declare(strict_types=1);
 namespace Zend\Expressive\Tooling\CreateMiddleware;
 
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class CreateMiddlewareCommand extends Command
@@ -30,6 +32,27 @@ should be quoted to ensure namespace separators are not interpreted as
 escape sequences by your shell.
 EOT;
 
+    const HELP_OPT_NO_FACTORY = <<< 'EOT'
+By default, this command generates a factory for the middleware it creates, and
+registers it with the container. Passing this option disables that feature.
+EOT;
+
+    const HELP_OPT_NO_REGISTER = <<< 'EOT'
+By default, when this command generates a factory for the middleware it
+creates, it registers it with the container. Passing this option disables
+registration of the generated factory with the container.
+EOT;
+
+    /**
+     * Flag indicating whether or not to require the generated middleware before
+     * generating its factory. By default, this is true, as it is necessary
+     * in order for the middleware to be reflected. However, during testing, we do
+     * not actually generate a middleware, so we need a way to disable it.
+     *
+     * @var bool
+     */
+    private $requireMiddlewareBeforeGeneratingFactory = true;
+
     /**
      * Configure the console command.
      */
@@ -38,6 +61,8 @@ EOT;
         $this->setDescription('Create a PSR-15 middleware class file.');
         $this->setHelp(self::HELP);
         $this->addArgument('middleware', InputArgument::REQUIRED, self::HELP_ARG_MIDDLEWARE);
+        $this->addOption('no-factory', null, InputOption::VALUE_NONE, self::HELP_OPT_NO_FACTORY);
+        $this->addOption('no-register', null, InputOption::VALUE_NONE, self::HELP_OPT_NO_REGISTER);
     }
 
     /**
@@ -63,6 +88,24 @@ EOT;
             $path
         ));
 
+        if (! $input->getOption('no-factory')) {
+            if ($this->requireMiddlewareBeforeGeneratingFactory) {
+                require $path;
+            }
+            return $this->generateFactory($middleware, $input, $output);
+        }
+
         return 0;
+    }
+
+    private function generateFactory(string $middlewareClass, InputInterface $input, OutputInterface $output) : int
+    {
+        $factoryInput = new ArrayInput([
+            'command'       => 'factory:create',
+            'class'         => $middlewareClass,
+            '--no-register' => $input->getOption('no-register'),
+        ]);
+        $command = $this->getApplication()->find('factory:create');
+        return $command->run($factoryInput, $output);
     }
 }
