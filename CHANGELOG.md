@@ -6,11 +6,27 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- [#52](https://github.com/zendframework/zend-expressive-tooling/pull/52) adds
+  the command `factory:create`. The command expects a fully-qualified,
+  resolvable, class name; it then generates a factory class for it as a sibling
+  class file, using reflection. By default, it also registers the class and
+  factory with the container, in the file `config/autoload/zend-expressive-tooling-factories.global.php`.
+  Pass the option `--no-register` to disable this auto-registration.
 
 ### Changed
 
-- Nothing.
+- [#52](https://github.com/zendframework/zend-expressive-tooling/pull/52)
+  modifies the `middleware:create` command to invoke `factory:create` once it
+  has successfully created the new middleware. You may disable this feature by
+  passing the option `--no-factory`; if you want to generate the factory, but
+  not auto-register the middleware service, pass the option `--no-register`.
+
+- [#52](https://github.com/zendframework/zend-expressive-tooling/pull/52)
+  modifies the `handler:create` command to invoke `factory:create` once it has
+  successfully created the new request handler. You may disable this feature by
+  passing the option `--no-factory`; if you want to generate the factory, but
+  not auto-register the request handler service, pass the option
+  `--no-register`.
 
 ### Deprecated
 
