@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Zend\Expressive\Tooling\Factory;
 
+use const SORT_NATURAL;
+
 /**
  * Inject factory configuration in an autoloadable location.
  *
@@ -80,29 +82,13 @@ EOT;
     private function normalizeConfig(array $config) : string
     {
         $normalized = [];
-        foreach ($this->sort($config) as $class => $factory) {
+        ksort($config, SORT_NATURAL);
+        foreach ($config as $class => $factory) {
             $class .= '::class';
             $factory .= '::class';
 
             $normalized[] = sprintf('%s%s => %s', str_repeat(' ', 12), $class, $factory);
         }
         return implode(",\n", $normalized);
-    }
-
-    /**
-     * Sorts entries by key, using natcase
-     */
-    private function sort(array $config) : array
-    {
-        $keys = array_keys($config);
-        $sorted = [];
-
-        natsort($keys);
-
-        foreach ($keys as $key) {
-            $sorted[$key] = $config[$key];
-        }
-
-        return $sorted;
     }
 }
