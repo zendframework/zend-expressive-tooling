@@ -39,7 +39,7 @@ EOT;
     /**
      * @var null|string Project root against which to scan.
      */
-    public function setProjectDir($path)
+    public function setProjectDir(?string $path) : void
     {
         $this->projectDir = $path;
     }
@@ -48,22 +48,20 @@ EOT;
      * Retrieve the project root directory.
      *
      * Uses result of getcwd() if not previously set.
-     *
-     * @return string
      */
-    private function getProjectDir()
+    private function getProjectDir() : string
     {
         return $this->projectDir ?: getcwd();
     }
 
-    protected function configure()
+    protected function configure() : void
     {
         $this->setDescription('Migrate interop middlewares and delegators');
         $this->setHelp(self::HELP);
         $this->addOption('src', 's', InputOption::VALUE_REQUIRED, self::HELP_OPT_SRC);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $src = $this->getSrcDir($input);
 
@@ -72,23 +70,15 @@ EOT;
         $converter = new ConvertInteropMiddleware($output);
         $converter->process($src);
 
-//        if ($converter->originalResponseFound()) {
-//            $output->writeln('<error>One or more files contained calls to getOriginalResponse().</error>');
-//            $output->writeln('<info>Check the above logs to determine which files need attention.</info>');
-//            $output->writeln(self::TEMPLATE_RESPONSE_DETAILS);
-//        }
-
         $output->writeln('<info>Done!</info>');
 
         return 0;
     }
 
     /**
-     * @param InputInterface $input
-     * @return string
      * @throws ArgvException
      */
-    private function getSrcDir(InputInterface $input)
+    private function getSrcDir(InputInterface $input) : string
     {
         $path = $input->getOption('src') ?: self::DEFAULT_SRC;
         $path = $this->getProjectDir() . '/' . $path;

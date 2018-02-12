@@ -18,7 +18,7 @@ use ZF\ComposerAutoloading\Command\Enable;
 
 class RegisterCommand extends Command
 {
-    const HELP = <<< 'EOT'
+    public const HELP = <<< 'EOT'
 Register an existing middleware module with the application, by:
 
 - Ensuring a PSR-4 autoloader entry is present in composer.json, and the
@@ -27,24 +27,19 @@ Register an existing middleware module with the application, by:
   application configuration.
 EOT;
 
-    const HELP_ARG_MODULE = 'The module to register with the application';
+    public const HELP_ARG_MODULE = 'The module to register with the application';
 
     /**
      * Configure command.
      */
-    protected function configure()
+    protected function configure() : void
     {
         $this->setDescription('Register a middleware module with the application');
         $this->setHelp(self::HELP);
         CommandCommonOptions::addDefaultOptionsAndArguments($this);
     }
 
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $module = $input->getArgument('module');
         $composer = $input->getOption('composer') ?: 'composer';

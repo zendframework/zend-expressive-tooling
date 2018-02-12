@@ -23,7 +23,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Zend\Expressive\Tooling\Module\Create;
 use Zend\Expressive\Tooling\Module\CreateCommand;
-use Zend\Expressive\Tooling\Module\Exception\RuntimeException;
+use Zend\Expressive\Tooling\Module\RuntimeException;
 
 /**
  * @runTestsInSeparateProcesses

@@ -16,15 +16,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CreateHandlerCommand extends Command
 {
-    const DEFAULT_SRC = '/src';
+    public const DEFAULT_SRC = '/src';
 
-    const HELP = <<< 'EOT'
+    public const HELP = <<< 'EOT'
 Creates a PSR-15 request handler class file named after the provided
 class. For a path, it matches the class namespace against PSR-4 autoloader
 namespaces in your composer.json.
 EOT;
 
-    const HELP_ARG_HANDLER = <<< 'EOT'
+    public const HELP_ARG_HANDLER = <<< 'EOT'
 Fully qualified class name of the request handler to create. This value
 should be quoted to ensure namespace separators are not interpreted as
 escape sequences by your shell.
@@ -33,7 +33,7 @@ EOT;
     /**
      * Configure the console command.
      */
-    protected function configure()
+    protected function configure() : void
     {
         $this->setDescription('Create a PSR-15 request handler class file.');
         $this->setHelp(self::HELP);
@@ -43,11 +43,9 @@ EOT;
     /**
      * Execute console command.
      *
-     * @param InputInterface $input
-     * @param OutputInterface $output
      * @return int Exit status
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $handler = $input->getArgument('handler');
 

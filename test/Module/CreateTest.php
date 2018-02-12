@@ -14,7 +14,7 @@ use org\bovigo\vfs\vfsStreamDirectory;
 use phpmock\phpunit\PHPMock;
 use PHPUnit\Framework\TestCase;
 use Zend\Expressive\Tooling\Module\Create;
-use Zend\Expressive\Tooling\Module\Exception;
+use Zend\Expressive\Tooling\Module\RuntimeException;
 
 class CreateTest extends TestCase
 {
@@ -52,7 +52,7 @@ class CreateTest extends TestCase
     {
         vfsStream::newDirectory('MyApp')->at($this->modulesDir);
 
-        $this->expectException(Exception\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Module "MyApp" already exists');
         $this->command->process('MyApp', $this->modulesPath, $this->projectDir);
     }
@@ -66,7 +66,7 @@ class CreateTest extends TestCase
             ->with($baseModulePath)
             ->willReturn(false);
 
-        $this->expectException(Exception\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage(sprintf(
             'Module directory "%s" cannot be created',
             $baseModulePath
@@ -87,7 +87,7 @@ class CreateTest extends TestCase
             ->with(sprintf('%s/src', $baseModulePath))
             ->willReturn(false);
 
-        $this->expectException(Exception\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage(sprintf(
             'Module source directory "%s/src" cannot be created',
             $baseModulePath
@@ -112,7 +112,7 @@ class CreateTest extends TestCase
             ->with(sprintf('%s/templates', $baseModulePath))
             ->willReturn(false);
 
-        $this->expectException(Exception\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage(sprintf(
             'Module templates directory "%s/templates" cannot be created',
             $baseModulePath
