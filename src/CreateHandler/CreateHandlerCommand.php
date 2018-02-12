@@ -59,9 +59,13 @@ EOT;
      */
     protected function configure() : void
     {
+        $this->handlerArgument = (bool) preg_match('/^action:/', $this->getName())
+            ? 'action'
+            : 'handler'; // default argument
+
         $this->setDescription('Create a PSR-15 request handler class file.');
         $this->setHelp(self::HELP);
-        $this->addArgument('handler', InputArgument::REQUIRED, self::HELP_ARG_HANDLER);
+        $this->addArgument($this->handlerArgument, InputArgument::REQUIRED, self::HELP_ARG_HANDLER);
         $this->addOption('no-factory', null, InputOption::VALUE_NONE, self::HELP_OPT_NO_FACTORY);
         $this->addOption('no-register', null, InputOption::VALUE_NONE, self::HELP_OPT_NO_REGISTER);
     }
@@ -73,7 +77,7 @@ EOT;
      */
     protected function execute(InputInterface $input, OutputInterface $output) : int
     {
-        $handler = $input->getArgument('handler');
+        $handler = $input->getArgument($this->handlerArgument);
 
         $output->writeln(sprintf('<info>Creating request handler %s...</info>', $handler));
 

@@ -100,6 +100,16 @@ class CreateHandlerCommandTest extends TestCase
         $this->assertEquals(CreateHandlerCommand::HELP_ARG_HANDLER, $argument->getDescription());
     }
 
+    public function testConfigureSetsArgumentNameDifferentlyIfAnActionIsRequest()
+    {
+        $command = new CreateHandlerCommand('action:create');
+        $definition = $command->getDefinition();
+        $this->assertTrue($definition->hasArgument('action'));
+        $argument = $definition->getArgument('action');
+        $this->assertTrue($argument->isRequired());
+        $this->assertEquals(CreateHandlerCommand::HELP_ARG_HANDLER, $argument->getDescription());
+    }
+
     public function testConfigureSetsExpectedOptions()
     {
         $definition = $this->command->getDefinition();
