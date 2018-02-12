@@ -16,7 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CreateCommand extends Command
 {
-    const HELP = <<< 'EOT'
+    public const HELP = <<< 'EOT'
 Create a new middleware module for the application.
 
 - Creates an appropriate module structure containing a source code tree,
@@ -27,12 +27,12 @@ Create a new middleware module for the application.
   configuration.
 EOT;
 
-    const HELP_ARG_MODULE = 'The module to create and register with the application.';
+    public const HELP_ARG_MODULE = 'The module to create and register with the application.';
 
     /**
      * Configure command.
      */
-    protected function configure()
+    protected function configure() : void
     {
         $this->setDescription('Create and register a middleware module with the application');
         $this->setHelp(self::HELP);
@@ -47,7 +47,7 @@ EOT;
      *
      * {@inheritDoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $module = $input->getArgument('module');
         $composer = $input->getOption('composer') ?: 'composer';
@@ -71,10 +71,8 @@ EOT;
      * Retrieve the name of the "register" command.
      *
      * Varies with usage of the "expressive" vs "expressive-module" command.
-     *
-     * @return string
      */
-    private function getRegisterCommandName()
+    private function getRegisterCommandName() : string
     {
         return 0 === strpos($this->getName(), 'module:')
             ? 'module:register'

@@ -13,19 +13,15 @@ use RuntimeException;
 
 class CreateHandlerException extends RuntimeException
 {
-    /**
-     * @return self
-     */
-    public static function missingComposerJson()
+    public static function missingComposerJson() : self
     {
         return new self('Could not find a composer.json in the project root');
     }
 
     /**
      * @param string $error Error string related to JSON_ERROR_* constant
-     * @return self
      */
-    public static function invalidComposerJson($error)
+    public static function invalidComposerJson(string $error) : self
     {
         return new self(sprintf(
             'Unable to parse composer.json: %s',
@@ -33,19 +29,12 @@ class CreateHandlerException extends RuntimeException
         ));
     }
 
-    /**
-     * @return self
-     */
-    public static function missingComposerAutoloaders()
+    public static function missingComposerAutoloaders() : self
     {
         return new self('composer.json does not define any PSR-4 autoloaders');
     }
 
-    /**
-     * @param string $class
-     * @return self
-     */
-    public static function autoloaderNotFound($class)
+    public static function autoloaderNotFound(string $class) : self
     {
         return new self(sprintf(
             'Unable to match %s to an autoloadable PSR-4 namespace',
@@ -53,12 +42,7 @@ class CreateHandlerException extends RuntimeException
         ));
     }
 
-    /**
-     * @param string $path
-     * @param string $class
-     * @return self
-     */
-    public static function unableToCreatePath($path, $class)
+    public static function unableToCreatePath(string $path, string $class) : self
     {
         return new self(sprintf(
             'Unable to create the directory %s for creating the class %s',
@@ -67,12 +51,7 @@ class CreateHandlerException extends RuntimeException
         ));
     }
 
-    /**
-     * @param string $path
-     * @param string $class
-     * @return self
-     */
-    public static function classExists($path, $class)
+    public static function classExists(string $path, string $class) : self
     {
         return new self(sprintf(
             'Class %s already exists in directory %s',

@@ -23,7 +23,7 @@ class ConvertInteropMiddleware
         $this->output = $output;
     }
 
-    public function process(string $directory)
+    public function process(string $directory) : void
     {
         $rdi = new RecursiveDirectoryIterator($directory);
         $rii = new RecursiveIteratorIterator($rdi);

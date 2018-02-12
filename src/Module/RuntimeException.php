@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace Zend\Expressive\Tooling\Module\Exception;
+namespace Zend\Expressive\Tooling\Module;
 
 class RuntimeException extends \RuntimeException
 {
