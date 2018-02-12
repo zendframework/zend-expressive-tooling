@@ -32,7 +32,7 @@ class FactoryClassGeneratorTest extends TestCase
         $className = InvokableObject::class;
         $factory = file_get_contents(__DIR__ . '/TestAsset/factories/InvokableObject.php');
 
-        self::assertEquals($factory, $this->generator->createFactory($className));
+        $this->assertEquals($factory, $this->generator->createFactory($className));
     }
 
     public function testCreateFactoryCreatesForSimpleDependencies()
@@ -40,7 +40,7 @@ class FactoryClassGeneratorTest extends TestCase
         $className = SimpleDependencyObject::class;
         $factory = file_get_contents(__DIR__. '/TestAsset/factories/SimpleDependencyObject.php');
 
-        self::assertEquals($factory, $this->generator->createFactory($className));
+        $this->assertEquals($factory, $this->generator->createFactory($className));
     }
 
     public function testCreateFactoryCreatesForComplexDependencies()
@@ -48,6 +48,6 @@ class FactoryClassGeneratorTest extends TestCase
         $className = ComplexDependencyObject::class;
         $factory = file_get_contents(__DIR__. '/TestAsset/factories/ComplexDependencyObject.php');
 
-        self::assertEquals($factory, $this->generator->createFactory($className));
+        $this->assertEquals($factory, $this->generator->createFactory($className));
     }
 }
