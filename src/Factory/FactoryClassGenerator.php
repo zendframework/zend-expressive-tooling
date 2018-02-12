@@ -60,13 +60,13 @@ EOT;
     {
         $reflectionClass = new ReflectionClass($className);
 
-        if (! $reflectionClass || ! $reflectionClass->getConstructor()) {
+        if (! $reflectionClass->getConstructor()) {
             return [];
         }
 
         $constructorParameters = $reflectionClass->getConstructor()->getParameters();
 
-        if (empty($constructorParameters)) {
+        if (! $constructorParameters) {
             return [];
         }
 
@@ -78,18 +78,14 @@ EOT;
                 }
 
                 if (null === $argument->getClass()) {
-                    throw new InvalidArgumentException(sprintf(
-                        'Cannot identify type for constructor argument "%s"; '
-                        . 'no type hint, or non-class/interface type hint',
-                        $argument->getName()
-                    ));
+                    throw UnidentifiedTypeException::forArgument($argument->getName());
                 }
 
                 return true;
             }
         );
 
-        if (empty($constructorParameters)) {
+        if (! $constructorParameters) {
             return [];
         }
 
