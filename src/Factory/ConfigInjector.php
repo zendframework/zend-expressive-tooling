@@ -58,7 +58,7 @@ EOT;
             throw ConfigFileNotWritableException::forFile($this->configFile);
         }
 
-        $config = file_exists($this->configFile) ? include($this->configFile) : [];
+        $config = file_exists($this->configFile) ? include $this->configFile : [];
         $config = $config['dependencies']['factories'] ?? [];
         $config[$class] = $factory;
         $configContents = sprintf(
