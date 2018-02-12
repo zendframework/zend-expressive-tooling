@@ -24,7 +24,7 @@ final class CommandCommonOptions
      *
      * @param Command $command
      */
-    public static function addDefaultOptionsAndArguments(Command $command)
+    public static function addDefaultOptionsAndArguments(Command $command) : void
     {
         $command->addArgument(
             'module',
@@ -49,11 +49,8 @@ final class CommandCommonOptions
 
     /**
      * Retrieve the modules path from input
-     *
-     * @param InputInterface $input
-     * @return string
      */
-    public static function getModulesPath(InputInterface $input)
+    public static function getModulesPath(InputInterface $input) : string
     {
         $modulesPath = $input->getOption('modules-path') ?: 'src';
         $modulesPath = preg_replace('/^\.\//', '', str_replace('\\', '/', $modulesPath));

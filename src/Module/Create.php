@@ -13,7 +13,7 @@ use Zend\Expressive\Tooling\Module\Exception;
 
 class Create
 {
-    const TEMPLATE_CONFIG_PROVIDER = <<< 'EOT'
+    public const TEMPLATE_CONFIG_PROVIDER = <<< 'EOT'
 <?php
 
 namespace %1$s;
@@ -30,10 +30,8 @@ class ConfigProvider
      *
      * To add a bit of a structure, each section is defined in a separate
      * method which returns an array with its configuration.
-     *
-     * @return array
      */
-    public function __invoke()
+    public function __invoke() : array
     {
         return [
             'dependencies' => $this->getDependencies(),
@@ -43,10 +41,8 @@ class ConfigProvider
 
     /**
      * Returns the container dependencies
-     *
-     * @return array
      */
-    public function getDependencies()
+    public function getDependencies() : array
     {
         return [
             'invokables' => [
@@ -58,10 +54,8 @@ class ConfigProvider
 
     /**
      * Returns the templates configuration
-     *
-     * @return array
      */
-    public function getTemplates()
+    public function getTemplates() : array
     {
         return [
             'paths' => [
@@ -75,13 +69,8 @@ EOT;
 
     /**
      * Create source tree for the expressive module.
-     *
-     * @param string $moduleName
-     * @param string $modulesPath
-     * @param string $projectDir
-     * @return string
      */
-    public function process($moduleName, $modulesPath, $projectDir)
+    public function process(string $moduleName, string $modulesPath, string $projectDir) : string
     {
         $modulePath = sprintf('%s/%s/%s', $projectDir, $modulesPath, $moduleName);
 
@@ -94,29 +83,26 @@ EOT;
     /**
      * Creates directory structure for new expressive module.
      *
-     * @param string $modulePath
-     * @param string $moduleName
-     * @return void
-     * @throws Exception\RuntimeException
+     * @throws RuntimeException
      */
-    private function createDirectoryStructure($modulePath, $moduleName)
+    private function createDirectoryStructure(string $modulePath, string $moduleName) : void
     {
         if (file_exists($modulePath)) {
-            throw new Exception\RuntimeException(sprintf(
+            throw new RuntimeException(sprintf(
                 'Module "%s" already exists',
                 $moduleName
             ));
         }
 
         if (! mkdir($modulePath)) {
-            throw new Exception\RuntimeException(sprintf(
+            throw new RuntimeException(sprintf(
                 'Module directory "%s" cannot be created',
                 $modulePath
             ));
         }
 
         if (! mkdir($modulePath . '/src')) {
-            throw new Exception\RuntimeException(sprintf(
+            throw new RuntimeException(sprintf(
                 'Module source directory "%s/src" cannot be created',
                 $modulePath
             ));
@@ -124,7 +110,7 @@ EOT;
 
         $templatePath = sprintf('%s/templates', $modulePath);
         if (! mkdir($templatePath)) {
-            throw new Exception\RuntimeException(sprintf(
+            throw new RuntimeException(sprintf(
                 'Module templates directory "%s" cannot be created',
                 $templatePath
             ));
@@ -133,12 +119,8 @@ EOT;
 
     /**
      * Creates ConfigProvider for new expressive module.
-     *
-     * @param string $modulePath
-     * @param string $moduleName
-     * @return void
      */
-    private function createConfigProvider($modulePath, $moduleName)
+    private function createConfigProvider(string $modulePath, string $moduleName) : void
     {
         file_put_contents(
             sprintf('%s/src/ConfigProvider.php', $modulePath),
@@ -150,11 +132,7 @@ EOT;
         );
     }
 
-    /**
-     * @param string $moduleName
-     * @return string
-     */
-    private function createTemplateNamespace($moduleName)
+    private function createTemplateNamespace(string $moduleName) : string
     {
         $namespace = str_replace('\\', '-', $moduleName);
         $namespace = strtolower($namespace);

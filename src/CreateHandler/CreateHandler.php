@@ -19,7 +19,7 @@ class CreateHandler
     /**
      * @var string Template for request handler class.
      */
-    const CLASS_SKELETON = <<< 'EOS'
+    public const CLASS_SKELETON = <<< 'EOS'
 <?php
 
 namespace %namespace%;
@@ -41,14 +41,13 @@ class %class% implements RequestHandlerInterface
 EOS;
 
     /**
-     * @param string $class
-     * @param string|null $projectRoot
-     * @param string $classSkeleton
-     * @return string
      * @throws CreateHandlerException
      */
-    public function process($class, $projectRoot = null, $classSkeleton = self::CLASS_SKELETON)
-    {
+    public function process(
+        string $class,
+        string $projectRoot = null,
+        string $classSkeleton = self::CLASS_SKELETON
+    ) : string {
         $projectRoot = $projectRoot ?: getcwd();
 
         $path = $this->getClassPath($class, $projectRoot);
@@ -70,12 +69,9 @@ EOS;
     }
 
     /**
-     * @param string $class
-     * @param string $projectRoot
-     * @return string
      * @throws CreateHandlerException
      */
-    private function getClassPath($class, $projectRoot)
+    private function getClassPath(string $class, string $projectRoot) : string
     {
         $autoloaders = $this->getComposerAutoloaders($projectRoot);
         list($namespace, $path) = $this->discoverNamespaceAndPath($class, $autoloaders);
@@ -106,11 +102,10 @@ EOS;
     }
 
     /**
-     * @param string $projectRoot
      * @return array Associative array of namespace/path pairs
      * @throws CreateHandlerException
      */
-    private function getComposerAutoloaders($projectRoot)
+    private function getComposerAutoloaders(string $projectRoot) : array
     {
         $composerPath = sprintf('%s/composer.json', $projectRoot);
         if (! file_exists($composerPath)) {
@@ -135,12 +130,10 @@ EOS;
     }
 
     /**
-     * @param string $class
-     * @param array $autoloaders
      * @return array [namespace, path]
      * @throws CreateHandlerException
      */
-    private function discoverNamespaceAndPath($class, array $autoloaders)
+    private function discoverNamespaceAndPath(string $class, array $autoloaders) : array
     {
         foreach ($autoloaders as $namespace => $path) {
             if (0 === strpos($class, $namespace)) {
@@ -160,10 +153,9 @@ EOS;
     }
 
     /**
-     * @param string $class
      * @return array [namespace, class]
      */
-    private function getNamespaceAndClass($class)
+    private function getNamespaceAndClass(string $class) : array
     {
         $parts = explode('\\', $class);
         $className = array_pop($parts);
