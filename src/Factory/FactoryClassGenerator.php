@@ -61,6 +61,9 @@ EOT;
         return substr($className, 0, strrpos($className, '\\'));
     }
 
+    /**
+     * @throws UnidentifiedTypeException if a parameter defines a non-class typehint
+     */
     private function getConstructorParameters(string $className) : array
     {
         $reflectionClass = new ReflectionClass($className);
