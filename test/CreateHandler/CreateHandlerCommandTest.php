@@ -54,6 +54,9 @@ class CreateHandlerCommandTest extends TestCase
         return $r;
     }
 
+    /**
+     * @return ObjectProphecy|Application
+     */
     private function mockApplication()
     {
         $helperSet = $this->prophesize(HelperSet::class)->reveal();
@@ -76,8 +79,6 @@ class CreateHandlerCommandTest extends TestCase
         $application->find('factory:create')->will([$factoryCommand, 'reveal']);
 
         return $application;
-
-        $this->command->setApplication($application->reveal());
     }
 
     public function testConfigureSetsExpectedDescription()

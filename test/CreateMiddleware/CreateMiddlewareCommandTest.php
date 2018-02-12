@@ -14,6 +14,7 @@ use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\Prophecy\ObjectProphecy;
 use ReflectionMethod;
 use ReflectionProperty;
 use Symfony\Component\Console\Application;
@@ -54,6 +55,9 @@ class CreateMiddlewareCommandTest extends TestCase
         return $r;
     }
 
+    /**
+     * @return ObjectProphecy|Application
+     */
     private function mockApplication()
     {
         $helperSet = $this->prophesize(HelperSet::class)->reveal();
@@ -76,8 +80,6 @@ class CreateMiddlewareCommandTest extends TestCase
         $application->find('factory:create')->will([$factoryCommand, 'reveal']);
 
         return $application;
-
-        $this->command->setApplication($application->reveal());
     }
 
     public function testConfigureSetsExpectedDescription()
