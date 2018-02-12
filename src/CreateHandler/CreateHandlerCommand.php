@@ -10,7 +10,9 @@ declare(strict_types=1);
 namespace Zend\Expressive\Tooling\CreateHandler;
 
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -30,6 +32,18 @@ should be quoted to ensure namespace separators are not interpreted as
 escape sequences by your shell.
 EOT;
 
+    const HELP_OPT_NO_FACTORY = <<< 'EOT'
+By default, this command generates a factory for the request handler it
+creates, and registers it with the container. Passing this option disables
+that feature.
+EOT;
+
+    const HELP_OPT_NO_REGISTER = <<< 'EOT'
+By default, when this command generates a factory for the request handler it
+creates, it registers it with the container. Passing this option disables
+registration of the generated factory with the container.
+EOT;
+
     /**
      * Configure the console command.
      */
@@ -38,6 +52,8 @@ EOT;
         $this->setDescription('Create a PSR-15 request handler class file.');
         $this->setHelp(self::HELP);
         $this->addArgument('handler', InputArgument::REQUIRED, self::HELP_ARG_HANDLER);
+        $this->addOption('no-factory', null, InputOption::VALUE_NONE, self::HELP_OPT_NO_FACTORY);
+        $this->addOption('no-register', null, InputOption::VALUE_NONE, self::HELP_OPT_NO_REGISTER);
     }
 
     /**
@@ -63,6 +79,21 @@ EOT;
             $path
         ));
 
+        if (! $input->getOption('no-factory')) {
+            return $this->generateFactory($handler, $input, $output);
+        }
+
         return 0;
+    }
+
+    private function generateFactory(string $handlerClass, InputInterface $input, OutputInterface $output) : int
+    {
+        $factoryInput = new ArrayInput([
+            'command'       => 'factory:create',
+            'class'         => $handlerClass,
+            '--no-register' => $input->getOption('no-register'),
+        ]);
+        $command = $this->getApplication()->find('factory:create');
+        return $command->run($factoryInput, $output);
     }
 }
