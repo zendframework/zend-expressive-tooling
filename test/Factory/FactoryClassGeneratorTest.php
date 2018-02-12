@@ -50,4 +50,16 @@ class FactoryClassGeneratorTest extends TestCase
 
         $this->assertEquals($factory, $this->generator->createFactory($className));
     }
+
+    /**
+     * @runTestInSeparateProcess
+     */
+    public function testCreateFactoryCreatesAppropriatelyNamedFactoryWhenClassNameAppearsWithinNamespace()
+    {
+        require __DIR__ . '/TestAsset/classes/ClassDuplicatingNamespaceName.php';
+        $className = 'This\Duplicates\ClassDuplicatingNamespaceNameCase\ClassDuplicatingNamespaceName';
+        $factory = file_get_contents(__DIR__ . '/TestAsset/factories/ClassDuplicatingNamespaceName.php');
+
+        $this->assertEquals($factory, $this->generator->createFactory($className));
+    }
 }

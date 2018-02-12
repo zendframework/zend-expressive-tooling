@@ -36,7 +36,7 @@ EOT;
     public function createFactory(string $className) : string
     {
         $class = $this->getClassName($className);
-        $namespace = str_replace('\\' . $class, '', $className);
+        $namespace = $this->getNamespace($className);
         $constructorParameters = $this->getConstructorParameters($className);
 
         $imports = array_keys($constructorParameters);
@@ -54,6 +54,11 @@ EOT;
     private function getClassName(string $className) : string
     {
         return substr($className, strrpos($className, '\\') + 1);
+    }
+
+    private function getNamespace(string $className) : string
+    {
+        return substr($className, 0, strrpos($className, '\\'));
     }
 
     private function getConstructorParameters(string $className) : array
