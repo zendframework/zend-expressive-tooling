@@ -73,15 +73,8 @@ EOT;
 
     private function configIsWritable() : bool
     {
-        if (! file_exists($this->configFile) && ! is_writable(dirname($this->configFile))) {
-            return false;
-        }
-
-        if (file_exists($this->configFile) && ! is_writable($this->configFile)) {
-            return false;
-        }
-
-        return true;
+        return is_writable($this->configFile)
+            || (! file_exists($this->configFile) && is_writable(dirname($this->configFile)));
     }
 
     private function normalizeConfig(array $config) : string
