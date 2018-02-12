@@ -45,6 +45,16 @@ registration of the generated factory with the container.
 EOT;
 
     /**
+     * Flag indicating whether or not to require the generated handler before
+     * generating its factory. By default, this is true, as it is necessary
+     * in order for the handler to be reflected. However, during testing, we do
+     * not actually generate a handler, so we need a way to disable it.
+     *
+     * @var bool
+     */
+    private $requireHandlerBeforeGeneratingFactory = true;
+
+    /**
      * Configure the console command.
      */
     protected function configure()
@@ -80,6 +90,7 @@ EOT;
         ));
 
         if (! $input->getOption('no-factory')) {
+            $this->requireHandlerBeforeGeneratingFactory && require $path;
             return $this->generateFactory($handler, $input, $output);
         }
 

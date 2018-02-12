@@ -44,6 +44,16 @@ registration of the generated factory with the container.
 EOT;
 
     /**
+     * Flag indicating whether or not to require the generated middleware before
+     * generating its factory. By default, this is true, as it is necessary
+     * in order for the middleware to be reflected. However, during testing, we do
+     * not actually generate a middleware, so we need a way to disable it.
+     *
+     * @var bool
+     */
+    private $requireMiddlewareBeforeGeneratingFactory = true;
+
+    /**
      * Configure the console command.
      */
     protected function configure()
@@ -79,6 +89,7 @@ EOT;
         ));
 
         if (! $input->getOption('no-factory')) {
+            $this->requireMiddlewareBeforeGeneratingFactory && require $path;
             return $this->generateFactory($middleware, $input, $output);
         }
 

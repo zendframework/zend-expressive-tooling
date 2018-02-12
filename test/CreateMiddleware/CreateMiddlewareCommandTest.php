@@ -15,6 +15,7 @@ use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use ReflectionMethod;
+use ReflectionProperty;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\HelperSet;
@@ -39,6 +40,11 @@ class CreateMiddlewareCommandTest extends TestCase
         $this->output = $this->prophesize(ConsoleOutputInterface::class);
 
         $this->command = new CreateMiddlewareCommand('middleware:create');
+
+        // Do not require the generated middleware during testing
+        $r = new ReflectionProperty($this->command, 'requireMiddlewareBeforeGeneratingFactory');
+        $r->setAccessible(true);
+        $r->setValue($this->command, false);
     }
 
     private function reflectExecuteMethod()
