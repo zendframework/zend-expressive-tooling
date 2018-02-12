@@ -90,7 +90,9 @@ EOT;
         ));
 
         if (! $input->getOption('no-factory')) {
-            $this->requireHandlerBeforeGeneratingFactory && require $path;
+            if ($this->requireHandlerBeforeGeneratingFactory) {
+                require $path;
+            }
             return $this->generateFactory($handler, $input, $output);
         }
 

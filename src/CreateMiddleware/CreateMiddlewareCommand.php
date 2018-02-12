@@ -89,7 +89,9 @@ EOT;
         ));
 
         if (! $input->getOption('no-factory')) {
-            $this->requireMiddlewareBeforeGeneratingFactory && require $path;
+            if ($this->requireMiddlewareBeforeGeneratingFactory) {
+                require $path;
+            }
             return $this->generateFactory($middleware, $input, $output);
         }
 
