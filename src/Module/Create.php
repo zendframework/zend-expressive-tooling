@@ -16,6 +16,8 @@ class Create
     public const TEMPLATE_CONFIG_PROVIDER = <<< 'EOT'
 <?php
 
+declare(strict_types=1);
+
 namespace %1$s;
 
 /**

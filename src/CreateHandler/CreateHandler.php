@@ -22,6 +22,8 @@ class CreateHandler
     public const CLASS_SKELETON = <<< 'EOS'
 <?php
 
+declare(strict_types=1);
+
 namespace %namespace%;
 
 use Psr\Http\Message\ResponseInterface;
