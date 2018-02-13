@@ -41,6 +41,7 @@ class %class% implements MiddlewareInterface
         // $response = $handler->handle($request);
     }
 }
+
 EOS;
 
     /**

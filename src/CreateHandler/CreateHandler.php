@@ -40,6 +40,7 @@ class %class% implements RequestHandlerInterface
         // Create and return a response
     }
 }
+
 EOS;
 
     /**
