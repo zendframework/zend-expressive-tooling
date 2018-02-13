@@ -28,6 +28,9 @@ All notable changes to this project will be documented in this file, in reverse 
   not auto-register the request handler service, pass the option
   `--no-register`.
 
+- [#56](https://github.com/zendframework/zend-expressive-tooling/pull/56)
+  modifies all generated classes to add a `declare(strict_types=1)` directive.
+
 ### Deprecated
 
 - Nothing.
