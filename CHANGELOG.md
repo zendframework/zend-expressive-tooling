@@ -13,6 +13,11 @@ All notable changes to this project will be documented in this file, in reverse 
   factory with the container, in the file `config/autoload/zend-expressive-tooling-factories.global.php`.
   Pass the option `--no-register` to disable this auto-registration.
 
+- [#55](https://github.com/zendframework/zend-expressive-tooling/pull/55) adds
+  an `action:create` command. This command is mapped to the existing
+  `handler:create` command, which now varies its help messages and argument
+  names based on the command name provided.
+
 ### Changed
 
 - [#52](https://github.com/zendframework/zend-expressive-tooling/pull/52)
