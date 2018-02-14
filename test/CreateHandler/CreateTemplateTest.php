@@ -19,6 +19,7 @@ use Zend\Expressive\Tooling\CreateHandler\CreateTemplate;
 use Zend\Expressive\Tooling\CreateHandler\TemplatePathResolutionException;
 use Zend\Expressive\Tooling\CreateHandler\UndetectableNamespaceException;
 use Zend\Expressive\Tooling\CreateHandler\UnresolvableRendererException;
+use Zend\Expressive\Tooling\CreateHandler\Template;
 
 /**
  * @runTestsInSeparateProcesses
@@ -66,8 +67,9 @@ class CreateTemplateTest extends TestCase
         $this->updateConfigContents($rendererType, $extension);
 
         $generator = new CreateTemplate($this->projectRoot);
-        $path = $generator->forHandler('Test\TestHandler');
-        $this->assertRegexp('#templates/test/test\.' . $extension . '$#', $path);
+        $template = $generator->forHandler('Test\TestHandler');
+        $this->assertRegexp('#templates/test/test\.' . $extension . '$#', $template->getPath());
+        $this->assertSame('test::test', $template->getName());
     }
 
     /**
@@ -82,8 +84,9 @@ class CreateTemplateTest extends TestCase
         $this->updateConfigContents($rendererType, $extension);
 
         $generator = new CreateTemplate($this->projectRoot);
-        $path = $generator->forHandler('Test\TestHandler');
-        $this->assertRegexp('#src/Test/templates/test\.' . $extension . '$#', $path);
+        $template = $generator->forHandler('Test\TestHandler');
+        $this->assertRegexp('#src/Test/templates/test\.' . $extension . '$#', $template->getPath());
+        $this->assertSame('test::test', $template->getName());
     }
 
     /**
@@ -99,8 +102,9 @@ class CreateTemplateTest extends TestCase
         $this->updateConfigContents($rendererType);
 
         $generator = new CreateTemplate($this->projectRoot);
-        $path = $generator->forHandler('Test\TestHandler');
-        $this->assertRegexp('#templates/test/test\.' . $extension . '$#', $path);
+        $template = $generator->forHandler('Test\TestHandler');
+        $this->assertRegexp('#templates/test/test\.' . $extension . '$#', $template->getPath());
+        $this->assertSame('test::test', $template->getName());
     }
 
     /**
@@ -116,8 +120,9 @@ class CreateTemplateTest extends TestCase
         $this->updateConfigContents($rendererType);
 
         $generator = new CreateTemplate($this->projectRoot);
-        $path = $generator->forHandler('Test\TestHandler');
-        $this->assertRegexp('#src/Test/templates/test\.' . $extension . '$#', $path);
+        $template = $generator->forHandler('Test\TestHandler');
+        $this->assertRegexp('#src/Test/templates/test\.' . $extension . '$#', $template->getPath());
+        $this->assertSame('test::test', $template->getName());
     }
 
     /**
@@ -133,8 +138,9 @@ class CreateTemplateTest extends TestCase
         $this->updateConfigContents($rendererType, $extension);
 
         $generator = new CreateTemplate($this->projectRoot);
-        $path = $generator->forHandler('Test\TestHandler');
-        $this->assertRegexp('#view/for-testing/test\.' . $extension . '$#', $path);
+        $template = $generator->forHandler('Test\TestHandler');
+        $this->assertRegexp('#view/for-testing/test\.' . $extension . '$#', $template->getPath());
+        $this->assertSame('test::test', $template->getName());
     }
 
     /**
@@ -150,8 +156,9 @@ class CreateTemplateTest extends TestCase
         $this->updateConfigContents($rendererType, $extension);
 
         $generator = new CreateTemplate($this->projectRoot);
-        $path = $generator->forHandler('Test\TestHandler');
-        $this->assertRegexp('#view/for-testing/test\.' . $extension . '$#', $path);
+        $template = $generator->forHandler('Test\TestHandler');
+        $this->assertRegexp('#view/for-testing/test\.' . $extension . '$#', $template->getPath());
+        $this->assertSame('test::test', $template->getName());
     }
 
     public function testGeneratingTemplateWhenRendererServiceNotFoundResultsInException()

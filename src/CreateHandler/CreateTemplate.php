@@ -41,14 +41,14 @@ class CreateTemplate
         $this->projectPath = $projectPath ?: realpath(getcwd());
     }
 
-    public function forHandler(string $handler) : string
+    public function forHandler(string $handler) : Template
     {
         $handlerPath = $this->getHandlerPath($handler);
         $templateNamespace = $this->normalizeTemplateIdentifier($this->getNamespaceFromPath($handlerPath));
         return $this->forHandlerUsingTemplateNamespace($handler, $templateNamespace);
     }
 
-    public function forHandlerUsingTemplateNamespace(string $handler, string $templateNamespace) : string
+    public function forHandlerUsingTemplateNamespace(string $handler, string $templateNamespace) : Template
     {
         $config = $this->getConfig();
         $rendererType = $this->resolveRendererType($config);
@@ -65,16 +65,20 @@ class CreateTemplate
             mkdir($templatePath, 0777, true);
         }
 
+        $templateName = $this->normalizeTemplateIdentifier($this->getHandlerClassName($handler));
         $templateFile = sprintf(
             '%s/%s.%s',
             $templatePath,
-            $this->normalizeTemplateIdentifier($this->getHandlerClassName($handler)),
+            $templateName,
             $this->getTemplateSuffixFromConfig($rendererType, $config)
         );
 
         file_put_contents($templateFile, sprintf('Template for %s', $handler));
 
-        return $templateFile;
+        return new Template(
+            $templateFile,
+            sprintf('%s::%s', $templateNamespace, $templateName)
+        );
     }
 
     private function getHandlerPath(string $handler) : string
