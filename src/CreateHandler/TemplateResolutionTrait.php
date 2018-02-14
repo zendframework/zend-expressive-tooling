@@ -9,6 +9,9 @@ declare(strict_types=1);
 
 namespace Zend\Expressive\Tooling\CreateHandler;
 
+use Psr\Container\ContainerInterface;
+use Zend\Expressive\Template\TemplateRendererInterface;
+
 use function preg_replace;
 use function strtolower;
 use function strpos;
@@ -17,6 +20,11 @@ use function substr;
 
 trait TemplateResolutionTrait
 {
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
     /**
      * Normalizes identifier to lowercase, dash-separated words.
      */
@@ -69,16 +77,39 @@ trait TemplateResolutionTrait
         );
     }
 
+    private function getContainer(string $projectPath) : ContainerInterface
+    {
+        if ($this->container) {
+            return $this->container;
+        }
+
+        $containerPath = sprintf('%s/config/container.php', $projectPath);
+        $this->container = require $containerPath;
+        return $this->container;
+    }
+
     /**
      * Retrieve project configuration.
      */
     private function getConfig(string $projectPath) : array
     {
-        $projectPath = rtrim($projectPath, '/\\');
-        $configFile = $projectPath . '/config/config.php';
-        if (! file_exists($configFile)) {
-            return [];
+        return $this->getContainer($projectPath)->get('config');
+    }
+
+    /**
+     * Returns true if a renderer service is found in the container.
+     */
+    private function containerDefinesRendererService(ContainerInterface $container) : bool
+    {
+        return $container->has(TemplateRendererInterface::class);
+    }
+
+    private function getRendererServiceTypeFromContainer(ContainerInterface $container) : ?string
+    {
+        if (! $container->has(TemplateRendererInterface::class)) {
+            return null;
         }
-        return include $configFile;
+        $renderer = $container->get(TemplateRendererInterface::class);
+        return get_class($renderer);
     }
 }

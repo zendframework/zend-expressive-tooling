@@ -52,7 +52,7 @@ class CreateTemplate
     public function forHandlerUsingTemplateNamespace(string $handler, string $templateNamespace) : Template
     {
         $config = $this->getConfig($this->projectPath);
-        $rendererType = $this->resolveRendererType($config);
+        $rendererType = $this->resolveRendererType();
         $handlerPath = $this->getHandlerPath($handler);
 
         $templatePath = $this->getTemplatePathForNamespaceFromConfig($templateNamespace, $config)
@@ -83,13 +83,14 @@ class CreateTemplate
         );
     }
 
-    private function resolveRendererType(array $config) : string
+    private function resolveRendererType() : string
     {
-        if (! isset($config['dependencies']['aliases'][TemplateRendererInterface::class])) {
+        $container = $this->getContainer($this->projectPath);
+        if (! $this->containerDefinesRendererService($container)) {
             throw UnresolvableRendererException::dueToMissingAlias();
         }
 
-        $type = $config['dependencies']['aliases'][TemplateRendererInterface::class];
+        $type = $this->getRendererServiceTypeFromContainer($container);
         if (! in_array($type, self::KNOWN_RENDERERS, true)) {
             throw UnresolvableRendererException::dueToUnknownType($type);
         }

@@ -10,11 +10,6 @@ declare(strict_types=1);
 use Zend\Expressive\Template\TemplateRendererInterface;
 
 return [
-    'dependencies' => [
-        'aliases' => [
-            TemplateRendererInterface::class => %s::class,
-        ],
-    ],
     'templates' => [
     ],
 ];

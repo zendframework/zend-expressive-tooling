@@ -7,13 +7,11 @@
 
 declare(strict_types=1);
 
-use Zend\Expressive\Template\TemplateRendererInterface;
+namespace Zend\Expressive\ZendView;
 
-return [
-    'templates' => [
-        'extension' => '%s',
-        'paths' => [
-            'test' => ['templates/test'],
-        ],
-    ],
-];
+/**
+ * Dummy class for testing template generation.
+ */
+class ZendViewRenderer
+{
+}

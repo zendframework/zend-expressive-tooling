@@ -18,6 +18,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CreateHandlerCommand extends Command
 {
+    use TemplateResolutionTrait;
+
     public const DEFAULT_SRC = '/src';
 
     public const HELP_HANDLER_DESCRIPTION = 'Create a PSR-15 request handler class file.';
@@ -92,6 +94,11 @@ EOT;
      * @var bool
      */
     private $requireHandlerBeforeGeneratingFactory = true;
+
+    /**
+     * Whether or not a template renderer is registered in configuration.
+     */
+    private $templateRendererIsRegistered = false;
 
     /**
      * Configure the console command.
