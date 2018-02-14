@@ -187,20 +187,6 @@ class CreateTemplateTest extends TestCase
         $generator->forHandler('Test\TestHandler');
     }
 
-    public function testGeneratingTemplateWhenHandlerIsInUnrecognizedLocationResultsInException()
-    {
-        vfsStream::copyFromFileSystem(__DIR__ . '/TestAsset/flat', $this->dir);
-        mkdir($this->projectRoot . '/library');
-        rename($this->projectRoot . '/src/Test/TestHandler.php', $this->projectRoot . '/library/TestHandler.php');
-        require $this->projectRoot . '/library/TestHandler.php';
-
-        $generator = new CreateTemplate($this->projectRoot);
-
-        $this->expectException(UndetectableNamespaceException::class);
-        $this->expectExceptionMessage('library/TestHandler.php');
-        $generator->forHandler('Test\TestHandler');
-    }
-
     public function rendererTypesWithInvalidPathCounts() : iterable
     {
         foreach (['empty-paths', 'too-many-paths'] as $config) {

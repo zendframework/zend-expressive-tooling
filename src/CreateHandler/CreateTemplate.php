@@ -17,7 +17,7 @@ use Zend\Expressive\ZendView\ZendViewRenderer;
 
 class CreateTemplate
 {
-    use NormalizeTemplateIdentifierTrait;
+    use TemplateResolutionTrait;
 
     /**
      * Array of renderers we can generate templates for.
@@ -45,20 +45,20 @@ class CreateTemplate
 
     public function forHandler(string $handler) : Template
     {
-        $handlerPath = $this->getHandlerPath($handler);
-        $templateNamespace = $this->normalizeTemplateIdentifier($this->getNamespaceFromPath($handlerPath));
+        $templateNamespace = $this->getTemplateNamespaceFromClass($handler);
         return $this->forHandlerUsingTemplateNamespace($handler, $templateNamespace);
     }
 
     public function forHandlerUsingTemplateNamespace(string $handler, string $templateNamespace) : Template
     {
-        $config = $this->getConfig();
+        $config = $this->getConfig($this->projectPath);
         $rendererType = $this->resolveRendererType($config);
         $handlerPath = $this->getHandlerPath($handler);
 
         $templatePath = $this->getTemplatePathForNamespaceFromConfig($templateNamespace, $config)
             ?: $this->getTemplatePathForNamespaceBasedOnHandlerPath(
-                $this->getNamespaceFromPath($handlerPath),
+                $this->getNamespace($handler),
+                $templateNamespace,
                 $handlerPath
             );
         $templatePath = sprintf('%s/%s', $this->projectPath, $templatePath);
@@ -67,7 +67,7 @@ class CreateTemplate
             mkdir($templatePath, 0777, true);
         }
 
-        $templateName = $this->normalizeTemplateIdentifier($this->getHandlerClassName($handler));
+        $templateName = $this->getTemplateNameFromClass($handler);
         $templateFile = sprintf(
             '%s/%s.%s',
             $templatePath,
@@ -83,43 +83,6 @@ class CreateTemplate
         );
     }
 
-    private function getHandlerPath(string $handler) : string
-    {
-        $r = new ReflectionClass($handler);
-        $path = $r->getFileName();
-        $path = preg_replace('#^' . preg_quote($this->projectPath) . '#', '', $path);
-        $path = ltrim($path, '/\\');
-        return rtrim($path, '/\\');
-    }
-
-    /**
-     * @throws UndetectableNamespaceException
-     */
-    private function getNamespaceFromPath(string $path) : string
-    {
-        if (! preg_match('#^src/(?P<namespace>[^/]+)/#', $path, $matches)) {
-            throw UndetectableNamespaceException::forPath($path);
-        }
-        return $matches['namespace'];
-    }
-
-    private function pathRepresentsModule(string $path, string $namespace) : bool
-    {
-        $regex = sprintf('#^src/%s/(?P<isModule>src/)?#', $namespace);
-        $matches = [];
-        preg_match($regex, $path, $matches);
-        return isset($matches['isModule']);
-    }
-
-    private function getConfig() : array
-    {
-        $configFile = $this->projectPath . '/config/config.php';
-        if (! file_exists($configFile)) {
-            return [];
-        }
-        return include $configFile;
-    }
-
     private function resolveRendererType(array $config) : string
     {
         if (! isset($config['dependencies']['aliases'][TemplateRendererInterface::class])) {
@@ -132,6 +95,15 @@ class CreateTemplate
         }
 
         return $type;
+    }
+
+    private function getHandlerPath(string $handler) : string
+    {
+        $r = new ReflectionClass($handler);
+        $path = $r->getFileName();
+        $path = preg_replace('#^' . preg_quote($this->projectPath) . '#', '', $path);
+        $path = ltrim($path, '/\\');
+        return rtrim($path, '/\\');
     }
 
     /**
@@ -154,12 +126,23 @@ class CreateTemplate
         return rtrim($path, '/\\');
     }
 
-    private function getTemplatePathForNamespaceBasedOnHandlerPath(string $namespace, string $path) : string
-    {
+    private function getTemplatePathForNamespaceBasedOnHandlerPath(
+        string $namespace,
+        string $templateNamespace,
+        string $path
+    ) : string {
         if ($this->pathRepresentsModule($path, $namespace)) {
             return sprintf('src/%s/templates', $namespace);
         }
-        return sprintf('templates/%s', $this->normalizeTemplateIdentifier($namespace));
+        return sprintf('templates/%s', $templateNamespace);
+    }
+
+    private function pathRepresentsModule(string $path, string $namespace) : bool
+    {
+        $regex = sprintf('#^src/%s/(?P<isModule>src/)?#', $namespace);
+        $matches = [];
+        preg_match($regex, $path, $matches);
+        return isset($matches['isModule']);
     }
 
     private function getTemplateSuffixFromConfig(string $type, array $config) : string
@@ -182,15 +165,5 @@ class CreateTemplate
             default:
                 return 'phtml';
         }
-    }
-
-    /**
-     * Strips the namespace from the class name, and removes any
-     * Action or Handler suffix before returning the name.
-     */
-    private function getHandlerClassName(string $handler) : string
-    {
-        $name = substr($handler, strrpos($handler, '\\') + 1);
-        return preg_replace('#(Action|Handler)$#', '', $name);
     }
 }
