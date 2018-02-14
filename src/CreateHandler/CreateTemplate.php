@@ -17,6 +17,8 @@ use Zend\Expressive\ZendView\ZendViewRenderer;
 
 class CreateTemplate
 {
+    use NormalizeTemplateIdentifierTrait;
+
     /**
      * Array of renderers we can generate templates for.
      *
@@ -107,17 +109,6 @@ class CreateTemplate
         $matches = [];
         preg_match($regex, $path, $matches);
         return isset($matches['isModule']);
-    }
-
-    /**
-     * Normalizes identifier to lowercase, dash-separated words.
-     */
-    private function normalizeTemplateIdentifier(string $identifier) : string
-    {
-        $pattern     = ['#(?<=(?:\p{Lu}))(\p{Lu}\p{Ll})#', '#(?<=(?:\p{Ll}|\p{Nd}))(\p{Lu})#'];
-        $replacement = ['-\1', '-\1'];
-        $identifier  = preg_replace($pattern, $replacement, $identifier);
-        return strtolower($identifier);
     }
 
     private function getConfig() : array
