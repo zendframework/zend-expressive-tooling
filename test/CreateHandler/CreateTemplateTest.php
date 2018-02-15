@@ -260,7 +260,10 @@ class CreateTemplateTest extends TestCase
         vfsStream::copyFromFileSystem(__DIR__ . '/TestAsset/flat', $this->dir);
         $this->prepareCommonAssets();
         require $this->projectRoot . '/src/Test/TestHandler.php';
-        copy($this->projectRoot . '/config/config.php.unrecognized-renderer', $this->projectRoot . '/config/config.php');
+        copy(
+            $this->projectRoot . '/config/config.php.unrecognized-renderer',
+            $this->projectRoot . '/config/config.php'
+        );
         $this->injectConfigInContainer();
         $this->container->has(TemplateRendererInterface::class)->willReturn(true);
         $this->container->get(TemplateRendererInterface::class)->willReturn($this);
