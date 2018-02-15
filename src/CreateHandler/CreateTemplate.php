@@ -45,11 +45,14 @@ class CreateTemplate
 
     public function forHandler(string $handler) : Template
     {
-        $templateNamespace = $this->getTemplateNamespaceFromClass($handler);
-        return $this->forHandlerUsingTemplateNamespace($handler, $templateNamespace);
+        return $this->generateTemplate(
+            $handler,
+            $this->getTemplateNamespaceFromClass($handler),
+            $this->getTemplateNameFromClass($handler)
+        );
     }
 
-    public function forHandlerUsingTemplateNamespace(string $handler, string $templateNamespace) : Template
+    public function generateTemplate(string $handler, string $templateNamespace, string $templateName) : Template
     {
         $config = $this->getConfig($this->projectPath);
         $rendererType = $this->resolveRendererType();
@@ -67,7 +70,6 @@ class CreateTemplate
             mkdir($templatePath, 0777, true);
         }
 
-        $templateName = $this->getTemplateNameFromClass($handler);
         $templateFile = sprintf(
             '%s/%s.%s',
             $templatePath,

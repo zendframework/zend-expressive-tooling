@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Zend\Expressive\Tooling\CreateHandler;
 
+use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
@@ -74,6 +75,29 @@ creates, it registers it with the container. Passing this option disables
 registration of the generated factory with the container.
 EOT;
 
+    const HELP_OPTION_WITHOUT_TEMPLATE = <<< 'EOT'
+By default, this command generates a template for the newly generated class,
+and adds functionality to it render the template. Passing this flag
+disables template generation and invocation.
+EOT;
+
+    const HELP_OPTION_WITH_TEMPLATE_NAME = <<< 'EOT'
+By default, this command uses a normalized version of the class name as the
+template name. Use this option to provide aan alternative template name
+(minus the namespace) for the generated template. The template file will be
+named using this name, using an extension base on the configured template
+renderer.  If --without-template is provided, this option is ignored. 
+EOT;
+
+    const HELP_OPTION_WITH_TEMPLATE_NAMESPACE = <<< 'EOT'
+By default, this command uses a normalized version of the root namespace of the
+class generated as the template namespace.  Use this option to provide an
+alternate template namespace for the generated template. The template will be
+placed in the path defined for that namespace if discovered; otherwise, it will
+be placed in the path defined for the root namespace of the class created. If
+--without-template is provided, this option is ignored.
+EOT;
+
     const STATUS_HANDLER_TEMPLATE = '<info>Creating request handler %s...</info>';
 
     const STATUS_ACTION_TEMPLATE = '<info>Creating action %s...</info>';
@@ -86,6 +110,14 @@ EOT;
     private $handlerArgument = 'handler';
 
     /**
+     * Root path of the project. Defaults to getcwd(). Mainly exists for
+     * testing purposes, to allow injecting a virtual filesystem location.
+     *
+     * @var string
+     */
+    private $projectRoot;
+
+    /**
      * Flag indicating whether or not to require the generated handler before
      * generating its factory. By default, this is true, as it is necessary
      * in order for the handler to be reflected. However, during testing, we do
@@ -96,9 +128,28 @@ EOT;
     private $requireHandlerBeforeGeneratingFactory = true;
 
     /**
+     * Whether or not the template renderer is registered in the container.
+     * @var bool
+     */
+    private $rendererIsRegistered = false;
+
+    /**
      * Whether or not a template renderer is registered in configuration.
      */
     private $templateRendererIsRegistered = false;
+
+    public function __construct(string $name = null, string $projectRoot = null, ContainerInterface $container = null)
+    {
+        $this->projectRoot = $projectRoot ?: realpath(getcwd());
+        $this->container = $container;
+        $this->rendererIsRegistered = $this->containerDefinesRendererService(
+            $this->getContainer($this->projectRoot)
+        );
+
+        // Must do last, so that container and/or project root are in scope
+        // when configure() is called.
+        parent::__construct($name);
+    }
 
     /**
      * Configure the console command.
@@ -111,11 +162,28 @@ EOT;
     protected function configure() : void
     {
         if (0 === strpos($this->getName(), 'action:')) {
-            $this->handlerArgument = 'action';
             $this->configureAction();
-            return;
+        } else {
+            $this->configureHandler();
         }
 
+        if ($this->rendererIsRegistered) {
+            $this->configureTemplateOptions();
+        }
+    }
+
+    protected function configureAction() : void
+    {
+        $this->handlerArgument = 'action';
+        $this->setDescription(self::HELP_ACTION_DESCRIPTION);
+        $this->setHelp(self::HELP_ACTION);
+        $this->addArgument('action', InputArgument::REQUIRED, self::HELP_ACTION_ARG_ACTION);
+        $this->addOption('no-factory', null, InputOption::VALUE_NONE, self::HELP_ACTION_OPT_NO_FACTORY);
+        $this->addOption('no-register', null, InputOption::VALUE_NONE, self::HELP_ACTION_OPT_NO_REGISTER);
+    }
+
+    protected function configureHandler() : void
+    {
         $this->setDescription(self::HELP_HANDLER_DESCRIPTION);
         $this->setHelp(self::HELP_HANDLER);
         $this->addArgument('handler', InputArgument::REQUIRED, self::HELP_HANDLER_ARG_HANDLER);
@@ -123,13 +191,26 @@ EOT;
         $this->addOption('no-register', null, InputOption::VALUE_NONE, self::HELP_HANDLER_OPT_NO_REGISTER);
     }
 
-    protected function configureAction() : void
+    protected function configureTemplateOptions() : void
     {
-        $this->setDescription(self::HELP_ACTION_DESCRIPTION);
-        $this->setHelp(self::HELP_ACTION);
-        $this->addArgument('action', InputArgument::REQUIRED, self::HELP_ACTION_ARG_ACTION);
-        $this->addOption('no-factory', null, InputOption::VALUE_NONE, self::HELP_ACTION_OPT_NO_FACTORY);
-        $this->addOption('no-register', null, InputOption::VALUE_NONE, self::HELP_ACTION_OPT_NO_REGISTER);
+        $this->addOption(
+            'with-template-name',
+            null,
+            InputOption::VALUE_REQUIRED,
+            self::HELP_OPTION_WITH_TEMPLATE_NAME
+        );
+        $this->addOption(
+            'with-template-namespace',
+            null,
+            InputOption::VALUE_REQUIRED,
+            self::HELP_OPTION_WITH_TEMPLATE_NAMESPACE
+        );
+        $this->addOption(
+            'without-template',
+            null,
+            InputOption::VALUE_NONE,
+            self::HELP_OPTION_WITHOUT_TEMPLATE
+        );
     }
 
     /**
@@ -146,8 +227,23 @@ EOT;
             : self::STATUS_HANDLER_TEMPLATE;
         $output->writeln(sprintf($template, $handler));
 
-        $generator = new CreateHandler();
-        $path = $generator->process($handler);
+        $skeleton = ClassSkeletons::CLASS_SKELETON;
+        $substitutions = [];
+        $templateNamespace = null;
+        $templateName = null;
+
+        if ($this->rendererIsRegistered && ! $input->getOption('without-template')) {
+            $skeleton = ClassSkeletons::CLASS_SKELETON_WITH_TEMPLATE;
+            $templateNamespace = $input->getOption('with-template-namespace')
+                ?: $this->getTemplateNamespaceFromClass($handler);
+            $templateName = $input->getOption('with-template-name')
+                ?: $this->getTemplateNameFromClass($handler);
+            $substitutions['%template-namespace%'] = $templateNamespace;
+            $substitutions['%template-name%'] = $templateName;
+        }
+
+        $generator = new CreateHandler($skeleton, $this->projectRoot);
+        $path = $generator->process($handler, $substitutions);
 
         $output->writeln('<info>Success!</info>');
         $output->writeln(sprintf(
@@ -156,18 +252,50 @@ EOT;
             $path
         ));
 
+        if ($this->rendererIsRegistered
+            && ! $input->getOption('without-template')
+        ) {
+            $this->generateTemplate($handler, $templateNamespace, $templateName, $path, $output);
+        }
+
         if (! $input->getOption('no-factory')) {
-            if ($this->requireHandlerBeforeGeneratingFactory) {
-                require $path;
-            }
-            return $this->generateFactory($handler, $input, $output);
+            return $this->generateFactory($handler, $path, $input, $output);
         }
 
         return 0;
     }
 
-    private function generateFactory(string $handlerClass, InputInterface $input, OutputInterface $output) : int
-    {
+    private function generateTemplate(
+        string $handlerClass,
+        string $templateNamespace,
+        string $templateName,
+        string $path,
+        OutputInterface $output
+    ) : void {
+        if ($this->requireHandlerBeforeGeneratingFactory) {
+            require_once $path;
+        }
+
+        $generator = new CreateTemplate($this->projectRoot);
+        $template = $generator->generateTemplate($handlerClass, $templateNamespace, $templateName);
+
+        $output->writeln(sprintf(
+            '<info>- Created template %s in file %s</info>',
+            $template->getName(),
+            $template->getPath()
+        ));
+    }
+
+    private function generateFactory(
+        string $handlerClass,
+        string $path,
+        InputInterface $input,
+        OutputInterface $output
+    ) : int {
+        if ($this->requireHandlerBeforeGeneratingFactory) {
+            require_once $path;
+        }
+
         $factoryInput = new ArrayInput([
             'command'       => 'factory:create',
             'class'         => $handlerClass,

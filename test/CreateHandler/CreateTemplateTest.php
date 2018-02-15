@@ -329,4 +329,50 @@ class CreateTemplateTest extends TestCase
         $this->expectException(TemplatePathResolutionException::class);
         $generator->forHandler('Test\TestHandler');
     }
+
+    /**
+     * @dataProvider rendererTypes
+     */
+    public function testCanGenerateTemplateUsingProvidedNamespaceAndNameWhenConfigurationMatchesForFlatHierarchy(
+        string $rendererType,
+        string $extension
+    ) {
+        vfsStream::copyFromFileSystem(__DIR__ . '/TestAsset/flat', $this->dir);
+        $this->prepareCommonAssets();
+        require $this->projectRoot . '/src/Test/TestHandler.php';
+        copy($this->projectRoot . '/config/config.php.custom-namespace', $this->projectRoot . '/config/config.php');
+        $this->updateConfigContents($extension);
+        $this->injectConfigInContainer();
+        $this->injectRendererInContainer($rendererType);
+
+        $generator = new CreateTemplate($this->projectRoot);
+        $this->injectContainerInGenerator($generator);
+
+        $template = $generator->generateTemplate('Test\TestHandler', 'custom', 'also-custom');
+        $this->assertRegexp('#templates/custom/also-custom\.' . $extension . '$#', $template->getPath());
+        $this->assertSame('custom::also-custom', $template->getName());
+    }
+
+    /**
+     * @dataProvider rendererTypes
+     */
+    public function testCanGenerateTemplateUsingProvidedNamespaceAndNameWhenConfigurationMatchesForModuleHierarchy(
+        string $rendererType,
+        string $extension
+    ) {
+        vfsStream::copyFromFileSystem(__DIR__ . '/TestAsset/module', $this->dir);
+        $this->prepareCommonAssets();
+        require $this->projectRoot . '/src/Test/src/TestHandler.php';
+        copy($this->projectRoot . '/config/config.php.custom-namespace', $this->projectRoot . '/config/config.php');
+        $this->updateConfigContents($extension);
+        $this->injectConfigInContainer();
+        $this->injectRendererInContainer($rendererType);
+
+        $generator = new CreateTemplate($this->projectRoot);
+        $this->injectContainerInGenerator($generator);
+
+        $template = $generator->generateTemplate('Test\TestHandler', 'custom', 'also-custom');
+        $this->assertRegexp('#src/Custom/templates/also-custom\.' . $extension . '$#', $template->getPath());
+        $this->assertSame('custom::also-custom', $template->getName());
+    }
 }
