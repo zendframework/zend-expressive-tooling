@@ -14,8 +14,6 @@ namespace Zend\Expressive\Tooling;
 
 use Symfony\Component\Console\Application;
 
-const VERSION = '%version%';
-
 // Setup/verify autoloading
 if (file_exists($a = __DIR__ . '/../../../autoload.php')) {
     require $a;
@@ -28,7 +26,7 @@ if (file_exists($a = __DIR__ . '/../../../autoload.php')) {
     exit(1);
 }
 
-$application = new Application('expressive', VERSION);
+$application = new Application('expressive');
 $application->addCommands([
     new Factory\CreateFactoryCommand('factory:create'),
     new CreateHandler\CreateHandlerCommand('action:create'),
