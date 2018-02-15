@@ -14,6 +14,9 @@ use RecursiveIteratorIterator;
 use SplFileInfo;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * @deprecated since 1.0.0, and scheduled for removal with 2.0.0
+ */
 class ConvertInteropMiddleware
 {
     private $output;
