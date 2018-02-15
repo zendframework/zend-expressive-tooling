@@ -50,14 +50,18 @@ class CreateHandler extends ClassSkeletons
 
         list($namespace, $class) = $this->getNamespaceAndClass($class);
 
-        $arguments = ['%namespace%', '%class%'] + array_keys($additionalSubstitutions);
-        $subsitutions = [$namespace, $class] + array_values($additionalSubstitutions);
-
-        $content = str_replace(
-            $arguments,
-            $subsitutions,
-            $this->skeleton
+        $substitutions = array_merge(
+            [
+                '%namespace%' => $namespace,
+                '%class%'     => $class,
+            ],
+            $additionalSubstitutions
         );
+
+        $content = $this->skeleton;
+        foreach ($substitutions as $key => $value) {
+            $content = str_replace($key, $value, $content);
+        }
 
         if (is_file($path)) {
             throw CreateHandlerException::classExists($path, $class);
