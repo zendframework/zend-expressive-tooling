@@ -51,16 +51,34 @@ class ConvertMiddleware
         $contents = $original;
 
         if (! preg_match(
-            '#use\s+Psr\\\\Http\\\\Server\\\\MiddlewareInterface(\s*)(;|as\s*([^;\s]+)\s*;)#',
+            '#use\s+Psr\\\\Http\\\\Server\\\\MiddlewareInterface(\s*)(?<end>;|as\s*(?<alias>[^;\s]+)\s*;)#',
             $contents,
             $matches
         )) {
             return;
         }
 
-        $middleware = $matches[2] === ';'
+        $middleware = $matches['end'] === ';'
             ? 'MiddlewareInterface'
-            : $matches[3];
+            : $matches['alias'];
+
+        if (! preg_match(
+            '#public\s+function\s+process\s*\(.*?,[^)]*(?<var>\$\w+)\s*\)#s',
+            $contents,
+            $matches
+        )) {
+            return;
+        }
+
+        $var = preg_quote($matches['var'], '#');
+        if (preg_match('#' . $var . '\s*->\s*handle\s*\(' . '#', $contents)) {
+            $this->output->writeln(sprintf(
+                '<comment>- Skipping %s; request handler usage detected</comment>',
+                $filename
+            ));
+
+            return;
+        }
 
         // Remove imported MiddlewareInterface
         $contents = preg_replace(

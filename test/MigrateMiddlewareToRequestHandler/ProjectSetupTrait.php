@@ -56,19 +56,29 @@ trait ProjectSetupTrait
         $console = $this->prophesize(OutputInterface::class);
 
         $console
-            ->writeln(Argument::containingString('src/MultilineMiddleware.php'))
+            ->writeln(Argument::that(function ($arg) {
+                return preg_match('#Updating .*src/MultilineMiddleware\.php#', $arg) !== false;
+            }))
             ->shouldBeCalled();
         $console
-            ->writeln(Argument::containingString('src/MultipleInterfacesMiddleware.php'))
+            ->writeln(Argument::that(function ($arg) {
+                return preg_match('#Updating .*src/MultipleInterfacesMiddleware\.php#', $arg) !== false;
+            }))
             ->shouldBeCalled();
         $console
-            ->writeln(Argument::containingString('src/MyActionWithAliases.php'))
+            ->writeln(Argument::that(function ($arg) {
+                return preg_match('#Updating .*src/MyActionWithAliases\.php#', $arg) !== false;
+            }))
             ->shouldBeCalled();
-//        $console
-//            ->writeln(Argument::containingString('src/MyInteropMiddleware.php'))
-//            ->shouldBeCalled();
         $console
-            ->writeln(Argument::containingString('src/MyMiddleware.php'))
+            ->writeln(Argument::that(function ($arg) {
+                return preg_match('#Updating .*src/MyMiddleware\.php#', $arg) !== false;
+            }))
+            ->shouldBeCalled();
+        $console
+            ->writeln(Argument::that(function ($arg) {
+                return preg_match('#Skipping .*src/MyMiddlewareWithHandler\.php#', $arg) !== false;
+            }))
             ->shouldBeCalled();
 
         return $console;
