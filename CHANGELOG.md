@@ -18,6 +18,13 @@ All notable changes to this project will be documented in this file, in reverse 
   `handler:create` command, which now varies its help messages and argument
   names based on the command name provided.
 
+- [#58](https://github.com/zendframework/zend-expressive-tooling/pull/58) adds
+  the command `migrate:middleware-to-request-handler`. This command accepts an
+  optional `--src` option (default to `./src`), under which it will scan for
+  class files where middleware is defined. If a given class file represents
+  middleware, and the middleware does not call upon the handler argument, it
+  rewrites the middleware as a request handler.
+
 ### Changed
 
 - [#52](https://github.com/zendframework/zend-expressive-tooling/pull/52)
