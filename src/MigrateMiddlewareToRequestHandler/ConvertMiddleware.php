@@ -16,6 +16,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ConvertMiddleware
 {
+    /**
+     * @var OutputInterface
+     */
     private $output;
 
     public function __construct(OutputInterface $output)
