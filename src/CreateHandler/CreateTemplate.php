@@ -110,10 +110,12 @@ class CreateTemplate
     }
 
     /**
-     * @return null|string Returns null if on template path configuration
+     * @todo If more than one template path exists, we should likely prompt the
+     *     user for which one to which to install the template.
+     * @return null|string Returns null if no template path configuration
      *     exists for the namespace.
-     * @throws TemplatePathResolutionException if configuration has more than
-     *     one path defined for the namespace.
+     * @throws TemplatePathResolutionException if configuration has zero paths
+     *     defined for the namespace.
      */
     private function getTemplatePathForNamespaceFromConfig(string $templateNamespace, array $config) : ?string
     {
@@ -122,7 +124,7 @@ class CreateTemplate
         }
 
         $paths = $config['templates']['paths'][$templateNamespace];
-        if (count($paths) !== 1) {
+        if (count($paths) === 0) {
             throw TemplatePathResolutionException::forNamespace($templateNamespace);
         }
         $path = array_shift($paths);

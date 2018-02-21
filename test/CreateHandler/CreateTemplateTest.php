@@ -278,7 +278,7 @@ class CreateTemplateTest extends TestCase
 
     public function rendererTypesWithInvalidPathCounts() : iterable
     {
-        foreach (['empty-paths', 'too-many-paths'] as $config) {
+        foreach (['empty-paths'] as $config) {
             foreach ($this->rendererTypes() as $key => $arguments) {
                 array_push($arguments, sprintf('config.php.%s', $config));
                 $name = sprintf('%s-%s', $key, $config);
