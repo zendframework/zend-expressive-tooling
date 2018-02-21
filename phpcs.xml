@@ -3,7 +3,10 @@
     <rule ref="./vendor/zendframework/zend-coding-standard/ruleset.xml"/>
 
     <!-- Paths to check -->
+    <file>bin/bump-version</file>
+    <file>bin/expressive</file>
     <file>src</file>
     <file>test</file>
+
     <exclude-pattern>*/TestAsset/*</exclude-pattern>
 </ruleset>

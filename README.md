@@ -21,6 +21,8 @@ $ composer require --dev zendframework/zend-expressive-tooling
   - **middleware:create**: Create a PSR-15 middleware class file.
   - **migrate:interop-middleware**: Migrate interop middlewares and delegators
     to PSR-15 middlewares and request handlers.
+  - **migrate:middleware-to-request-handler**: Migrate PSR-15 middlewares to
+    request handlers.
   - **module:create**: Create and register a middleware module with the
     application.
   - **module:deregister**: Deregister a middleware module from the application.
