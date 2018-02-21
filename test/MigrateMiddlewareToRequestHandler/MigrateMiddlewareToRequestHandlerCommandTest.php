@@ -57,7 +57,7 @@ class MigrateMiddlewareToRequestHandlerCommandTest extends TestCase
 
     public function testConfigureSetsExpectedDescription()
     {
-        $this->assertContains('Migrate PSR-15 middlewares to request handlers', $this->command->getDescription());
+        $this->assertContains('Migrate PSR-15 middleware to request handlers', $this->command->getDescription());
     }
 
     /**
@@ -99,11 +99,13 @@ class MigrateMiddlewareToRequestHandlerCommandTest extends TestCase
         $this->input->getOption('src')->willReturn('src');
 
         $this->output
-            ->writeln(Argument::containingString('Scanning for PSR-15 middlewares to convert...'))
-            ->shouldBeCalled();
+            ->writeln(Argument::that(function ($arg) {
+                return preg_match('#Scanning "[^"]+" for PSR-15 middleware to convert#', $arg);
+            }))
+            ->shouldBeCalledTimes(1);
         $this->output
             ->writeln(Argument::containingString('Done!'))
-            ->shouldBeCalled();
+            ->shouldBeCalledTimes(1);
 
         $this->command->setProjectDir($path);
         $method = $this->reflectExecuteMethod();
