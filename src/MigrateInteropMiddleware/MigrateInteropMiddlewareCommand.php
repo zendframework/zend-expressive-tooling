@@ -14,6 +14,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * @deprecated since 1.0.0, and scheduled for removal with 2.0.0
+ */
 class MigrateInteropMiddlewareCommand extends Command
 {
     private const DEFAULT_SRC = '/src';
