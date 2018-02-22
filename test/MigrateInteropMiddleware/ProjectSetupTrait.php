@@ -12,6 +12,7 @@ namespace ZendTest\Expressive\Tooling\MigrateInteropMiddleware;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\Assert;
 use Prophecy\Argument;
+use Prophecy\Prophecy\ObjectProphecy;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
@@ -19,7 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 trait ProjectSetupTrait
 {
-    public function setupSrcDir($dir)
+    private function setupSrcDir($dir) : void
     {
         $base = realpath(__DIR__ . '/TestAsset') . DIRECTORY_SEPARATOR;
         $rdi = new RecursiveDirectoryIterator($base . 'src');
@@ -39,7 +40,7 @@ trait ProjectSetupTrait
         }
     }
 
-    public function isPhpFile(SplFileInfo $file)
+    private static function isPhpFile(SplFileInfo $file) : bool
     {
         return $file->isFile()
             && $file->getExtension() === 'php'
@@ -47,7 +48,10 @@ trait ProjectSetupTrait
             && $file->isWritable();
     }
 
-    public function setupConsoleHelper()
+    /**
+     * @return OutputInterface|ObjectProphecy
+     */
+    private function setupConsoleHelper()
     {
         $console = $this->prophesize(OutputInterface::class);
 
@@ -73,7 +77,7 @@ trait ProjectSetupTrait
         return $console;
     }
 
-    public function assertExpected(string $dir)
+    public static function assertExpected(string $dir) : void
     {
         $base = $dir;
         $rdi = new RecursiveDirectoryIterator($dir);
@@ -81,7 +85,7 @@ trait ProjectSetupTrait
 
         /** @var SplFileInfo $file */
         foreach ($rii as $file) {
-            if (! $this->isPhpFile($file)) {
+            if (! self::isPhpFile($file)) {
                 continue;
             }
 
@@ -89,7 +93,7 @@ trait ProjectSetupTrait
             $content = file_get_contents($filename);
             $name = strtr($filename, [$base . '/src' => __DIR__ . '/TestAsset/expected', DIRECTORY_SEPARATOR => '/']);
 
-            Assert::assertSame(file_get_contents($name), $content);
+            Assert::assertStringEqualsFile($name, $content);
         }
     }
 }
