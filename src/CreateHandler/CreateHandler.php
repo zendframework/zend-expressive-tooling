@@ -14,54 +14,54 @@ namespace Zend\Expressive\Tooling\CreateHandler;
  *
  * Creates a request handler class file for a given class in a given project root.
  */
-class CreateHandler
+class CreateHandler extends ClassSkeletons
 {
     /**
-     * @var string Template for request handler class.
+     * Path to root of project.
+     *
+     * @var string
      */
-    public const CLASS_SKELETON = <<< 'EOS'
-<?php
+    private $projectRoot;
 
-declare(strict_types=1);
-
-namespace %namespace%;
-
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\RequestHandlerInterface;
-
-class %class% implements RequestHandlerInterface
-{
     /**
-     * {@inheritDoc}
+     * Class skeleton template to use.
+     *
+     * @var string
      */
-    public function handle(ServerRequestInterface $request) : ResponseInterface
+    private $skeleton;
+
+    public function __construct(string $classSkeleton = self::CLASS_SKELETON, string $projectRoot = null)
     {
-        // Create and return a response
+        $this->skeleton = $classSkeleton;
+        $this->projectRoot = $projectRoot ?: realpath(getcwd());
     }
-}
-
-EOS;
 
     /**
+     * @param array $additionalSubstitutions An associative array where the keys
+     *     are the substitution strings to match, and the values are the associated
+     *     values to substitute.
      * @throws CreateHandlerException
      */
     public function process(
         string $class,
-        string $projectRoot = null,
-        string $classSkeleton = self::CLASS_SKELETON
+        array $additionalSubstitutions = []
     ) : string {
-        $projectRoot = $projectRoot ?: getcwd();
-
-        $path = $this->getClassPath($class, $projectRoot);
+        $path = $this->getClassPath($class);
 
         list($namespace, $class) = $this->getNamespaceAndClass($class);
 
-        $content = str_replace(
-            ['%namespace%', '%class%'],
-            [$namespace, $class],
-            $classSkeleton
+        $substitutions = array_merge(
+            [
+                '%namespace%' => $namespace,
+                '%class%'     => $class,
+            ],
+            $additionalSubstitutions
         );
+
+        $content = $this->skeleton;
+        foreach ($substitutions as $key => $value) {
+            $content = str_replace($key, $value, $content);
+        }
 
         if (is_file($path)) {
             throw CreateHandlerException::classExists($path, $class);
@@ -74,13 +74,13 @@ EOS;
     /**
      * @throws CreateHandlerException
      */
-    private function getClassPath(string $class, string $projectRoot) : string
+    private function getClassPath(string $class) : string
     {
-        $autoloaders = $this->getComposerAutoloaders($projectRoot);
+        $autoloaders = $this->getComposerAutoloaders();
         list($namespace, $path) = $this->discoverNamespaceAndPath($class, $autoloaders);
 
         // Absolute path to namespace
-        $path = implode([$projectRoot, DIRECTORY_SEPARATOR, $path]);
+        $path = implode([$this->projectRoot, DIRECTORY_SEPARATOR, $path]);
 
         $parts = explode('\\', $class);
         $className = array_pop($parts);
@@ -108,9 +108,9 @@ EOS;
      * @return array Associative array of namespace/path pairs
      * @throws CreateHandlerException
      */
-    private function getComposerAutoloaders(string $projectRoot) : array
+    private function getComposerAutoloaders() : array
     {
-        $composerPath = sprintf('%s/composer.json', $projectRoot);
+        $composerPath = sprintf('%s/composer.json', $this->projectRoot);
         if (! file_exists($composerPath)) {
             throw CreateHandlerException::missingComposerJson();
         }

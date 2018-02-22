@@ -31,34 +31,34 @@ class CreateHandlerTest extends TestCase
 
     public function testProcessRaisesExceptionWhenComposerJsonNotPresentInProjectRoot()
     {
-        $generator = new CreateHandler();
+        $generator = new CreateHandler(CreateHandler::CLASS_SKELETON, $this->projectRoot);
 
         $this->expectException(CreateHandlerException::class);
         $this->expectExceptionMessage('find a composer.json');
 
-        $generator->process('Foo\Bar\BazHandler', $this->projectRoot);
+        $generator->process('Foo\Bar\BazHandler');
     }
 
     public function testProcessRaisesExceptionForMalformedComposerJson()
     {
         file_put_contents($this->projectRoot . '/composer.json', 'not-a-value');
-        $generator = new CreateHandler();
+        $generator = new CreateHandler(CreateHandler::CLASS_SKELETON, $this->projectRoot);
 
         $this->expectException(CreateHandlerException::class);
         $this->expectExceptionMessage('Unable to parse');
 
-        $generator->process('Foo\Bar\BazHandler', $this->projectRoot);
+        $generator->process('Foo\Bar\BazHandler');
     }
 
     public function testProcessRaisesExceptionIfComposerJsonDoesNotDefinePsr4Autoloaders()
     {
         file_put_contents($this->projectRoot . '/composer.json', json_encode(['name' => 'some/project']));
-        $generator = new CreateHandler();
+        $generator = new CreateHandler(CreateHandler::CLASS_SKELETON, $this->projectRoot);
 
         $this->expectException(CreateHandlerException::class);
         $this->expectExceptionMessage('PSR-4 autoloaders');
 
-        $generator->process('Foo\Bar\BazHandler', $this->projectRoot);
+        $generator->process('Foo\Bar\BazHandler');
     }
 
     public function testProcessRaisesExceptionIfComposerJsonDefinesMalformedPsr4Autoloaders()
@@ -68,12 +68,12 @@ class CreateHandlerTest extends TestCase
                 'psr-4' => 'not-valid',
             ],
         ]));
-        $generator = new CreateHandler();
+        $generator = new CreateHandler(CreateHandler::CLASS_SKELETON, $this->projectRoot);
 
         $this->expectException(CreateHandlerException::class);
         $this->expectExceptionMessage('PSR-4 autoloaders');
 
-        $generator->process('Foo\Bar\BazHandler', $this->projectRoot);
+        $generator->process('Foo\Bar\BazHandler');
     }
 
     public function testProcessRaisesExceptionIfClassDoesNotMatchAnyAutoloadableNamespaces()
@@ -85,12 +85,12 @@ class CreateHandlerTest extends TestCase
                 ],
             ],
         ]));
-        $generator = new CreateHandler();
+        $generator = new CreateHandler(CreateHandler::CLASS_SKELETON, $this->projectRoot);
 
         $this->expectException(CreateHandlerException::class);
         $this->expectExceptionMessage('Unable to match');
 
-        $generator->process('Foo\Bar\BazHandler', $this->projectRoot);
+        $generator->process('Foo\Bar\BazHandler');
     }
 
     public function testProcessRaisesExceptionIfUnableToCreateSubPath()
@@ -105,12 +105,12 @@ class CreateHandlerTest extends TestCase
         ]));
         vfsStream::newDirectory('src/Foo/src', 0555)->at($this->dir);
 
-        $generator = new CreateHandler();
+        $generator = new CreateHandler(CreateHandler::CLASS_SKELETON, $this->projectRoot);
 
         $this->expectException(CreateHandlerException::class);
         $this->expectExceptionMessage('Unable to create the directory');
 
-        $generator->process('Foo\Bar\BazHandler', $this->projectRoot);
+        $generator->process('Foo\Bar\BazHandler');
     }
 
     public function testProcessCanCreateHandlerInNamespaceRoot()
@@ -125,12 +125,12 @@ class CreateHandlerTest extends TestCase
         ]));
         vfsStream::newDirectory('src/Foo/src', 0775)->at($this->dir);
 
-        $generator = new CreateHandler();
+        $generator = new CreateHandler(CreateHandler::CLASS_SKELETON, $this->projectRoot);
 
         $expectedPath = vfsStream::url('project/src/Foo/BarHandler.php');
         $this->assertEquals(
             $expectedPath,
-            $generator->process('Foo\BarHandler', $this->projectRoot)
+            $generator->process('Foo\BarHandler')
         );
 
         $classFileContents = file_get_contents($expectedPath);
@@ -155,12 +155,12 @@ class CreateHandlerTest extends TestCase
         ]));
         vfsStream::newDirectory('src/Foo/src', 0775)->at($this->dir);
 
-        $generator = new CreateHandler();
+        $generator = new CreateHandler(CreateHandler::CLASS_SKELETON, $this->projectRoot);
 
         $expectedPath = vfsStream::url('project/src/Foo/Bar/BazHandler.php');
         $this->assertEquals(
             $expectedPath,
-            $generator->process('Foo\Bar\BazHandler', $this->projectRoot)
+            $generator->process('Foo\Bar\BazHandler')
         );
 
         $classFileContents = file_get_contents($expectedPath);
@@ -185,12 +185,12 @@ class CreateHandlerTest extends TestCase
         ]));
         vfsStream::newDirectory('src/Foo/src', 0775)->at($this->dir);
 
-        $generator = new CreateHandler();
+        $generator = new CreateHandler(CreateHandler::CLASS_SKELETON, $this->projectRoot);
 
         $expectedPath = vfsStream::url('project/src/Foo/src/BarHandler.php');
         $this->assertEquals(
             $expectedPath,
-            $generator->process('Foo\BarHandler', $this->projectRoot)
+            $generator->process('Foo\BarHandler')
         );
 
         $classFileContents = file_get_contents($expectedPath);
@@ -215,12 +215,12 @@ class CreateHandlerTest extends TestCase
         ]));
         vfsStream::newDirectory('src/Foo/src', 0775)->at($this->dir);
 
-        $generator = new CreateHandler();
+        $generator = new CreateHandler(CreateHandler::CLASS_SKELETON, $this->projectRoot);
 
         $expectedPath = vfsStream::url('project/src/Foo/src/Bar/BazHandler.php');
         $this->assertEquals(
             $expectedPath,
-            $generator->process('Foo\Bar\BazHandler', $this->projectRoot)
+            $generator->process('Foo\Bar\BazHandler')
         );
 
         $classFileContents = file_get_contents($expectedPath);
@@ -246,12 +246,12 @@ class CreateHandlerTest extends TestCase
         vfsStream::newDirectory('src/App/Foo', 0775)->at($this->dir);
         file_put_contents($this->projectRoot . '/src/App/Foo/BarHandler.php', 'App\Foo\BarHandler');
 
-        $generator = new CreateHandler();
+        $generator = new CreateHandler(CreateHandler::CLASS_SKELETON, $this->projectRoot);
 
         $this->expectException(CreateHandlerException::class);
         $this->expectExceptionMessage('Class BarHandler already exists');
 
-        $generator->process('App\Foo\BarHandler', $this->projectRoot);
+        $generator->process('App\Foo\BarHandler');
     }
 
     public function testTheClassSkeletonParameterOverridesTheConstant()
@@ -266,12 +266,12 @@ class CreateHandlerTest extends TestCase
         ]));
         vfsStream::newDirectory('src/Foo/src', 0775)->at($this->dir);
 
-        $generator = new CreateHandler();
+        $generator = new CreateHandler('class Foo\Bar\BazHandler', $this->projectRoot);
 
         $expectedPath = vfsStream::url('project/src/Foo/Bar/BazHandler.php');
         $this->assertEquals(
             $expectedPath,
-            $generator->process('Foo\Bar\BazHandler', $this->projectRoot, 'class Foo\Bar\BazHandler')
+            $generator->process('Foo\Bar\BazHandler')
         );
 
         $classFileContents = file_get_contents($expectedPath);
