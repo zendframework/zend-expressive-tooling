@@ -25,6 +25,27 @@ All notable changes to this project will be documented in this file, in reverse 
   middleware, and the middleware does not call upon the handler argument, it
   rewrites the middleware as a request handler.
 
+- [#63](https://github.com/zendframework/zend-expressive-tooling/pull/63) adds
+  template generation capabilities to the `handler:create`/`action:create`
+  commands. If a `TemplateRendererInterface` service is detected in the
+  container, it will generate a template based on the root namespace of the
+  generated class and the class name (minus any `Handler`, `Action`, or
+  `Middleware` suffixes), and update the class to render the template into a
+  zend-diactoros `HtmlResponse`. It also then exposes the following options:
+
+  - `--without-template` disables template generation and template awareness in
+    the generated class.
+
+  - `--with-template-namespace` allows specifying an alternative template
+    namespace.
+
+  - `--with-template-name` allows specifying an alternative template
+    name (separately from the namespace).
+
+  - `--with-template-extension` allows specifying an alternative template
+    file extension. By default, it will use the `templates.extension`
+    configuration value, or a default based on known template renderers.
+
 ### Changed
 
 - [#52](https://github.com/zendframework/zend-expressive-tooling/pull/52)
