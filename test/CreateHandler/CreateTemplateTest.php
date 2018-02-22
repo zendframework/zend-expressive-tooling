@@ -23,6 +23,7 @@ use Zend\Expressive\Tooling\CreateHandler\CreateTemplate;
 use Zend\Expressive\Tooling\CreateHandler\TemplatePathResolutionException;
 use Zend\Expressive\Tooling\CreateHandler\UndetectableNamespaceException;
 use Zend\Expressive\Tooling\CreateHandler\UnresolvableRendererException;
+use Zend\Expressive\Tooling\CreateHandler\UnknownTemplateSuffixException;
 use Zend\Expressive\Tooling\CreateHandler\Template;
 
 /**
@@ -376,6 +377,24 @@ class CreateTemplateTest extends TestCase
 
         $template = $generator->generateTemplate('Test\TestHandler', 'custom', 'also-custom');
         $this->assertRegexp('#src/Custom/templates/also-custom\.' . $extension . '$#', $template->getPath());
+        $this->assertSame('custom::also-custom', $template->getName());
+    }
+
+    public function testCanGenerateTemplateWithUnrecognizedRendererTypeIfTemplatSuffixIsProvided()
+    {
+        vfsStream::copyFromFileSystem(__DIR__ . '/TestAsset/module', $this->dir);
+        $this->prepareCommonAssets();
+        require $this->projectRoot . '/src/Test/src/TestHandler.php';
+        copy($this->projectRoot . '/config/config.php.no-extension', $this->projectRoot . '/config/config.php');
+        $this->injectConfigInContainer();
+        $this->container->has(TemplateRendererInterface::class)->willReturn(true);
+        $this->container->get(TemplateRendererInterface::class)->willReturn($this);
+
+        $generator = new CreateTemplate($this->projectRoot);
+        $this->injectContainerInGenerator($generator);
+
+        $template = $generator->generateTemplate('Test\TestHandler', 'custom', 'also-custom', 'XHTML');
+        $this->assertRegexp('#src/Custom/templates/also-custom\.XHTML$#', $template->getPath());
         $this->assertSame('custom::also-custom', $template->getName());
     }
 }

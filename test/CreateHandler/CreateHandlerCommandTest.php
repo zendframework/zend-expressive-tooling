@@ -177,6 +177,7 @@ class CreateHandlerCommandTest extends TestCase
         $this->assertFalse($definition->hasOption('without-template'));
         $this->assertFalse($definition->hasOption('with-template-namespace'));
         $this->assertFalse($definition->hasOption('with-template-name'));
+        $this->assertFalse($definition->hasOption('with-template-extension'));
     }
 
     public function testConfigureSetsExpectedOptionsWhenRequestingAnAction()
@@ -197,6 +198,7 @@ class CreateHandlerCommandTest extends TestCase
         $this->assertFalse($definition->hasOption('without-template'));
         $this->assertFalse($definition->hasOption('with-template-namespace'));
         $this->assertFalse($definition->hasOption('with-template-name'));
+        $this->assertFalse($definition->hasOption('with-template-extension'));
     }
 
     public function testConfigureSetsExpectedTemplateOptionsWhenRequestingAHandlerAndRendererIsPresent()
@@ -219,6 +221,11 @@ class CreateHandlerCommandTest extends TestCase
         $option = $definition->getOption('with-template-name');
         $this->assertTrue($option->acceptValue());
         $this->assertEquals(CreateHandlerCommand::HELP_OPTION_WITH_TEMPLATE_NAME, $option->getDescription());
+
+        $this->assertTrue($definition->hasOption('with-template-extension'));
+        $option = $definition->getOption('with-template-extension');
+        $this->assertTrue($option->acceptValue());
+        $this->assertEquals(CreateHandlerCommand::HELP_OPTION_WITH_TEMPLATE_EXTENSION, $option->getDescription());
     }
 
     public function testConfigureSetsExpectedTemplateOptionsWhenRequestingAnActionAndRendererIsPresent()
@@ -241,6 +248,11 @@ class CreateHandlerCommandTest extends TestCase
         $option = $definition->getOption('with-template-name');
         $this->assertTrue($option->acceptValue());
         $this->assertEquals(CreateHandlerCommand::HELP_OPTION_WITH_TEMPLATE_NAME, $option->getDescription());
+
+        $this->assertTrue($definition->hasOption('with-template-extension'));
+        $option = $definition->getOption('with-template-extension');
+        $this->assertTrue($option->acceptValue());
+        $this->assertEquals(CreateHandlerCommand::HELP_OPTION_WITH_TEMPLATE_EXTENSION, $option->getDescription());
     }
 
     public function testSuccessfulExecutionEmitsExpectedMessages()
@@ -349,13 +361,14 @@ class CreateHandlerCommandTest extends TestCase
         $templateGenerator = Mockery::mock('overload:' . CreateTemplate::class);
         $templateGenerator->shouldReceive('generateTemplate')
             ->once()
-            ->with('Foo\TestHandler', $templateNamespace, $templateName)
+            ->with('Foo\TestHandler', $templateNamespace, $templateName, null)
             ->andReturn($template);
 
         $this->input->getArgument('handler')->willReturn('Foo\TestHandler');
         $this->input->getOption('without-template')->willReturn(false);
         $this->input->getOption('with-template-namespace')->willReturn(null);
         $this->input->getOption('with-template-name')->willReturn(null);
+        $this->input->getOption('with-template-extension')->willReturn(null);
         $this->input->getOption('no-factory')->willReturn(false);
         $this->input->getOption('no-register')->willReturn(false);
         $this->output
@@ -385,14 +398,15 @@ class CreateHandlerCommandTest extends TestCase
         $templateNamespace = 'custom';
         $templateName = 'also-custom';
         $generatedTemplate = sprintf('%s::%s', $templateNamespace, $templateName);
+        $templateExtension = 'XHTML';
         $substitutions = [
             '%template-namespace%' => $templateNamespace,
             '%template-name%' => $templateName,
         ];
         return [
             // @codingStandardsIgnoreStart
-            'handler' => ['handler:create', 'Foo\TestHandler', $templateNamespace, $templateName, $generatedTemplate, $substitutions],
-            'action'  => ['action:create', 'Foo\TestAction', $templateNamespace, $templateName, $generatedTemplate, $substitutions],
+            'handler' => ['handler:create', 'Foo\TestHandler', $templateNamespace, $templateName, $generatedTemplate, $templateExtension, $substitutions],
+            'action'  => ['action:create', 'Foo\TestAction', $templateNamespace, $templateName, $generatedTemplate, $templateExtension, $substitutions],
             // @codingStandardsIgnoreEnd
         ];
     }
@@ -406,6 +420,7 @@ class CreateHandlerCommandTest extends TestCase
         string $templateNamespace,
         string $templateName,
         string $generatedTemplate,
+        string $templateExtension,
         array $expectedSubstitutions
     ) {
         $this->container->has(TemplateRendererInterface::class)->willReturn(true);
@@ -423,13 +438,14 @@ class CreateHandlerCommandTest extends TestCase
         $templateGenerator = Mockery::mock('overload:' . CreateTemplate::class);
         $templateGenerator->shouldReceive('generateTemplate')
             ->once()
-            ->with('Foo\TestHandler', $templateNamespace, $templateName)
+            ->with('Foo\TestHandler', $templateNamespace, $templateName, $templateExtension)
             ->andReturn($template);
 
         $this->input->getArgument('handler')->willReturn('Foo\TestHandler');
         $this->input->getOption('without-template')->willReturn(false);
         $this->input->getOption('with-template-namespace')->willReturn($templateNamespace);
         $this->input->getOption('with-template-name')->willReturn($templateName);
+        $this->input->getOption('with-template-extension')->willReturn($templateExtension);
         $this->input->getOption('no-factory')->willReturn(false);
         $this->input->getOption('no-register')->willReturn(false);
         $this->output
@@ -461,7 +477,8 @@ class CreateHandlerCommandTest extends TestCase
         string $commandName,
         string $className,
         string $templateNamespace,
-        string $templateName
+        string $templateName,
+        string $templateExtension
     ) {
         $this->container->has(TemplateRendererInterface::class)->willReturn(true);
         $command = $this->createCommand($commandName);
@@ -478,6 +495,7 @@ class CreateHandlerCommandTest extends TestCase
         $this->input->getOption('without-template')->willReturn(true);
         $this->input->getOption('with-template-namespace')->shouldNotBeCalled();
         $this->input->getOption('with-template-name')->shouldNotBeCalled();
+        $this->input->getOption('with-template-extension')->shouldNotBeCalled();
         $this->input->getOption('no-factory')->willReturn(false);
         $this->input->getOption('no-register')->willReturn(false);
         $this->output

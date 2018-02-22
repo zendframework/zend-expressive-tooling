@@ -81,9 +81,18 @@ and adds functionality to it render the template. Passing this flag
 disables template generation and invocation.
 EOT;
 
+    const HELP_OPTION_WITH_TEMPLATE_EXTENSION = <<< 'EOT'
+By default, this command will look for a template file extension name
+first via the "templates.extension" configuration directive, and then
+falling back to defaults based on the renderer type detected. If the
+configuration directive is not found, and the command does not know
+how to map the renderer discovered, it will raise an exception. You
+may pass this option to specify a custom extension in that case.
+EOT;
+
     const HELP_OPTION_WITH_TEMPLATE_NAME = <<< 'EOT'
 By default, this command uses a normalized version of the class name as the
-template name. Use this option to provide aan alternative template name
+template name. Use this option to provide an alternative template name
 (minus the namespace) for the generated template. The template file will be
 named using this name, using an extension base on the configured template
 renderer.  If --without-template is provided, this option is ignored. 
@@ -194,16 +203,22 @@ EOT;
     protected function configureTemplateOptions() : void
     {
         $this->addOption(
+            'with-template-namespace',
+            null,
+            InputOption::VALUE_REQUIRED,
+            self::HELP_OPTION_WITH_TEMPLATE_NAMESPACE
+        );
+        $this->addOption(
             'with-template-name',
             null,
             InputOption::VALUE_REQUIRED,
             self::HELP_OPTION_WITH_TEMPLATE_NAME
         );
         $this->addOption(
-            'with-template-namespace',
+            'with-template-extension',
             null,
             InputOption::VALUE_REQUIRED,
-            self::HELP_OPTION_WITH_TEMPLATE_NAMESPACE
+            self::HELP_OPTION_WITH_TEMPLATE_EXTENSION
         );
         $this->addOption(
             'without-template',
@@ -231,6 +246,7 @@ EOT;
         $substitutions = [];
         $templateNamespace = null;
         $templateName = null;
+        $templateExtension = null;
 
         if ($this->rendererIsRegistered && ! $input->getOption('without-template')) {
             $skeleton = ClassSkeletons::CLASS_SKELETON_WITH_TEMPLATE;
@@ -238,6 +254,7 @@ EOT;
                 ?: $this->getTemplateNamespaceFromClass($handler);
             $templateName = $input->getOption('with-template-name')
                 ?: $this->getTemplateNameFromClass($handler);
+            $templateExtension = $input->getOption('with-template-extension');
             $substitutions['%template-namespace%'] = $templateNamespace;
             $substitutions['%template-name%'] = $templateName;
         }
@@ -255,7 +272,14 @@ EOT;
         if ($this->rendererIsRegistered
             && ! $input->getOption('without-template')
         ) {
-            $this->generateTemplate($handler, $templateNamespace, $templateName, $path, $output);
+            $this->generateTemplate(
+                $handler,
+                $templateNamespace,
+                $templateName,
+                $templateExtension,
+                $path,
+                $output
+            );
         }
 
         if (! $input->getOption('no-factory')) {
@@ -269,6 +293,7 @@ EOT;
         string $handlerClass,
         string $templateNamespace,
         string $templateName,
+        ?string $templateExtension,
         string $path,
         OutputInterface $output
     ) : void {
@@ -277,7 +302,12 @@ EOT;
         }
 
         $generator = new CreateTemplate($this->projectRoot);
-        $template = $generator->generateTemplate($handlerClass, $templateNamespace, $templateName);
+        $template = $generator->generateTemplate(
+            $handlerClass,
+            $templateNamespace,
+            $templateName,
+            $templateExtension
+        );
 
         $output->writeln(sprintf(
             '<info>- Created template %s in file %s</info>',

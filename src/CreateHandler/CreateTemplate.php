@@ -52,10 +52,14 @@ class CreateTemplate
         );
     }
 
-    public function generateTemplate(string $handler, string $templateNamespace, string $templateName) : Template
-    {
+    public function generateTemplate(
+        string $handler,
+        string $templateNamespace,
+        string $templateName,
+        string $templateSuffix = null
+    ) : Template {
         $config = $this->getConfig($this->projectPath);
-        $rendererType = $this->resolveRendererType();
+        $rendererType = $this->resolveRendererType($templateSuffix);
         $handlerPath = $this->getHandlerPath($handler);
 
         $templatePath = $this->getTemplatePathForNamespaceFromConfig($templateNamespace, $config)
@@ -74,7 +78,7 @@ class CreateTemplate
             '%s/%s.%s',
             $templatePath,
             $templateName,
-            $this->getTemplateSuffixFromConfig($rendererType, $config)
+            $templateSuffix ?: $this->getTemplateSuffixFromConfig($rendererType, $config)
         );
 
         file_put_contents($templateFile, sprintf('Template for %s', $handler));
@@ -85,7 +89,7 @@ class CreateTemplate
         );
     }
 
-    private function resolveRendererType() : string
+    private function resolveRendererType(?string $templateSuffix) : string
     {
         $container = $this->getContainer($this->projectPath);
         if (! $this->containerDefinesRendererService($container)) {
@@ -93,8 +97,13 @@ class CreateTemplate
         }
 
         $type = $this->getRendererServiceTypeFromContainer($container);
-        if (! in_array($type, self::KNOWN_RENDERERS, true)) {
-            throw UnresolvableRendererException::dueToUnknownType($type);
+
+        // We only need to test for a known renderer type if there is no
+        // template suffix available.
+        if (null === $templateSuffix) {
+            if (! in_array($type, self::KNOWN_RENDERERS, true)) {
+                throw UnresolvableRendererException::dueToUnknownType($type);
+            }
         }
 
         return $type;
@@ -158,6 +167,10 @@ class CreateTemplate
         return $config['templates']['extension'];
     }
 
+    /**
+     * This method will only be triggered if we know we have a known
+     * renderer type.
+     */
     private function getDefaultTemplateSuffix(string $type) : string
     {
         switch ($type) {
