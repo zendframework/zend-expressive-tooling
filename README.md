@@ -18,9 +18,14 @@ $ composer require --dev zendframework/zend-expressive-tooling
 - `vendor/bin/expressive`: Entry point for all tooling. Currently exposes the
   following:
 
-  - **action:create**: Create an action class file.
-  - **factory:create**: Create a factory class file for the named class.
-  - **handler:create**: Create a PSR-15 request handler class file.
+  - **action:create**: Create an action class file; this is an alias for the
+    `handler:create` command, listed below.
+  - **factory:create**: Create a factory class file for the named class. The
+    class file is created in the same directory as the class specified.
+  - **handler:create**: Create a PSR-15 request handler class file. Also
+    generates a factory for the generated class, and, if a template renderer is
+    registered with the application container, generates a template and modifies
+    the class to render it into a zend-diactoros `HtmlResponse`.
   - **middleware:create**: Create a PSR-15 middleware class file.
   - **migrate:interop-middleware**: Migrate interop middlewares and delegators
     to PSR-15 middlewares and request handlers.
