@@ -19,15 +19,19 @@ class MigrateInteropMiddlewareCommand extends Command
     private const DEFAULT_SRC = '/src';
 
     private const HELP = <<< 'EOT'
-Migrate an Expressive application to PSR-15 middlewares.
+Migrate an Expressive application to PSR-15 middleware.
 
-Scans all PHP files under the --src directory for interop middlewares
+Scans all PHP files under the --src directory for interop middleware
 and delegators. Changes imported interop classes to PSR-15 interfaces,
 keeps aliases and adds return type if it is not present.
+
+This command is DEPRECATED and only for use with migrating applications from
+Expressive v2 to v3. The command will be removed in version 2 of
+zend-expressive-tooling.
 EOT;
 
     private const HELP_OPT_SRC = <<< 'EOT'
-Specify a path to PHP files to migrate interop middlewares.
+Specify a path to PHP files to migrate interop middleware.
 If not specified, assumes src/ under the current working path.
 EOT;
 
@@ -56,7 +60,7 @@ EOT;
 
     protected function configure() : void
     {
-        $this->setDescription('Migrate interop middlewares and delegators');
+        $this->setDescription('Migrate http-interop middleware and delegators');
         $this->setHelp(self::HELP);
         $this->addOption('src', 's', InputOption::VALUE_REQUIRED, self::HELP_OPT_SRC);
     }
@@ -65,7 +69,7 @@ EOT;
     {
         $src = $this->getSrcDir($input);
 
-        $output->writeln('<info>Scanning for usage of Interop Middlewares...</info>');
+        $output->writeln('<info>Scanning for usage of http-interop middleware...</info>');
 
         $converter = new ConvertInteropMiddleware($output);
         $converter->process($src);

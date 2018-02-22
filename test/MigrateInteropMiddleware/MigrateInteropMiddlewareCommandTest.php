@@ -45,7 +45,7 @@ class MigrateInteropMiddlewareCommandTest extends TestCase
         $this->input = $this->prophesize(InputInterface::class);
         $this->output = $this->prophesize(ConsoleOutputInterface::class);
 
-        $this->command = new MigrateInteropMiddlewareCommand('migrate:interop-middlewares');
+        $this->command = new MigrateInteropMiddlewareCommand('migrate:interop-middleware');
     }
 
     private function reflectExecuteMethod()
@@ -57,7 +57,7 @@ class MigrateInteropMiddlewareCommandTest extends TestCase
 
     public function testConfigureSetsExpectedDescription()
     {
-        $this->assertContains('Migrate interop middlewares and delegators', $this->command->getDescription());
+        $this->assertContains('Migrate http-interop middleware and delegators', $this->command->getDescription());
     }
 
     private function getConstantValue(string $const, string $class = MigrateInteropMiddlewareCommand::class)
@@ -96,7 +96,7 @@ class MigrateInteropMiddlewareCommandTest extends TestCase
         $this->input->getOption('src')->willReturn('src');
 
         $this->output
-            ->writeln(Argument::containingString('Scanning for usage of Interop Middlewares...'))
+            ->writeln(Argument::containingString('Scanning for usage of http-interop middleware...'))
             ->shouldBeCalled();
         $this->output
             ->writeln(Argument::containingString('Done!'))
