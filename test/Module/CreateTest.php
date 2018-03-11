@@ -1,7 +1,7 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-expressive-tooling for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (https://www.zend.com)
+ * @copyright Copyright (c) 2017-2018 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-tooling/blob/master/LICENSE.md New BSD License
  */
 
@@ -19,9 +19,6 @@ use Zend\Expressive\Tooling\Module\RuntimeException;
 class CreateTest extends TestCase
 {
     use PHPMock;
-
-    /** @var string */
-    private $composer = 'my-composer';
 
     /** @var Create */
     private $command;

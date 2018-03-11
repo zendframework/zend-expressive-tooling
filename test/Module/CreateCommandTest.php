@@ -1,7 +1,7 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-expressive-tooling for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (https://www.zend.com)
+ * @copyright Copyright (c) 2017-2018 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-tooling/blob/master/LICENSE.md New BSD License
  */
 
@@ -13,6 +13,7 @@ use Mockery;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\Prophecy\ObjectProphecy;
 use ReflectionMethod;
 use ReflectionProperty;
 use Symfony\Component\Console\Application;
@@ -33,6 +34,18 @@ class CreateCommandTest extends TestCase
 {
     use CommonOptionsAndAttributesTrait;
     use MockeryPHPUnitIntegration;
+
+    /** @var InputInterface|ObjectProphecy */
+    private $input;
+
+    /** @var ConsoleOutputInterface|ObjectProphecy */
+    private $output;
+
+    /** @var CreateCommand */
+    private $command;
+
+    /** @var string */
+    private $expectedModuleArgumentDescription;
 
     protected function setUp()
     {

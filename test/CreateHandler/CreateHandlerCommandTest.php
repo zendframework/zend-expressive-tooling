@@ -1,7 +1,7 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-expressive-tooling for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (https://www.zend.com)
+ * @copyright Copyright (c) 2017-2018 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-tooling/blob/master/LICENSE.md New BSD License
  */
 
@@ -39,16 +39,13 @@ class CreateHandlerCommandTest extends TestCase
 {
     use MockeryPHPUnitIntegration;
 
-    /** @var CreateHandlerCommand */
-    private $command;
-
     /** @var ContainerInterface|ObjectProphecy */
     private $container;
 
     /** @var InputInterface|ObjectProphecy */
     private $input;
 
-    /** @var OutputInterface|ObjectProphecy */
+    /** @var ConsoleOutputInterface|ObjectProphecy */
     private $output;
 
     protected function setUp()
