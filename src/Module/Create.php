@@ -72,7 +72,12 @@ EOT;
      */
     public function process(string $moduleName, string $modulesPath, string $projectDir) : string
     {
-        $modulePath = sprintf('%s/%s/%s', $projectDir, $modulesPath, $moduleName);
+        $modulePath = sprintf(
+            '%s/%s/%s',
+            $projectDir,
+            $modulesPath,
+            str_replace('\\', DIRECTORY_SEPARATOR, $moduleName)
+        );
 
         $this->createDirectoryStructure($modulePath, $moduleName);
         $this->createConfigProvider($modulePath, $moduleName);
@@ -94,7 +99,7 @@ EOT;
             ));
         }
 
-        if (! mkdir($modulePath)) {
+        if (! mkdir($modulePath, 0777, true)) {
             throw new RuntimeException(sprintf(
                 'Module directory "%s" cannot be created',
                 $modulePath
