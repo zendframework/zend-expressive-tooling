@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 0.4.7 - 2018-03-12
+
+### Added
+
+- [#71](https://github.com/zendframework/zend-expressive-tooling/pull/71) adds
+  the new command `migrate:expressive-v2.2`. This command does the following:
+
+  - Adds `Zend\Expressive\Router\ConfigProvider` to `config/config.php`.
+  - Adds `Zend\Expressive\ConfigProvider` to `config/config.php`.
+  - Replaces `pipeRoutingMiddleware()` calls with `pipe(\Zend\Expressive\Router\Middleware\RouteMiddleware::class)`.
+  - Replaces `pipeDispatchMiddleware()` calls with `pipe(\Zend\Expressive\Router\Middleware\DispatchMiddleware::class)`.
+  - Replaces `pipe()` calls that pipe `Implicit*Middleware` to reference zend-expressive-router variants.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
 ## 0.4.6 - 2018-01-29
 
 ### Added
