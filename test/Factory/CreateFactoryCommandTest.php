@@ -13,6 +13,7 @@ use Mockery;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\Prophecy\ObjectProphecy;
 use ReflectionMethod;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
@@ -28,6 +29,15 @@ use Zend\Expressive\Tooling\Factory\ConfigInjector;
 class CreateFactoryCommandTest extends TestCase
 {
     use MockeryPHPUnitIntegration;
+
+    /** @var InputInterface|ObjectProphecy */
+    private $input;
+
+    /** @var ConsoleOutputInterface|ObjectProphecy */
+    private $output;
+
+    /** @var CreateFactoryCommand */
+    private $command;
 
     protected function setUp()
     {

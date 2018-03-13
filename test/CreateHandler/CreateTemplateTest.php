@@ -1,7 +1,7 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-expressive-tooling for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (https://www.zend.com)
+ * @copyright Copyright (c) 2017-2018 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-tooling/blob/master/LICENSE.md New BSD License
  */
 
@@ -31,7 +31,7 @@ use Zend\Expressive\Tooling\CreateHandler\Template;
  */
 class CreateTemplateTest extends TestCase
 {
-    const COMMON_FILES = [
+    private const COMMON_FILES = [
         '/TestAsset/common/PlatesRenderer.php'   => '/src/PlatesRenderer.php',
         '/TestAsset/common/TwigRenderer.php'     => '/src/TwigRenderer.php',
         '/TestAsset/common/ZendViewRenderer.php' => '/src/ZendViewRenderer.php',
