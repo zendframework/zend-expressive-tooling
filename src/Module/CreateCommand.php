@@ -57,7 +57,7 @@ EOT;
         $message = $creation->process($module, $modulesPath, getcwd());
         $output->writeln(sprintf('<info>%s</info>', $message));
 
-        $registerCommand = $this->getRegisterCommandName();
+        $registerCommand = 'module:register';
         $register = $this->getApplication()->find($registerCommand);
         return $register->run(new ArrayInput([
             'command'        => $registerCommand,
@@ -65,17 +65,5 @@ EOT;
             '--composer'     => $composer,
             '--modules-path' => $modulesPath,
         ]), $output);
-    }
-
-    /**
-     * Retrieve the name of the "register" command.
-     *
-     * Varies with usage of the "expressive" vs "expressive-module" command.
-     */
-    private function getRegisterCommandName() : string
-    {
-        return 0 === strpos($this->getName(), 'module:')
-            ? 'module:register'
-            : 'register';
     }
 }
