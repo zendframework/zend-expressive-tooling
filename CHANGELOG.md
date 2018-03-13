@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 1.0.0rc1 - TBD
+## 1.0.0rc1 - 2018-03-13
 
 ### Added
 
@@ -18,7 +18,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- Nothing.
+- [#72](https://github.com/zendframework/zend-expressive-tooling/pull/72)
+  removes the `migrate:expressive-v2.2` command; the 1.0.0 release explicitly
+  requires zend-expressive 3, making that command useless.
 
 ### Fixed
 
