@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 1.0.0rc1 - TBD
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#69](https://github.com/zendframework/zend-expressive-tooling/pull/69) fixes
+  an issue with `module:create` when presented with a multi-segment namespace.
+  It now correctly creates a directory structure using all namespace segments.
+
 ## 1.0.0alpha4 - 2018-02-22
 
 ### Added
