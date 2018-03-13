@@ -132,4 +132,20 @@ class CreateTest extends TestCase
         $expectedContent = sprintf($command::TEMPLATE_CONFIG_PROVIDER, 'MyApp', 'myapp');
         $this->assertSame($expectedContent, $configProviderContent);
     }
+
+    public function testCreateModuleWithNamespace()
+    {
+        $configProvider = vfsStream::url('project/my-modules/MyNamespace/MyModule/src/ConfigProvider.php');
+        $this->assertEquals(
+            sprintf('Created module MyNamespace\\MyModule in %s/MyNamespace/MyModule', $this->modulesDir->url()),
+            $this->command->process('MyNamespace\\MyModule', $this->modulesPath, $this->projectDir)
+        );
+        $this->assertFileExists($configProvider);
+        $configProviderContent = file_get_contents($configProvider);
+        $this->assertSame(1, preg_match('/\bnamespace MyNamespace\\\\MyModule\b/', $configProviderContent));
+        $this->assertSame(1, preg_match('/\bclass ConfigProvider\b/', $configProviderContent));
+        $command = $this->command;
+        $expectedContent = sprintf($command::TEMPLATE_CONFIG_PROVIDER, 'MyNamespace\\MyModule', 'mynamespace-mymodule');
+        $this->assertSame($expectedContent, $configProviderContent);
+    }
 }
