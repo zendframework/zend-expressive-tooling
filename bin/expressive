@@ -42,7 +42,6 @@ if (is_dir($cwd . '/vendor')) {
 $commandList = [
     new Factory\CreateFactoryCommand('factory:create'),
     new CreateMiddleware\CreateMiddlewareCommand('middleware:create'),
-    new MigrateExpressive22\MigrateExpressive22Command('migrate:expressive-v2.2'),
     new MigrateInteropMiddleware\MigrateInteropMiddlewareCommand('migrate:interop-middleware'),
     new MigrateMiddlewareToRequestHandler\MigrateMiddlewareToRequestHandlerCommand(
         'migrate:middleware-to-request-handler'
