@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 1.0.0rc2 - 2018-03-13
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#73](https://github.com/zendframework/zend-expressive-tooling/pull/73)
+  reverts the change introduced by [#69](https://github.com/zendframework/zend-expressive-tooling/pull/69)
+  as multi-segment namespaces are not yet supported by zf-component-installer,
+  causing creation of the autoloader entry to result in an error during module
+  creation.
+
 ## 1.0.0rc1 - 2018-03-13
 
 ### Added
