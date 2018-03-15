@@ -2,61 +2,24 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 1.0.0rc2 - 2018-03-13
+## 1.0.0 - 2018-03-15
 
 ### Added
 
-- Nothing.
+- [#39](https://github.com/zendframework/zend-expressive-tooling/pull/39) and
+  [#44](https://github.com/zendframework/zend-expressive-tooling/pull/44) add
+  support for PSR-15. The `expressive middleware:create` command will now
+  generate PSR-15 middleware.
 
-### Changed
+- [#39](https://github.com/zendframework/zend-expressive-tooling/pull/39) and
+  [#44](https://github.com/zendframework/zend-expressive-tooling/pull/44) add
+  a new tool: `expressive migrate:interop-middleware`. This tool will migrate
+  existing http-interop middleware, delegators, and/or request handlers of any
+  version to PSR-15 middleware and request handlers.
 
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
-- [#73](https://github.com/zendframework/zend-expressive-tooling/pull/73)
-  reverts the change introduced by [#69](https://github.com/zendframework/zend-expressive-tooling/pull/69)
-  as multi-segment namespaces are not yet supported by zf-component-installer,
-  causing creation of the autoloader entry to result in an error during module
-  creation.
-
-## 1.0.0rc1 - 2018-03-13
-
-### Added
-
-- Nothing.
-
-### Changed
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- [#72](https://github.com/zendframework/zend-expressive-tooling/pull/72)
-  removes the `migrate:expressive-v2.2` command; the 1.0.0 release explicitly
-  requires zend-expressive 3, making that command useless.
-
-### Fixed
-
-- [#69](https://github.com/zendframework/zend-expressive-tooling/pull/69) fixes
-  an issue with `module:create` when presented with a multi-segment namespace.
-  It now correctly creates a directory structure using all namespace segments.
-
-## 1.0.0alpha4 - 2018-02-22
-
-### Added
+- [#48](https://github.com/zendframework/zend-expressive-tooling/pull/48) adds a
+  new command, `expressive handler:create`, which will create a PSR-15 request
+  handler using the class name provided.
 
 - [#52](https://github.com/zendframework/zend-expressive-tooling/pull/52) adds
   the command `factory:create`. The command expects a fully-qualified,
@@ -98,6 +61,8 @@ All notable changes to this project will be documented in this file, in reverse 
     file extension. By default, it will use the `templates.extension`
     configuration value, or a default based on known template renderers.
 
+- Adds support for zend-component-installer `^2.0`.
+
 ### Changed
 
 - [#52](https://github.com/zendframework/zend-expressive-tooling/pull/52)
@@ -122,93 +87,17 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- Nothing.
-
-### Fixed
-
-- [#49](https://github.com/zendframework/zend-expressive-tooling/pull/49) fixes
-  how the `module:create` command generates template configuration. It no longer
-  produces "layout" and "error" configuration, and renames the "app"
-  template namespace to a normalized version of the module name generated.
-
-## 1.0.0alpha3 - 2018-02-07
-
-### Added
-
-- [#48](https://github.com/zendframework/zend-expressive-tooling/pull/48) adds a
-  new command, `expressive handler:create`, which will create a PSR-15 request
-  handler using the class name provided.
-
-### Changed
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
-- [#48](https://github.com/zendframework/zend-expressive-tooling/pull/48) fixes
-  the description of the `expressive middleware:create` command to reference
-  PSR-15 instead of http-interop.
-
-## 1.0.0alpha2 - 2018-02-06
-
-### Added
-
-- Adds support for zend-component-installer `^2.0`.
-
-### Changed
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Removes support for zend-component-installer `^1.1`.
-
-### Fixed
-
-- Nothing.
-
-## 1.0.0alpha1 - 2018-02-06
-
-### Added
-
-- [#39](https://github.com/zendframework/zend-expressive-tooling/pull/39) and
-  [#44](https://github.com/zendframework/zend-expressive-tooling/pull/44) add
-  support for PSR-15. The `expressive middleware:create` command will now
-  generate PSR-15 middleware.
-
-- [#39](https://github.com/zendframework/zend-expressive-tooling/pull/39) and
-  [#44](https://github.com/zendframework/zend-expressive-tooling/pull/44) add
-  a new tool: `expressive migrate:interop-middleware`. This tool will migrate
-  existing http-interop middleware, delegators, and/or request handlers of any
-  version to PSR-15 middleware and request handlers.
-
-### Changed
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
 - [#39](https://github.com/zendframework/zend-expressive-tooling/pull/39)
   removes support for http-interop/http-middleware.
 
 - [#39](https://github.com/zendframework/zend-expressive-tooling/pull/39)
   removes support for PHP versions prior to PHP 7.1.
+
+- Removes support for zend-component-installer `^1.1`.
+
+- [#72](https://github.com/zendframework/zend-expressive-tooling/pull/72)
+  removes the `migrate:expressive-v2.2` command; the 1.0.0 release explicitly
+  requires zend-expressive 3, making that command useless.
 
 - [#47](https://github.com/zendframework/zend-expressive-tooling/pull/47)
   removes a number of legacy commands built to help migration from Expressive
@@ -224,7 +113,24 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#73](https://github.com/zendframework/zend-expressive-tooling/pull/73)
+  reverts the change introduced by [#69](https://github.com/zendframework/zend-expressive-tooling/pull/69)
+  as multi-segment namespaces are not yet supported by zf-component-installer,
+  causing creation of the autoloader entry to result in an error during module
+  creation.
+
+- [#48](https://github.com/zendframework/zend-expressive-tooling/pull/48) fixes
+  the description of the `expressive middleware:create` command to reference
+  PSR-15 instead of http-interop.
+
+- [#49](https://github.com/zendframework/zend-expressive-tooling/pull/49) fixes
+  how the `module:create` command generates template configuration. It no longer
+  produces "layout" and "error" configuration, and renames the "app"
+  template namespace to a normalized version of the module name generated.
+
+- [#69](https://github.com/zendframework/zend-expressive-tooling/pull/69) fixes
+  an issue with `module:create` when presented with a multi-segment namespace.
+  It now correctly creates a directory structure using all namespace segments.
 
 ## 0.4.7 - 2018-03-12
 
