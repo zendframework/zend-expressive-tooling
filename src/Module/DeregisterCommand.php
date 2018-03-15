@@ -1,9 +1,11 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-expressive-tooling for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-tooling/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Expressive\Tooling\Module;
 
@@ -15,7 +17,7 @@ use ZF\ComposerAutoloading\Command\Disable;
 
 class DeregisterCommand extends Command
 {
-    const HELP = <<< 'EOT'
+    public const HELP = <<< 'EOT'
 Deregister an existing middleware module from the application, by:
 
 - Removing the associated PSR-4 autoloader entry from composer.json, and
@@ -24,12 +26,12 @@ Deregister an existing middleware module from the application, by:
   application configuration.
 EOT;
 
-    const HELP_ARG_MODULE = 'The module to register with the application';
+    public const HELP_ARG_MODULE = 'The module to register with the application';
 
     /**
      * Configure command.
      */
-    protected function configure()
+    protected function configure() : void
     {
         $this->setDescription('Deregister a middleware module from the application');
         $this->setHelp(self::HELP);
@@ -41,7 +43,7 @@ EOT;
      *
      * {@inheritDoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $module = $input->getArgument('module');
         $composer = $input->getOption('composer') ?: 'composer';

@@ -1,9 +1,11 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-expressive-tooling for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2017-2018 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-tooling/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace ZendTest\Expressive\Tooling\Module;
 
@@ -12,14 +14,11 @@ use org\bovigo\vfs\vfsStreamDirectory;
 use phpmock\phpunit\PHPMock;
 use PHPUnit\Framework\TestCase;
 use Zend\Expressive\Tooling\Module\Create;
-use Zend\Expressive\Tooling\Module\Exception;
+use Zend\Expressive\Tooling\Module\RuntimeException;
 
 class CreateTest extends TestCase
 {
     use PHPMock;
-
-    /** @var string */
-    private $composer = 'my-composer';
 
     /** @var Create */
     private $command;
@@ -50,7 +49,7 @@ class CreateTest extends TestCase
     {
         vfsStream::newDirectory('MyApp')->at($this->modulesDir);
 
-        $this->expectException(Exception\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Module "MyApp" already exists');
         $this->command->process('MyApp', $this->modulesPath, $this->projectDir);
     }
@@ -64,7 +63,7 @@ class CreateTest extends TestCase
             ->with($baseModulePath)
             ->willReturn(false);
 
-        $this->expectException(Exception\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage(sprintf(
             'Module directory "%s" cannot be created',
             $baseModulePath
@@ -85,7 +84,7 @@ class CreateTest extends TestCase
             ->with(sprintf('%s/src', $baseModulePath))
             ->willReturn(false);
 
-        $this->expectException(Exception\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage(sprintf(
             'Module source directory "%s/src" cannot be created',
             $baseModulePath
@@ -110,7 +109,7 @@ class CreateTest extends TestCase
             ->with(sprintf('%s/templates', $baseModulePath))
             ->willReturn(false);
 
-        $this->expectException(Exception\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage(sprintf(
             'Module templates directory "%s/templates" cannot be created',
             $baseModulePath
@@ -130,7 +129,7 @@ class CreateTest extends TestCase
         $this->assertSame(1, preg_match('/\bnamespace MyApp\b/', $configProviderContent));
         $this->assertSame(1, preg_match('/\bclass ConfigProvider\b/', $configProviderContent));
         $command = $this->command;
-        $expectedContent = sprintf($command::TEMPLATE_CONFIG_PROVIDER, 'MyApp');
+        $expectedContent = sprintf($command::TEMPLATE_CONFIG_PROVIDER, 'MyApp', 'myapp');
         $this->assertSame($expectedContent, $configProviderContent);
     }
 }

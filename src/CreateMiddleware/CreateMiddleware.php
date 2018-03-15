@@ -1,9 +1,11 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-expressive-tooling for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2017-2018 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-tooling/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Expressive\Tooling\CreateMiddleware;
 
@@ -17,36 +19,39 @@ class CreateMiddleware
     /**
      * @var string Template for middleware class.
      */
-    const CLASS_SKELETON = <<< 'EOS'
+    public const CLASS_SKELETON = <<< 'EOS'
 <?php
+
+declare(strict_types=1);
 
 namespace %namespace%;
 
-use Interop\Http\ServerMiddleware\DelegateInterface;
-use Interop\Http\ServerMiddleware\MiddlewareInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 class %class% implements MiddlewareInterface
 {
     /**
      * {@inheritDoc}
      */
-    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
     {
-        // $response = $delegate->process($request);
+        // $response = $handler->handle($request);
     }
 }
+
 EOS;
 
     /**
-     * @param string $class
-     * @param string|null $projectRoot
-     * @param string $classSkeleton
-     * @return string
      * @throws CreateMiddlewareException
      */
-    public function process($class, $projectRoot = null, $classSkeleton = self::CLASS_SKELETON)
-    {
+    public function process(
+        string $class,
+        string $projectRoot = null,
+        string $classSkeleton = self::CLASS_SKELETON
+    ) : string {
         $projectRoot = $projectRoot ?: getcwd();
 
         $path = $this->getClassPath($class, $projectRoot);
@@ -68,12 +73,9 @@ EOS;
     }
 
     /**
-     * @param string $class
-     * @param string $projectRoot
-     * @return string
      * @throws CreateMiddlewareException
      */
-    private function getClassPath($class, $projectRoot)
+    private function getClassPath(string $class, string $projectRoot) : string
     {
         $autoloaders = $this->getComposerAutoloaders($projectRoot);
         list($namespace, $path) = $this->discoverNamespaceAndPath($class, $autoloaders);
@@ -104,11 +106,10 @@ EOS;
     }
 
     /**
-     * @param string $projectRoot
      * @return array Associative array of namespace/path pairs
      * @throws CreateMiddlewareException
      */
-    private function getComposerAutoloaders($projectRoot)
+    private function getComposerAutoloaders(string $projectRoot) : array
     {
         $composerPath = sprintf('%s/composer.json', $projectRoot);
         if (! file_exists($composerPath)) {
@@ -133,12 +134,10 @@ EOS;
     }
 
     /**
-     * @param string $class
-     * @param array $autoloaders
      * @return array [namespace, path]
      * @throws CreateMiddlewareException
      */
-    private function discoverNamespaceAndPath($class, array $autoloaders)
+    private function discoverNamespaceAndPath(string $class, array $autoloaders) : array
     {
         foreach ($autoloaders as $namespace => $path) {
             if (0 === strpos($class, $namespace)) {
@@ -158,10 +157,9 @@ EOS;
     }
 
     /**
-     * @param string $class
      * @return array [namespace, class]
      */
-    private function getNamespaceAndClass($class)
+    private function getNamespaceAndClass(string $class) : array
     {
         $parts = explode('\\', $class);
         $className = array_pop($parts);

@@ -1,9 +1,11 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-expressive-tooling for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2017-2018 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-tooling/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace ZendTest\Expressive\Tooling\Module;
 
@@ -13,12 +15,12 @@ use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\Prophecy\ObjectProphecy;
 use ReflectionMethod;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Zend\ComponentInstaller\Injector\ConfigAggregatorInjector;
 use Zend\Expressive\Tooling\Module\DeregisterCommand;
-use Zend\Expressive\Tooling\Module\Exception;
 use ZF\ComposerAutoloading\Command\Disable;
 use ZF\ComposerAutoloading\Exception\RuntimeException;
 
@@ -30,11 +32,17 @@ class DeregisterCommandTest extends TestCase
     /** @var vfsStreamDirectory */
     private $dir;
 
-    /** @var string */
-    private $composer = 'my-composer';
+    /** @var InputInterface|ObjectProphecy */
+    private $input;
 
-    /** @var Deregister */
+    /** @var ConsoleOutputInterface|ObjectProphecy */
+    private $output;
+
+    /** @var DeregisterCommand */
     private $command;
+
+    /** @var string */
+    private $expectedModuleArgumentDescription;
 
     protected function setUp()
     {

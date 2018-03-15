@@ -1,9 +1,11 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-expressive-tooling for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-tooling/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Expressive\Tooling\Module;
 
@@ -14,7 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CreateCommand extends Command
 {
-    const HELP = <<< 'EOT'
+    public const HELP = <<< 'EOT'
 Create a new middleware module for the application.
 
 - Creates an appropriate module structure containing a source code tree,
@@ -25,12 +27,12 @@ Create a new middleware module for the application.
   configuration.
 EOT;
 
-    const HELP_ARG_MODULE = 'The module to create and register with the application.';
+    public const HELP_ARG_MODULE = 'The module to create and register with the application.';
 
     /**
      * Configure command.
      */
-    protected function configure()
+    protected function configure() : void
     {
         $this->setDescription('Create and register a middleware module with the application');
         $this->setHelp(self::HELP);
@@ -45,7 +47,7 @@ EOT;
      *
      * {@inheritDoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $module = $input->getArgument('module');
         $composer = $input->getOption('composer') ?: 'composer';
@@ -55,7 +57,7 @@ EOT;
         $message = $creation->process($module, $modulesPath, getcwd());
         $output->writeln(sprintf('<info>%s</info>', $message));
 
-        $registerCommand = $this->getRegisterCommandName();
+        $registerCommand = 'module:register';
         $register = $this->getApplication()->find($registerCommand);
         return $register->run(new ArrayInput([
             'command'        => $registerCommand,
@@ -63,19 +65,5 @@ EOT;
             '--composer'     => $composer,
             '--modules-path' => $modulesPath,
         ]), $output);
-    }
-
-    /**
-     * Retrieve the name of the "register" command.
-     *
-     * Varies with usage of the "expressive" vs "expressive-module" command.
-     *
-     * @return string
-     */
-    private function getRegisterCommandName()
-    {
-        return 0 === strpos($this->getName(), 'module:')
-            ? 'module:register'
-            : 'register';
     }
 }

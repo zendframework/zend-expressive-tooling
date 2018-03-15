@@ -1,22 +1,24 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-expressive-tooling for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-tooling/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Expressive\Tooling\Module;
 
 use Symfony\Component\Console\Command\Command;
-use Zend\ComponentInstaller\Injector\ConfigAggregatorInjector;
-use Zend\ComponentInstaller\Injector\InjectorInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Zend\ComponentInstaller\Injector\ConfigAggregatorInjector;
+use Zend\ComponentInstaller\Injector\InjectorInterface;
 use ZF\ComposerAutoloading\Command\Enable;
 
 class RegisterCommand extends Command
 {
-    const HELP = <<< 'EOT'
+    public const HELP = <<< 'EOT'
 Register an existing middleware module with the application, by:
 
 - Ensuring a PSR-4 autoloader entry is present in composer.json, and the
@@ -25,24 +27,19 @@ Register an existing middleware module with the application, by:
   application configuration.
 EOT;
 
-    const HELP_ARG_MODULE = 'The module to register with the application';
+    public const HELP_ARG_MODULE = 'The module to register with the application';
 
     /**
      * Configure command.
      */
-    protected function configure()
+    protected function configure() : void
     {
         $this->setDescription('Register a middleware module with the application');
         $this->setHelp(self::HELP);
         CommandCommonOptions::addDefaultOptionsAndArguments($this);
     }
 
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $module = $input->getArgument('module');
         $composer = $input->getOption('composer') ?: 'composer';
