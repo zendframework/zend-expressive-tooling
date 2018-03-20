@@ -30,8 +30,6 @@ use Zend\Expressive\Container\NotFoundDelegateFactory;
 use Zend\Expressive\Container\NotFoundHandlerFactory;
 use Zend\Expressive\Delegate\NotFoundDelegate;
 use Zend\Expressive\Middleware\ErrorResponseGenerator;
-use Zend\Expressive\Middleware\ImplicitHeadMiddleware;
-use Zend\Expressive\Middleware\ImplicitOptionsMiddleware;
 use Zend\Expressive\Middleware\NotFoundHandler;
 use Zend\Expressive\Router;
 use Zend\Stratigility\Middleware\ErrorHandler;
@@ -44,8 +42,6 @@ return [
             'Zend\Expressive\Delegate\DefaultDelegate' => NotFoundDelegate::class,
         ],
         'invokables' => [
-            ImplicitHeadMiddleware::class => ImplicitHeadMiddleware::class,
-            ImplicitOptionsMiddleware::class => ImplicitOptionsMiddleware::class,
             OriginalMessages::class => OriginalMessages::class,
         ],
         'factories' => [
