@@ -23,7 +23,7 @@
         "symfony/console": "^2.8 || ^3.0 || ^4.0",
         "zendframework/zend-code": "^3.1 || ^2.6.3",
         "zendframework/zend-component-installer": "^1.0 || ^0.7.1",
-        "zendframework/zend-expressive": "^2.0",
+        "zendframework/zend-expressive": "^2.2",
         "zendframework/zend-stdlib": "^3.1",
         "zendframework/zend-stratigility": "^2.0",
         "zfcampus/zf-composer-autoloading": "^2.0"

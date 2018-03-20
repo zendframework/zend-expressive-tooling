@@ -9,9 +9,8 @@ use Zend\Expressive\Container\NotFoundDelegateFactory;
 use Zend\Expressive\Container\NotFoundHandlerFactory;
 use Zend\Expressive\Delegate\NotFoundDelegate;
 use Zend\Expressive\Middleware\ErrorResponseGenerator;
-use Zend\Expressive\Middleware\ImplicitHeadMiddleware;
-use Zend\Expressive\Middleware\ImplicitOptionsMiddleware;
 use Zend\Expressive\Middleware\NotFoundHandler;
+use Zend\Expressive\Router;
 use Zend\Stratigility\Middleware\ErrorHandler;
 use Zend\Stratigility\Middleware\OriginalMessages;
 
@@ -22,8 +21,6 @@ return [
             'Zend\Expressive\Delegate\DefaultDelegate' => NotFoundDelegate::class,
         ],
         'invokables' => [
-            ImplicitHeadMiddleware::class => ImplicitHeadMiddleware::class,
-            ImplicitOptionsMiddleware::class => ImplicitOptionsMiddleware::class,
             OriginalMessages::class => OriginalMessages::class,
         ],
         'factories' => [
@@ -35,6 +32,9 @@ return [
             // Override the following to use an alternate "not found" delegate.
             NotFoundDelegate::class => NotFoundDelegateFactory::class,
             NotFoundHandler::class => NotFoundHandlerFactory::class,
+            // These are duplicates, in case the zend-expressive-router package ConfigProvider is not wired:
+            Router\Middleware\ImplicitHeadMiddleware::class => Router\Middleware\ImplicitHeadMiddlewareFactory::class,
+            Router\Middleware\ImplicitOptionsMiddleware::class => Router\Middleware\ImplicitOptionsMiddlewareFactory::class,
         ],
     ],
     'zend-expressive' => [
