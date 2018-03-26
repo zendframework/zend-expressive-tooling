@@ -7,13 +7,11 @@
 
 declare(strict_types=1);
 
-use Zend\Expressive\Template\TemplateRendererInterface;
-
 return [
     'templates' => [
         'extension' => '%s',
         'paths' => [
-            'test' => ['src/Test/templates'],
+            'test' => [__DIR__ . '/../src/Test/templates'],
         ],
     ],
 ];
