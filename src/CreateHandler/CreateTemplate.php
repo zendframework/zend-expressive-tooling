@@ -68,7 +68,6 @@ class CreateTemplate
                 $templateNamespace,
                 $handlerPath
             );
-        $templatePath = sprintf('%s/%s', $this->projectPath, $templatePath);
 
         if (! is_dir($templatePath)) {
             mkdir($templatePath, 0777, true);
@@ -146,9 +145,9 @@ class CreateTemplate
         string $path
     ) : string {
         if ($this->pathRepresentsModule($path, $namespace)) {
-            return sprintf('src/%s/templates', $namespace);
+            return sprintf('%s/src/%s/templates', $this->projectPath, $namespace);
         }
-        return sprintf('templates/%s', $templateNamespace);
+        return sprintf('%s/templates/%s', $this->projectPath, $templateNamespace);
     }
 
     private function pathRepresentsModule(string $path, string $namespace) : bool
