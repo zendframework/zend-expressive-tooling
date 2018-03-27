@@ -32,6 +32,8 @@ class ConfigInjector
  * removing factory definitions; other dependency types may be overwritten
  * when regenerating this file via zend-expressive-tooling commands.
  */
+ 
+declare(strict_types=1);
 
 return [
     'dependencies' => [
