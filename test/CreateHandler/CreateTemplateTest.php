@@ -122,7 +122,7 @@ class CreateTemplateTest extends TestCase
         $this->injectContainerInGenerator($generator);
 
         $template = $generator->forHandler('Test\TestHandler');
-        $this->assertRegexp('#templates/test/test\.' . $extension . '$#', $template->getPath());
+        $this->assertSame($this->projectRoot . '/config/../templates/test/test.' . $extension, $template->getPath());
         $this->assertSame('test::test', $template->getName());
     }
 
@@ -144,7 +144,10 @@ class CreateTemplateTest extends TestCase
         $this->injectContainerInGenerator($generator);
 
         $template = $generator->forHandler('Test\TestHandler');
-        $this->assertRegexp('#src/Test/templates/test\.' . $extension . '$#', $template->getPath());
+        $this->assertSame(
+            $this->projectRoot . '/config/../src/Test/templates/test.' . $extension,
+            $template->getPath()
+        );
         $this->assertSame('test::test', $template->getName());
     }
 
@@ -166,7 +169,7 @@ class CreateTemplateTest extends TestCase
         $this->injectContainerInGenerator($generator);
 
         $template = $generator->forHandler('Test\TestHandler');
-        $this->assertRegexp('#templates/test/test\.' . $extension . '$#', $template->getPath());
+        $this->assertSame($this->projectRoot . '/templates/test/test.' . $extension, $template->getPath());
         $this->assertSame('test::test', $template->getName());
     }
 
@@ -188,7 +191,7 @@ class CreateTemplateTest extends TestCase
         $this->injectContainerInGenerator($generator);
 
         $template = $generator->forHandler('Test\TestHandler');
-        $this->assertRegexp('#src/Test/templates/test\.' . $extension . '$#', $template->getPath());
+        $this->assertSame($this->projectRoot . '/src/Test/templates/test.' . $extension, $template->getPath());
         $this->assertSame('test::test', $template->getName());
     }
 
@@ -211,7 +214,7 @@ class CreateTemplateTest extends TestCase
         $this->injectContainerInGenerator($generator);
 
         $template = $generator->forHandler('Test\TestHandler');
-        $this->assertRegexp('#view/for-testing/test\.' . $extension . '$#', $template->getPath());
+        $this->assertSame($this->projectRoot . '/config/../view/for-testing/test.' . $extension, $template->getPath());
         $this->assertSame('test::test', $template->getName());
     }
 
@@ -234,7 +237,7 @@ class CreateTemplateTest extends TestCase
         $this->injectContainerInGenerator($generator);
 
         $template = $generator->forHandler('Test\TestHandler');
-        $this->assertRegexp('#view/for-testing/test\.' . $extension . '$#', $template->getPath());
+        $this->assertSame($this->projectRoot . '/config/../view/for-testing/test.' . $extension, $template->getPath());
         $this->assertSame('test::test', $template->getName());
     }
 
@@ -353,7 +356,10 @@ class CreateTemplateTest extends TestCase
         $this->injectContainerInGenerator($generator);
 
         $template = $generator->generateTemplate('Test\TestHandler', 'custom', 'also-custom');
-        $this->assertRegexp('#templates/custom/also-custom\.' . $extension . '$#', $template->getPath());
+        $this->assertSame(
+            $this->projectRoot . '/config/../templates/custom/also-custom.' . $extension,
+            $template->getPath()
+        );
         $this->assertSame('custom::also-custom', $template->getName());
     }
 
@@ -376,7 +382,10 @@ class CreateTemplateTest extends TestCase
         $this->injectContainerInGenerator($generator);
 
         $template = $generator->generateTemplate('Test\TestHandler', 'custom', 'also-custom');
-        $this->assertRegexp('#src/Custom/templates/also-custom\.' . $extension . '$#', $template->getPath());
+        $this->assertSame(
+            $this->projectRoot . '/config/../src/Custom/templates/also-custom.' . $extension,
+            $template->getPath()
+        );
         $this->assertSame('custom::also-custom', $template->getName());
     }
 
@@ -394,7 +403,10 @@ class CreateTemplateTest extends TestCase
         $this->injectContainerInGenerator($generator);
 
         $template = $generator->generateTemplate('Test\TestHandler', 'custom', 'also-custom', 'XHTML');
-        $this->assertRegexp('#src/Custom/templates/also-custom\.XHTML$#', $template->getPath());
+        $this->assertSame(
+            $this->projectRoot . '/config/../src/Custom/templates/also-custom.XHTML',
+            $template->getPath()
+        );
         $this->assertSame('custom::also-custom', $template->getName());
     }
 }
