@@ -25,7 +25,10 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#77](https://github.com/zendframework/zend-expressive-tooling/pull/77) fixes
+  an issue with where generated template files were placed in the filesystem
+  when working with a module; they are now correctly placed in the module's
+  `templates` directory.
 
 ## 1.0.0 - 2018-03-15
 
