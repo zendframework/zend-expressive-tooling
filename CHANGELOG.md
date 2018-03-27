@@ -10,7 +10,10 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- Nothing.
+- [#75](https://github.com/zendframework/zend-expressive-tooling/pull/75)
+  modifies the generated `config/autoload/zend-expressive-tooling-factories.global.php`
+  file to include a `strict_types` declaration, for consistency with other
+  generated files.
 
 ### Deprecated
 
