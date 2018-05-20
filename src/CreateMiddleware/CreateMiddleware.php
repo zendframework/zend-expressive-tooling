@@ -33,9 +33,6 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class %class% implements MiddlewareInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
     {
         // $response = $handler->handle($request);
