@@ -41,7 +41,11 @@ trait TemplateResolutionTrait
      */
     private function getNamespace(string $class) : string
     {
-        return substr($class, 0, strpos($class, '\\'));
+        $topLevelOffset = strpos($class, '\\');
+
+        return ($topLevelOffset !== false)
+            ? substr($class, 0, $topLevelOffset)
+            : $class;
     }
 
     /**
