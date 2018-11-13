@@ -548,4 +548,45 @@ class CreateHandlerCommandTest extends TestCase
             $this->output->reveal()
         );
     }
+
+    public function testAllowsExceptionsRaisedFromCreateHandlerToBubbleUpWhenRendererIsRegistered()
+    {
+        $this->container->has(TemplateRendererInterface::class)->willReturn(true);
+        $command = $this->createCommand();
+        $this->disableRequireHandlerDirective($command);
+        $command->setApplication($this->mockApplication()->reveal());
+
+        $generator = Mockery::mock('overload:' . CreateHandler::class);
+        $generator->shouldReceive('process')
+            ->once()
+            ->with('InvalidTestHandler', [
+                '%template-namespace%' => 'invalid-test-handler',
+                '%template-name%' => 'invalid-test',
+            ])
+            ->andThrow(CreateHandlerException::class, 'ERROR THROWN');
+
+        $this->input->getArgument('handler')->willReturn('InvalidTestHandler');
+        $this->input->getOption('without-template')->willReturn(false);
+        $this->input->getOption('with-template-namespace')->willReturn(null);
+        $this->input->getOption('with-template-name')->willReturn(null);
+        $this->input->getOption('with-template-extension')->willReturn(null);
+        $this->output
+            ->writeln(Argument::containingString('Creating request handler InvalidTestHandler'))
+            ->shouldBeCalled();
+
+        $this->output
+            ->writeln(Argument::containingString('Success'))
+            ->shouldNotBeCalled();
+
+        $method = $this->reflectExecuteMethod($command);
+
+        $this->expectException(CreateHandlerException::class);
+        $this->expectExceptionMessage('ERROR THROWN');
+
+        $method->invoke(
+            $command,
+            $this->input->reveal(),
+            $this->output->reveal()
+        );
+    }
 }

@@ -62,7 +62,9 @@ trait TemplateResolutionTrait
      */
     private function getClassName(string $class) : string
     {
-        return substr($class, strrpos($class, '\\') + 1);
+        return (strpos($class, '\\') !== false)
+            ? substr($class, strrpos($class, '\\') + 1)
+            : $class;
     }
 
     /**
