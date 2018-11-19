@@ -27,9 +27,6 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class %class% implements RequestHandlerInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
         // Create and return a response
@@ -66,9 +63,6 @@ class %class% implements RequestHandlerInterface
         $this->renderer = $renderer;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
         // Do some work...
