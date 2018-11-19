@@ -37,13 +37,13 @@ should be quoted to ensure namespace separators are not interpreted as
 escape sequences by your shell.
 EOT;
 
-    const HELP_HANDLER_OPT_NO_FACTORY = <<< 'EOT'
+    public const HELP_HANDLER_OPT_NO_FACTORY = <<< 'EOT'
 By default, this command generates a factory for the request handler it
 creates, and registers it with the container. Passing this option disables
 that feature.
 EOT;
 
-    const HELP_HANDLER_OPT_NO_REGISTER = <<< 'EOT'
+    public const HELP_HANDLER_OPT_NO_REGISTER = <<< 'EOT'
 By default, when this command generates a factory for the request handler it
 creates, it registers it with the container. Passing this option disables
 registration of the generated factory with the container.
@@ -63,25 +63,25 @@ should be quoted to ensure namespace separators are not interpreted as
 escape sequences by your shell.
 EOT;
 
-    const HELP_ACTION_OPT_NO_FACTORY = <<< 'EOT'
+    public const HELP_ACTION_OPT_NO_FACTORY = <<< 'EOT'
 By default, this command generates a factory for the action class it creates,
 and registers it with the container. Passing this option disables that
 feature.
 EOT;
 
-    const HELP_ACTION_OPT_NO_REGISTER = <<< 'EOT'
+    public const HELP_ACTION_OPT_NO_REGISTER = <<< 'EOT'
 By default, when this command generates a factory for the action class it
 creates, it registers it with the container. Passing this option disables
 registration of the generated factory with the container.
 EOT;
 
-    const HELP_OPTION_WITHOUT_TEMPLATE = <<< 'EOT'
+    public const HELP_OPTION_WITHOUT_TEMPLATE = <<< 'EOT'
 By default, this command generates a template for the newly generated class,
 and adds functionality to it render the template. Passing this flag
 disables template generation and invocation.
 EOT;
 
-    const HELP_OPTION_WITH_TEMPLATE_EXTENSION = <<< 'EOT'
+    public const HELP_OPTION_WITH_TEMPLATE_EXTENSION = <<< 'EOT'
 By default, this command will look for a template file extension name
 first via the "templates.extension" configuration directive, and then
 falling back to defaults based on the renderer type detected. If the
@@ -90,7 +90,7 @@ how to map the renderer discovered, it will raise an exception. You
 may pass this option to specify a custom extension in that case.
 EOT;
 
-    const HELP_OPTION_WITH_TEMPLATE_NAME = <<< 'EOT'
+    public const HELP_OPTION_WITH_TEMPLATE_NAME = <<< 'EOT'
 By default, this command uses a normalized version of the class name as the
 template name. Use this option to provide an alternative template name
 (minus the namespace) for the generated template. The template file will be
@@ -98,7 +98,7 @@ named using this name, using an extension base on the configured template
 renderer.  If --without-template is provided, this option is ignored. 
 EOT;
 
-    const HELP_OPTION_WITH_TEMPLATE_NAMESPACE = <<< 'EOT'
+    public const HELP_OPTION_WITH_TEMPLATE_NAMESPACE = <<< 'EOT'
 By default, this command uses a normalized version of the root namespace of the
 class generated as the template namespace.  Use this option to provide an
 alternate template namespace for the generated template. The template will be
@@ -107,9 +107,9 @@ be placed in the path defined for the root namespace of the class created. If
 --without-template is provided, this option is ignored.
 EOT;
 
-    const STATUS_HANDLER_TEMPLATE = '<info>Creating request handler %s...</info>';
+    public const STATUS_HANDLER_TEMPLATE = '<info>Creating request handler %s...</info>';
 
-    const STATUS_ACTION_TEMPLATE = '<info>Creating action %s...</info>';
+    public const STATUS_ACTION_TEMPLATE = '<info>Creating action %s...</info>';
 
     /**
      * Name of the argument that resolves to the new handler's name.

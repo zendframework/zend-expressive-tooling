@@ -32,6 +32,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
+- [#79](https://github.com/zendframework/zend-expressive-tooling/pull/79) adds `public` visibility to all declared constants. While this was assumed
+  before, now it is explicit.
+
 - [#81](https://github.com/zendframework/zend-expressive-tooling/pull/81) modifies the `action:create` and `handler:create` commands to emit a more
   sensible error in situations when the created `RequestHandlerInterface` is not
   namespaced.

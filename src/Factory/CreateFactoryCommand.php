@@ -17,21 +17,21 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CreateFactoryCommand extends Command
 {
-    const DEFAULT_SRC = '/src';
+    public const DEFAULT_SRC = '/src';
 
-    const HELP = <<< 'EOT'
+    public const HELP = <<< 'EOT'
 Creates a factory class file for generating the provided class, in the
 same directory as the provided class.
 EOT;
 
-    const HELP_ARG_CLASS = <<< 'EOT'
+    public const HELP_ARG_CLASS = <<< 'EOT'
 Fully qualified class name of the class for which to create a factory.
 This value should be quoted to ensure namespace separators are not
 interpreted as escape sequences by your shell. The class should be
 autoloadable.
 EOT;
 
-    const HELP_OPT_NO_REGISTER = <<< 'EOT'
+    public const HELP_OPT_NO_REGISTER = <<< 'EOT'
 When this flag is present, the command WILL NOT register the factory
 with the application container.
 EOT;

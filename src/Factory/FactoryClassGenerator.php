@@ -14,7 +14,7 @@ use ReflectionParameter;
 
 class FactoryClassGenerator
 {
-    const FACTORY_TEMPLATE = <<<'EOT'
+    public const FACTORY_TEMPLATE = <<<'EOT'
 <?php
 
 declare(strict_types=1);
