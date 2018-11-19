@@ -32,12 +32,12 @@ should be quoted to ensure namespace separators are not interpreted as
 escape sequences by your shell.
 EOT;
 
-    const HELP_OPT_NO_FACTORY = <<< 'EOT'
+    public const HELP_OPT_NO_FACTORY = <<< 'EOT'
 By default, this command generates a factory for the middleware it creates, and
 registers it with the container. Passing this option disables that feature.
 EOT;
 
-    const HELP_OPT_NO_REGISTER = <<< 'EOT'
+    public const HELP_OPT_NO_REGISTER = <<< 'EOT'
 By default, when this command generates a factory for the middleware it
 creates, it registers it with the container. Passing this option disables
 registration of the generated factory with the container.
