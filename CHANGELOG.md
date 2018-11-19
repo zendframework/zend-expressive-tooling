@@ -2,13 +2,15 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 1.0.2 - TBD
+## 1.0.2 - 2018-11-19
 
 ### Added
 
 - Nothing.
 
 ### Changed
+
+- [#80](https://github.com/zendframework/zend-expressive-tooling/pull/80) removes unnecessary `{@inheritDoc}` annotations from generated code.
 
 - [#79](https://github.com/zendframework/zend-expressive-tooling/pull/79) adds `public` visibility to all declared constants. While this was assumed
   before, now it is explicit.
