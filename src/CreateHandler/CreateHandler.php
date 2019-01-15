@@ -37,11 +37,9 @@ class CreateHandler extends ClassSkeletons
     }
 
     /**
-     * @param string $class
      * @param array $additionalSubstitutions An associative array where the keys
      *     are the substitution strings to match, and the values are the associated
      *     values to substitute.
-     * @return string
      */
     public function process(
         string $class,
@@ -72,10 +70,6 @@ class CreateHandler extends ClassSkeletons
         return $path;
     }
 
-    /**
-     * @param string $class
-     * @return string
-     */
     private function getClassPath(string $class) : string
     {
         $autoloaders = $this->getComposerAutoloaders();
@@ -135,8 +129,6 @@ class CreateHandler extends ClassSkeletons
     }
 
     /**
-     * @param string $class
-     * @param array $autoloaders
      * @return array [namespace, path]
      */
     private function discoverNamespaceAndPath(string $class, array $autoloaders) : array
@@ -159,7 +151,6 @@ class CreateHandler extends ClassSkeletons
     }
 
     /**
-     * @param string $class
      * @return array [namespace, class]
      */
     private function getNamespaceAndClass(string $class) : array
