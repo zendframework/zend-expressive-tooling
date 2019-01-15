@@ -134,8 +134,9 @@ EOT;
 
     private function createTemplateNamespace(string $moduleName) : string
     {
-        $namespace = str_replace('\\', '-', $moduleName);
-        $namespace = strtolower($namespace);
-        return $namespace;
+        $pattern     = ['#(?<=(?:\p{Lu}))(\p{Lu}\p{Ll})#', '#(?<=(?:\p{Ll}|\p{Nd}))(\p{Lu})#'];
+        $replacement = ['-\1', '-\1'];
+        $moduleName  = preg_replace($pattern, $replacement, $moduleName);
+        return strtolower($moduleName);
     }
 }
