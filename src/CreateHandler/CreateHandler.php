@@ -37,10 +37,11 @@ class CreateHandler extends ClassSkeletons
     }
 
     /**
+     * @param string $class
      * @param array $additionalSubstitutions An associative array where the keys
      *     are the substitution strings to match, and the values are the associated
      *     values to substitute.
-     * @throws CreateHandlerException
+     * @return string
      */
     public function process(
         string $class,
