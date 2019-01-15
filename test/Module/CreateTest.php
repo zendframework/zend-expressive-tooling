@@ -129,7 +129,7 @@ class CreateTest extends TestCase
         $this->assertSame(1, preg_match('/\bnamespace MyApp\b/', $configProviderContent));
         $this->assertSame(1, preg_match('/\bclass ConfigProvider\b/', $configProviderContent));
         $command = $this->command;
-        $expectedContent = sprintf($command::TEMPLATE_CONFIG_PROVIDER, 'MyApp', 'myapp');
+        $expectedContent = sprintf($command::TEMPLATE_CONFIG_PROVIDER, 'MyApp', 'my-app');
         $this->assertSame($expectedContent, $configProviderContent);
     }
 }
