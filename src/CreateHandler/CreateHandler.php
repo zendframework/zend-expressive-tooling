@@ -73,7 +73,8 @@ class CreateHandler extends ClassSkeletons
     }
 
     /**
-     * @throws CreateHandlerException
+     * @param string $class
+     * @return string
      */
     private function getClassPath(string $class) : string
     {
@@ -158,6 +159,7 @@ class CreateHandler extends ClassSkeletons
     }
 
     /**
+     * @param string $class
      * @return array [namespace, class]
      */
     private function getNamespaceAndClass(string $class) : array
