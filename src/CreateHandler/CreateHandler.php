@@ -134,8 +134,9 @@ class CreateHandler extends ClassSkeletons
     }
 
     /**
+     * @param string $class
+     * @param array $autoloaders
      * @return array [namespace, path]
-     * @throws CreateHandlerException
      */
     private function discoverNamespaceAndPath(string $class, array $autoloaders) : array
     {
