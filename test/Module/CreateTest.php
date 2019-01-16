@@ -132,4 +132,24 @@ class CreateTest extends TestCase
         $expectedContent = sprintf($command::TEMPLATE_CONFIG_PROVIDER, 'MyApp', 'my-app');
         $this->assertSame($expectedContent, $configProviderContent);
     }
+
+    public function testModuleTemplatePathNameWithNumber()
+    {
+        $this->command->process('My2App', $this->modulesPath, $this->projectDir);
+        $configProvider = vfsStream::url('project/my-modules/My2App/src/ConfigProvider.php');
+        $configProviderContent = file_get_contents($configProvider);
+        $command = $this->command;
+        $expectedContent = sprintf($command::TEMPLATE_CONFIG_PROVIDER, 'My2App', 'my2-app');
+        $this->assertSame($expectedContent, $configProviderContent);
+    }
+
+    public function testModuleTemplatePathNameWithSequentialUppercase()
+    {
+        $this->command->process('THEApp', $this->modulesPath, $this->projectDir);
+        $configProvider = vfsStream::url('project/my-modules/THEApp/src/ConfigProvider.php');
+        $configProviderContent = file_get_contents($configProvider);
+        $command = $this->command;
+        $expectedContent = sprintf($command::TEMPLATE_CONFIG_PROVIDER, 'THEApp', 'the-app');
+        $this->assertSame($expectedContent, $configProviderContent);
+    }
 }
