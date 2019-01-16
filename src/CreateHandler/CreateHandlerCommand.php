@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CreateHandlerCommand extends Command
 {
-    use TemplateResolutionTrait;
+    use \Zend\Expressive\Tooling\TemplateResolutionTrait;
 
     public const DEFAULT_SRC = '/src';
 

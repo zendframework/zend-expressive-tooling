@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace Zend\Expressive\Tooling\CreateHandler;
+namespace Zend\Expressive\Tooling;
 
 use Psr\Container\ContainerInterface;
 use Zend\Expressive\Template\TemplateRendererInterface;

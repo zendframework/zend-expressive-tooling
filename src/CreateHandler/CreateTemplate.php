@@ -17,7 +17,7 @@ use Zend\Expressive\ZendView\ZendViewRenderer;
 
 class CreateTemplate
 {
-    use TemplateResolutionTrait;
+    use \Zend\Expressive\Tooling\TemplateResolutionTrait;
 
     /**
      * Array of renderers we can generate templates for.
