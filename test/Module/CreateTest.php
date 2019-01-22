@@ -1,7 +1,7 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-expressive-tooling for the canonical source repository
- * @copyright Copyright (c) 2017-2018 Zend Technologies USA Inc. (https://www.zend.com)
+ * @copyright Copyright (c) 2017-2019 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-tooling/blob/master/LICENSE.md New BSD License
  */
 
@@ -129,7 +129,27 @@ class CreateTest extends TestCase
         $this->assertSame(1, preg_match('/\bnamespace MyApp\b/', $configProviderContent));
         $this->assertSame(1, preg_match('/\bclass ConfigProvider\b/', $configProviderContent));
         $command = $this->command;
-        $expectedContent = sprintf($command::TEMPLATE_CONFIG_PROVIDER, 'MyApp', 'myapp');
+        $expectedContent = sprintf($command::TEMPLATE_CONFIG_PROVIDER, 'MyApp', 'my-app');
+        $this->assertSame($expectedContent, $configProviderContent);
+    }
+
+    public function testModuleTemplatePathNameWithNumber()
+    {
+        $this->command->process('My2App', $this->modulesPath, $this->projectDir);
+        $configProvider = vfsStream::url('project/my-modules/My2App/src/ConfigProvider.php');
+        $configProviderContent = file_get_contents($configProvider);
+        $command = $this->command;
+        $expectedContent = sprintf($command::TEMPLATE_CONFIG_PROVIDER, 'My2App', 'my2-app');
+        $this->assertSame($expectedContent, $configProviderContent);
+    }
+
+    public function testModuleTemplatePathNameWithSequentialUppercase()
+    {
+        $this->command->process('THEApp', $this->modulesPath, $this->projectDir);
+        $configProvider = vfsStream::url('project/my-modules/THEApp/src/ConfigProvider.php');
+        $configProviderContent = file_get_contents($configProvider);
+        $command = $this->command;
+        $expectedContent = sprintf($command::TEMPLATE_CONFIG_PROVIDER, 'THEApp', 'the-app');
         $this->assertSame($expectedContent, $configProviderContent);
     }
 }

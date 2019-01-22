@@ -1,7 +1,7 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-expressive-tooling for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (https://www.zend.com)
+ * @copyright Copyright (c) 2017-2019 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-tooling/blob/master/LICENSE.md New BSD License
  */
 
@@ -9,8 +9,12 @@ declare(strict_types=1);
 
 namespace Zend\Expressive\Tooling\Module;
 
+use Zend\Expressive\Tooling\TemplateResolutionTrait;
+
 class Create
 {
+    use TemplateResolutionTrait;
+
     public const TEMPLATE_CONFIG_PROVIDER = <<< 'EOT'
 <?php
 
@@ -127,15 +131,8 @@ EOT;
             sprintf(
                 self::TEMPLATE_CONFIG_PROVIDER,
                 $moduleName,
-                $this->createTemplateNamespace($moduleName)
+                $this->normalizeTemplateIdentifier($moduleName)
             )
         );
-    }
-
-    private function createTemplateNamespace(string $moduleName) : string
-    {
-        $namespace = str_replace('\\', '-', $moduleName);
-        $namespace = strtolower($namespace);
-        return $namespace;
     }
 }
