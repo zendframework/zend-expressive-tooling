@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 1.1.0 - TBD
+## 1.1.0 - 2019-01-22
 
 ### Added
 
@@ -10,29 +10,11 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
-- Nothing.
-
-## 1.0.3 - TBD
-
-### Added
-
-- Nothing.
-
-### Changed
-
-- Nothing.
+- [#83](https://github.com/zendframework/zend-expressive-tooling/pull/83) fixes behavior when generating template names. The intention was for both
+  namespace separators and TitleCase words to be dash-separated, but the latter
+  previously were not; the patch in this release corrects the behavior. As such,
+  names such as `DbExample` will now correctly map to a template with the name
+  `db-example`.
 
 ### Deprecated
 
