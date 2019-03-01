@@ -48,12 +48,18 @@ final class CommandCommonOptions
     }
 
     /**
-     * Retrieve the modules path from input
+     * Retrieve the modules path from  1: $input, 2: project config or 3: default 'src'
+     *
+     * @param InputInterface $input
+     * @param array $config
+     * @return string
      */
-    public static function getModulesPath(InputInterface $input) : string
+    public static function getModulesPath(InputInterface $input, array $config = []) : string
     {
-        $modulesPath = $input->getOption('modules-path') ?: 'src';
-        $modulesPath = preg_replace('/^\.\//', '', str_replace('\\', '/', $modulesPath));
+        $configuredModulesPath = $config[self::class]['modules_path'] ?? null;
+        $modulesPath           = $input->getOption('modules-path') ?? $configuredModulesPath ?: 'src';
+        $modulesPath           = preg_replace('/^\.\//', '', str_replace('\\', '/', $modulesPath));
+
         return $modulesPath;
     }
 }

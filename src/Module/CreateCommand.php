@@ -13,9 +13,12 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Zend\Expressive\Tooling\TemplateResolutionTrait;
 
 class CreateCommand extends Command
 {
+    use TemplateResolutionTrait;
+
     public const HELP = <<< 'EOT'
 Create a new middleware module for the application.
 
@@ -51,7 +54,8 @@ EOT;
     {
         $module = $input->getArgument('module');
         $composer = $input->getOption('composer') ?: 'composer';
-        $modulesPath = CommandCommonOptions::getModulesPath($input);
+        $config = $this->getConfig(realpath(getcwd()));
+        $modulesPath = CommandCommonOptions::getModulesPath($input, $config);
 
         $creation = new Create();
         $message = $creation->process($module, $modulesPath, getcwd());
