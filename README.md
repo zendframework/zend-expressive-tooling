@@ -35,3 +35,27 @@ $ composer require --dev zendframework/zend-expressive-tooling
     application.
   - **module:deregister**: Deregister a middleware module from the application.
   - **module:register**: Register a middleware module with the application.
+
+## Configurable command option values
+
+If the modules-path of your project is not under `src` you can either provide the
+path via the `--modules-path` parameter or configure it in your application
+configuration. By adding the changed path to you configuration you can omit the
+`--modules-path` on cli execution for the `module:create` command.
+
+```php
+// In config/autoload/application.global.php:
+
+<?php
+
+declare(strict_types = 1);
+
+use Zend\Expressive\Tooling\Module\CommandCommonOptions;
+
+return [
+    /* ... */
+    CommandCommonOptions::class => [
+        'modules_path' => 'custom-directory',
+    ],
+];
+```
