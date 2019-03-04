@@ -11,9 +11,12 @@ namespace ZendTest\Expressive\Tooling\Module;
 
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
+use Psr\Container\ContainerInterface;
 use ReflectionMethod;
 use ReflectionProperty;
 use Symfony\Component\Console\Application;
@@ -44,16 +47,44 @@ class CreateCommandTest extends TestCase
     /** @var CreateCommand */
     private $command;
 
+    /** @var ContainerInterface|ObjectProphecy */
+    private $container;
+
+    /** @var vfsStreamDirectory */
+    private $dir;
+
+    /** @var string */
+    private $projectRoot;
+
     /** @var string */
     private $expectedModuleArgumentDescription;
 
     protected function setUp()
     {
+        $this->dir = vfsStream::setup('project');
+        $this->projectRoot = vfsStream::url('project');
+
         $this->input = $this->prophesize(InputInterface::class);
         $this->output = $this->prophesize(ConsoleOutputInterface::class);
 
         $this->command = new CreateCommand('module:create');
         $this->expectedModuleArgumentDescription = CreateCommand::HELP_ARG_MODULE;
+
+        $this->container = $this->prophesize(ContainerInterface::class);
+    }
+
+    public function injectConfigInContainer()
+    {
+        $configFile = $this->projectRoot . '/config/config.php';
+        $config = include $configFile;
+        $this->container->get('config')->willReturn($config);
+    }
+
+    public function injectContainerInCommand()
+    {
+        $r = new ReflectionProperty($this->command, 'container');
+        $r->setAccessible(true);
+        $r->setValue($this->command, $this->container->reveal());
     }
 
     private function reflectExecuteMethod()
@@ -124,6 +155,10 @@ class CreateCommandTest extends TestCase
         $this->input->getOption('composer')->willReturn('composer.phar');
         $this->input->getOption('modules-path')->willReturn('./library/modules');
 
+        vfsStream::copyFromFileSystem(__DIR__ . '/TestAsset', $this->dir);
+        $this->injectConfigInContainer();
+        $this->injectContainerInCommand();
+
         $this->output->writeln(Argument::containingString('SUCCESSFULLY RAN CREATE'))->shouldBeCalled();
 
         $app = $this->mockApplicationWithRegisterCommand(
@@ -156,6 +191,10 @@ class CreateCommandTest extends TestCase
         $this->input->getOption('composer')->willReturn('composer.phar');
         $this->input->getOption('modules-path')->willReturn('./library/modules');
 
+        vfsStream::copyFromFileSystem(__DIR__ . '/TestAsset', $this->dir);
+        $this->injectConfigInContainer();
+        $this->injectContainerInCommand();
+
         $this->output->writeln(Argument::containingString('SUCCESSFULLY RAN CREATE'))->shouldBeCalled();
 
         $app = $this->mockApplicationWithRegisterCommand(
@@ -187,6 +226,10 @@ class CreateCommandTest extends TestCase
         $this->input->getArgument('module')->willReturn('Foo');
         $this->input->getOption('composer')->willReturn('composer.phar');
         $this->input->getOption('modules-path')->willReturn('./library/modules');
+
+        vfsStream::copyFromFileSystem(__DIR__ . '/TestAsset', $this->dir);
+        $this->injectConfigInContainer();
+        $this->injectContainerInCommand();
 
         $method = $this->reflectExecuteMethod();
 
