@@ -13,11 +13,11 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Zend\Expressive\Tooling\TemplateResolutionTrait;
+use Zend\Expressive\Tooling\ConfigAndContainerTrait;
 
 class CreateCommand extends Command
 {
-    use TemplateResolutionTrait;
+    use ConfigAndContainerTrait;
 
     public const HELP = <<< 'EOT'
 Create a new middleware module for the application.
