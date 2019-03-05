@@ -2,16 +2,18 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 1.2.0 - TBD
+## 1.2.0 - 2019-03-05
 
 ### Added
 
 - [#85](https://github.com/zendframework/zend-expressive-tooling/pull/85) adds support for PHP 7.3.
 
-- [#86](https://github.com/zendframework/zend-expressive-tooling/pull/86) Configurable default command options values.
-  Making **modules-path** configurable so it is not required to provide it on each cli execution. Until now it was
-  necessary to provide the parameter: `./vendor/bin/expressive module:create MyModule --modules-path custom-directory`.
-  Now you can configure the modules-path and omit it on cli execution `./vendor/bin/expressive module:create MyModule`.
+- [#86](https://github.com/zendframework/zend-expressive-tooling/pull/86) adds the ability to provide the `--modules-path` option to the various
+  `module:*` commands via configuration. In each case, if the option is omitted,
+  the command will search for a `Zend\Expressive\Tooling\Module\CommandCommonOptions.modules_path`
+  configuration entry, and use it if present. When present, calling any of these
+  commands can now omit the `--modules-path` option when a custom path is
+  required.
 
 ### Changed
 
