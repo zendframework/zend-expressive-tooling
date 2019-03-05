@@ -1,7 +1,7 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-expressive-tooling for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (https://www.zend.com)
+ * @copyright Copyright (c) 2017-2019 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-tooling/blob/master/LICENSE.md New BSD License
  */
 
@@ -48,12 +48,18 @@ final class CommandCommonOptions
     }
 
     /**
-     * Retrieve the modules path from input
+     * Retrieve the modules path from  1: $input, 2: project config or 3: default 'src'
+     *
+     * @param InputInterface $input
+     * @param array $config
+     * @return string
      */
-    public static function getModulesPath(InputInterface $input) : string
+    public static function getModulesPath(InputInterface $input, array $config = []) : string
     {
-        $modulesPath = $input->getOption('modules-path') ?: 'src';
-        $modulesPath = preg_replace('/^\.\//', '', str_replace('\\', '/', $modulesPath));
+        $configuredModulesPath = $config[self::class]['--modules-path'] ?? 'src';
+        $modulesPath           = $input->getOption('modules-path') ?? $configuredModulesPath;
+        $modulesPath           = preg_replace('/^\.\//', '', str_replace('\\', '/', $modulesPath));
+
         return $modulesPath;
     }
 }

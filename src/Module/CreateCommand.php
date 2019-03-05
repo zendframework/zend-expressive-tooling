@@ -1,7 +1,7 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-expressive-tooling for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (https://www.zend.com)
+ * @copyright Copyright (c) 2017-2019 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-tooling/blob/master/LICENSE.md New BSD License
  */
 
@@ -13,9 +13,12 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Zend\Expressive\Tooling\ConfigAndContainerTrait;
 
 class CreateCommand extends Command
 {
+    use ConfigAndContainerTrait;
+
     public const HELP = <<< 'EOT'
 Create a new middleware module for the application.
 
@@ -51,7 +54,8 @@ EOT;
     {
         $module = $input->getArgument('module');
         $composer = $input->getOption('composer') ?: 'composer';
-        $modulesPath = CommandCommonOptions::getModulesPath($input);
+        $config = $this->getConfig(realpath(getcwd()));
+        $modulesPath = CommandCommonOptions::getModulesPath($input, $config);
 
         $creation = new Create();
         $message = $creation->process($module, $modulesPath, getcwd());

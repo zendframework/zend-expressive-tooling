@@ -20,10 +20,7 @@ use function substr;
 
 trait TemplateResolutionTrait
 {
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
+    use ConfigAndContainerTrait;
 
     /**
      * Normalizes identifier to lowercase, dash-separated words.
@@ -81,25 +78,6 @@ trait TemplateResolutionTrait
                 $this->getClassName($class)
             )
         );
-    }
-
-    private function getContainer(string $projectPath) : ContainerInterface
-    {
-        if ($this->container) {
-            return $this->container;
-        }
-
-        $containerPath = sprintf('%s/config/container.php', $projectPath);
-        $this->container = require $containerPath;
-        return $this->container;
-    }
-
-    /**
-     * Retrieve project configuration.
-     */
-    private function getConfig(string $projectPath) : array
-    {
-        return $this->getContainer($projectPath)->get('config');
     }
 
     /**

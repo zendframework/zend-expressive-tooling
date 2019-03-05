@@ -2,11 +2,18 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 1.1.1 - TBD
+## 1.2.0 - 2019-03-05
 
 ### Added
 
-- Nothing.
+- [#85](https://github.com/zendframework/zend-expressive-tooling/pull/85) adds support for PHP 7.3.
+
+- [#86](https://github.com/zendframework/zend-expressive-tooling/pull/86) adds the ability to provide the `--modules-path` option to the various
+  `module:*` commands via configuration. In each case, if the option is omitted,
+  the command will search for a `Zend\Expressive\Tooling\Module\CommandCommonOptions.--modules-path`
+  configuration entry, and use it if present. When present, calling any of these
+  commands can now omit the `--modules-path` option when a custom path is
+  required.
 
 ### Changed
 
