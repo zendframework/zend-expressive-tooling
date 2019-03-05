@@ -6,28 +6,6 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
-
-### Changed
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
-- Nothing.
-
-## 1.1.1 - TBD
-
-### Added
-
 - [#85](https://github.com/zendframework/zend-expressive-tooling/pull/85) adds support for PHP 7.3.
 
 ### Changed
