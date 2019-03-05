@@ -8,6 +8,33 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#85](https://github.com/zendframework/zend-expressive-tooling/pull/85) adds support for PHP 7.3.
 
+- [#86](https://github.com/zendframework/zend-expressive-tooling/pull/86) Configurable default command options values.
+  Making **modules-path** configurable so it is not required to provide it on each cli execution. Until now it was
+  necessary to provide the parameter: `./vendor/bin/expressive module:create MyModule --modules-path custom-directory`.
+  Now you can configure the modules-path and omit it on cli execution `./vendor/bin/expressive module:create MyModule`.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
+## 1.1.1 - TBD
+
+### Added
+
+- Nothing.
+
 ### Changed
 
 - Nothing.
