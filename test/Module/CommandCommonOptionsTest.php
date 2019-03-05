@@ -27,7 +27,7 @@ class CommandCommonOptionsTest extends TestCase
     public function testGetModulesPathGetsOptionsFromInput() : void
     {
         $this->input->getOption('modules-path')->willReturn('path-from-input');
-        $config[CommandCommonOptions::class]['modules_path'] = 'path-from-config';
+        $config[CommandCommonOptions::class]['--modules-path'] = 'path-from-config';
 
         $this->assertEquals(
             'path-from-input',
@@ -38,7 +38,7 @@ class CommandCommonOptionsTest extends TestCase
     public function testGetModulesPathGetsOptionsFromConfig() : void
     {
         $this->input->getOption('modules-path')->willReturn(null);
-        $config[CommandCommonOptions::class]['modules_path'] = 'path-from-config';
+        $config[CommandCommonOptions::class]['--modules-path'] = 'path-from-config';
 
         $this->assertEquals(
             'path-from-config',

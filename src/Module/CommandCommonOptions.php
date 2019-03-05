@@ -56,7 +56,7 @@ final class CommandCommonOptions
      */
     public static function getModulesPath(InputInterface $input, array $config = []) : string
     {
-        $configuredModulesPath = $config[self::class]['modules_path'] ?? null;
+        $configuredModulesPath = $config[self::class]['--modules-path'] ?? null;
         $modulesPath           = $input->getOption('modules-path') ?? $configuredModulesPath ?: 'src';
         $modulesPath           = preg_replace('/^\.\//', '', str_replace('\\', '/', $modulesPath));
 

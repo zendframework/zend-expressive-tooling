@@ -38,10 +38,11 @@ $ composer require --dev zendframework/zend-expressive-tooling
 
 ## Configurable command option values
 
-If the modules-path of your project is not under `src` you can either provide the
-path via the `--modules-path` parameter or configure it in your application
-configuration. By adding the changed path to you configuration you can omit the
-`--modules-path` on cli execution for the `module:create` command.
+If the `--modules-path` of your project is not under `src`, you can either
+provide the path via the `--modules-path` command-line option, or configure it
+within your application configuration. By adding the changed path to your
+application configuration, you can omit the need to use the `--modules-path`
+option during cli execution for the various `module:*` commands.
 
 ```php
 // In config/autoload/application.global.php:
@@ -55,7 +56,7 @@ use Zend\Expressive\Tooling\Module\CommandCommonOptions;
 return [
     /* ... */
     CommandCommonOptions::class => [
-        'modules_path' => 'custom-directory',
+        '--modules-path' => 'custom-directory',
     ],
 ];
 ```
