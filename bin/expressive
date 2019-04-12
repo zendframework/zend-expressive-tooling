@@ -58,7 +58,7 @@ if (file_exists($cwd . '/config/container.php')) {
     $commandList[] = new CreateHandler\CreateHandlerCommand('handler:create');
 }
 
-if (file_exists($cwd.'/config/commands.php)) {
+if (file_exists($cwd.'/config/commands.php')) {
     $commandsEnhances = require $cwd.'/config/commands.php';
 }
 
