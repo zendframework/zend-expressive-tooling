@@ -50,24 +50,24 @@ $commandList = [
     new Module\DeregisterCommand('module:deregister'),
     new Module\RegisterCommand('module:register'),
 ];
-// Added some enhancements commands by the user.
-$commandsEnhances = null;
 
-if (file_exists($cwd . '/config/container.php')) {
+$version = strstr(Versions::getVersion('zendframework/zend-expressive-tooling'), '@', true);
+//Instace console application
+$application = new Application('expressive', $version);
+
+$containerConfig = $cwd . '/config/container.php';
+if (file_exists($containerConfig)) {
+    $container = require $containerConfig;
+
     $commandList[] = new CreateHandler\CreateHandlerCommand('action:create');
     $commandList[] = new CreateHandler\CreateHandlerCommand('handler:create');
 }
 
-if (file_exists($cwd.'/config/commands.php')) {
-    $commandsEnhances = require $cwd.'/config/commands.php';
+//Customize commands by use to inject on tooling
+$commandsFile = $cwd.'/config/commands.php';
+if (file_exists($commandsFile)) {
+    (include $commandsFile)($application, $container ?? null);
 }
 
-if (null !== $commandsEnhances && is_array($commandsEnhances)) {
-    $commandList = array_merge($commandList, $commandsEnhances);
-}
-
-$version = strstr(Versions::getVersion('zendframework/zend-expressive-tooling'), '@', true);
-
-$application = new Application('expressive', $version);
 $application->addCommands($commandList);
 $application->run();
