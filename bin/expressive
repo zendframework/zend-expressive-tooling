@@ -59,11 +59,11 @@ $containerConfig = $cwd . '/config/container.php';
 if (file_exists($containerConfig)) {
     $container = require $containerConfig;
 
-    $commandList[] = new CreateHandler\CreateHandlerCommand('action:create');
-    $commandList[] = new CreateHandler\CreateHandlerCommand('handler:create');
+    $commandList[] = new CreateHandler\CreateHandlerCommand('action:create', $cwd, $container);
+    $commandList[] = new CreateHandler\CreateHandlerCommand('handler:create', $cwd, $container);
 }
 
-//Customize commands by use to inject on tooling
+// Allow users to provide additional commands via a config/commands.php file
 $commandsFile = $cwd.'/config/commands.php';
 if (file_exists($commandsFile)) {
     (include $commandsFile)($application, $container ?? null);
