@@ -2,3 +2,4 @@
 /coveralls-upload.json
 /phpunit.xml
 /vendor/
+.idea
