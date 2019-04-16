@@ -13,7 +13,6 @@ use Symfony\Component\Console\Application;
 class ToolingApplication extends Application
 {
     const DEFAULT_NAME = 'expressive';
-    
     private $container;
 
     public function __construct(
