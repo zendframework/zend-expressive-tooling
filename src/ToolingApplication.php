@@ -14,9 +14,6 @@ class ToolingApplication extends Application
 {
     const DEFAULT_NAME = 'expressive';
     
-    /**
-     * @var ContainerInterface
-     */
     private $container;
 
     public function __construct(
