@@ -13,7 +13,7 @@ if (file_exists($cwd.'/config/container.php')) {
     $container = require $cwd.'/config/container.php';
 }
 
-if (null !== $container && !$container instanceof \Psr\Container\ContainerInterface) {
+if (null !== $container && ! $container instanceof \Psr\Container\ContainerInterface) {
     throw new ErrorException(sprintf('%s%s file is not a valid psr-11 container.', $cwd, '/config/container.php'));
 }
 
