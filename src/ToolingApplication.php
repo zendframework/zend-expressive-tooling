@@ -9,7 +9,6 @@ namespace Zend\Expressive\Tooling;
 
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Command\Command;
 
 class ToolingApplication extends Application
 {
@@ -19,8 +18,11 @@ class ToolingApplication extends Application
      */
     private $container;
 
-    public function __construct(ContainerInterface $container = null, string $version = 'UNKNOWN', string $name = self::DEFAULT_NAME)
-    {
+    public function __construct(
+        ContainerInterface $container = null,
+        string $version = 'UNKNOWN',
+        string $name = self::DEFAULT_NAME
+    ) {
         parent::__construct($name, $version);
         $this->container = $container;
         $this->addCommands([
