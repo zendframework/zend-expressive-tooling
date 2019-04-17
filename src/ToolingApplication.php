@@ -4,7 +4,9 @@
  * @copyright Copyright (c) 2018-2019 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-tooling/blob/master/LICENSE.md New BSD License
  */
+
 declare(strict_types=1);
+
 namespace Zend\Expressive\Tooling;
 
 use Psr\Container\ContainerInterface;
@@ -13,6 +15,9 @@ use Symfony\Component\Console\Application;
 class ToolingApplication extends Application
 {
     const DEFAULT_NAME = 'expressive';
+    /**
+     * @var ContainerInterface
+     */
     private $container;
 
     public function __construct(
