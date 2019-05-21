@@ -10,6 +10,15 @@ declare(strict_types=1);
 namespace Zend\Expressive\Tooling;
 
 use Psr\Container\ContainerInterface;
+use RuntimeException;
+use Traversable;
+
+use get_class;
+use gettype;
+use is_array;
+use is_object;
+use iterator_to_array;
+use sprintf;
 
 trait ConfigAndContainerTrait
 {
@@ -34,6 +43,20 @@ trait ConfigAndContainerTrait
      */
     private function getConfig(string $projectPath) : array
     {
-        return $this->getContainer($projectPath)->get('config');
+        $config = $this->getContainer($projectPath)->get('config');
+
+        if (is_array($config)) {
+            return $config;
+        }
+
+        if (! $config instanceof Traversable) {
+            $error = sprintf(
+                '"config" service must be an array or instance of ArrayObject or Traversable, got %s',
+                is_object($config) ? get_class($config) : gettype($config)
+            );
+            throw new RuntimeException($error);
+        }
+
+        return iterator_to_array($config);
     }
 }
