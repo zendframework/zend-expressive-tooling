@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace ZendTest\Expressive\Tooling\Module;
 
+use ArrayObject;
+use Generator;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use org\bovigo\vfs\vfsStream;
@@ -73,11 +75,22 @@ class CreateCommandTest extends TestCase
         $this->container = $this->prophesize(ContainerInterface::class);
     }
 
-    public function injectConfigInContainer()
+    public function injectConfigInContainer(bool $configAsArrayObject = false)
     {
         $configFile = $this->projectRoot . '/config/config.php';
         $config = include $configFile;
+
+        if ($configAsArrayObject) {
+            $config = new ArrayObject($config);
+        }
+
         $this->container->get('config')->willReturn($config);
+    }
+
+    public function configType() : Generator
+    {
+        yield 'array'       => [false];
+        yield 'ArrayObject' => [true];
     }
 
     public function injectContainerInCommand()
@@ -143,7 +156,10 @@ class CreateCommandTest extends TestCase
         $this->assertEquals(CreateCommand::HELP, $this->command->getHelp());
     }
 
-    public function testCommandEmitsExpectedSuccessMessages()
+    /**
+     * @dataProvider configType
+     */
+    public function testCommandEmitsExpectedSuccessMessages(bool $configAsArrayObject)
     {
         $creation = Mockery::mock('overload:' . Create::class);
         $creation->shouldReceive('process')
@@ -156,7 +172,7 @@ class CreateCommandTest extends TestCase
         $this->input->getOption('modules-path')->willReturn('./library/modules');
 
         vfsStream::copyFromFileSystem(__DIR__ . '/TestAsset', $this->dir);
-        $this->injectConfigInContainer();
+        $this->injectConfigInContainer($configAsArrayObject);
         $this->injectContainerInCommand();
 
         $this->output->writeln(Argument::containingString('SUCCESSFULLY RAN CREATE'))->shouldBeCalled();
@@ -179,7 +195,10 @@ class CreateCommandTest extends TestCase
         ));
     }
 
-    public function testCommandWillFailIfRegisterFails()
+    /**
+     * @dataProvider configType
+     */
+    public function testCommandWillFailIfRegisterFails(bool $configAsArrayObject)
     {
         $creation = Mockery::mock('overload:' . Create::class);
         $creation->shouldReceive('process')
@@ -192,7 +211,7 @@ class CreateCommandTest extends TestCase
         $this->input->getOption('modules-path')->willReturn('./library/modules');
 
         vfsStream::copyFromFileSystem(__DIR__ . '/TestAsset', $this->dir);
-        $this->injectConfigInContainer();
+        $this->injectConfigInContainer($configAsArrayObject);
         $this->injectContainerInCommand();
 
         $this->output->writeln(Argument::containingString('SUCCESSFULLY RAN CREATE'))->shouldBeCalled();
@@ -215,7 +234,10 @@ class CreateCommandTest extends TestCase
         ));
     }
 
-    public function testCommandAllowsExceptionsToBubbleUp()
+    /**
+     * @dataProvider configType
+     */
+    public function testCommandAllowsExceptionsToBubbleUp(bool $configAsArrayObject)
     {
         $creation = Mockery::mock('overload:' . Create::class);
         $creation->shouldReceive('process')
@@ -228,7 +250,7 @@ class CreateCommandTest extends TestCase
         $this->input->getOption('modules-path')->willReturn('./library/modules');
 
         vfsStream::copyFromFileSystem(__DIR__ . '/TestAsset', $this->dir);
-        $this->injectConfigInContainer();
+        $this->injectConfigInContainer($configAsArrayObject);
         $this->injectContainerInCommand();
 
         $method = $this->reflectExecuteMethod();
