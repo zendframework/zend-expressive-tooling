@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace Zend\Expressive\Tooling;
 
+use ArrayObject;
 use Psr\Container\ContainerInterface;
 use RuntimeException;
-use Traversable;
 
 use function get_class;
 use function gettype;
@@ -49,9 +49,9 @@ trait ConfigAndContainerTrait
             return $config;
         }
 
-        if (! $config instanceof Traversable) {
+        if (! $config instanceof ArrayObject) {
             $error = sprintf(
-                '"config" service must be an array or instance of ArrayObject or Traversable, got %s',
+                '"config" service must be an array or instance of ArrayObject, got %s',
                 is_object($config) ? get_class($config) : gettype($config)
             );
             throw new RuntimeException($error);
