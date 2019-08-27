@@ -13,12 +13,12 @@ use Psr\Container\ContainerInterface;
 use RuntimeException;
 use Traversable;
 
-use get_class;
-use gettype;
-use is_array;
-use is_object;
-use iterator_to_array;
-use sprintf;
+use function get_class;
+use function gettype;
+use function is_array;
+use function is_object;
+use function iterator_to_array;
+use function sprintf;
 
 trait ConfigAndContainerTrait
 {
