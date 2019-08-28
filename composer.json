@@ -34,6 +34,7 @@
         "zfcampus/zf-composer-autoloading": "^2.0"
     },
     "require-dev": {
+        "jsoumelidis/zend-sf-di-config": "^0.4.0",
         "malukenho/docheader": "^0.1.6",
         "mikey179/vfsstream": "^1.6.7",
         "mockery/mockery": "^1.0",
