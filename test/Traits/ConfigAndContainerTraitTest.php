@@ -48,5 +48,4 @@ class ConfigAndConatinerTraitTest extends TestCase
         $config = $getConfig->invokeArgs($this->configAndContainer, [$this->projectRootForNormalBehaviour]);
         $this->assertTrue(is_array($config));
     }
-    
 }
