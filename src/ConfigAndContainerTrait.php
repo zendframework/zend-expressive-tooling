@@ -9,7 +9,16 @@ declare(strict_types=1);
 
 namespace Zend\Expressive\Tooling;
 
+use ArrayObject;
 use Psr\Container\ContainerInterface;
+use RuntimeException;
+
+use function get_class;
+use function gettype;
+use function is_array;
+use function is_object;
+use function iterator_to_array;
+use function sprintf;
 
 trait ConfigAndContainerTrait
 {
@@ -34,6 +43,20 @@ trait ConfigAndContainerTrait
      */
     private function getConfig(string $projectPath) : array
     {
-        return $this->getContainer($projectPath)->get('config');
+        $config = $this->getContainer($projectPath)->get('config');
+
+        if (is_array($config)) {
+            return $config;
+        }
+
+        if (! $config instanceof ArrayObject) {
+            $error = sprintf(
+                '"config" service must be an array or instance of ArrayObject, got %s',
+                is_object($config) ? get_class($config) : gettype($config)
+            );
+            throw new RuntimeException($error);
+        }
+
+        return iterator_to_array($config);
     }
 }

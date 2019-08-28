@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace ZendTest\Expressive\Tooling\CreateHandler;
 
+use ArrayObject;
+use Generator;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\TestCase;
@@ -21,10 +23,7 @@ use Zend\Expressive\Twig\TwigRenderer;
 use Zend\Expressive\ZendView\ZendViewRenderer;
 use Zend\Expressive\Tooling\CreateHandler\CreateTemplate;
 use Zend\Expressive\Tooling\CreateHandler\TemplatePathResolutionException;
-use Zend\Expressive\Tooling\CreateHandler\UndetectableNamespaceException;
 use Zend\Expressive\Tooling\CreateHandler\UnresolvableRendererException;
-use Zend\Expressive\Tooling\CreateHandler\UnknownTemplateSuffixException;
-use Zend\Expressive\Tooling\CreateHandler\Template;
 
 /**
  * @runTestsInSeparateProcesses
@@ -63,11 +62,22 @@ class CreateTemplateTest extends TestCase
         }
     }
 
-    public function injectConfigInContainer()
+    public function injectConfigInContainer(bool $configAsArrayObject = false)
     {
         $configFile = $this->projectRoot . '/config/config.php';
         $config = include $configFile;
+
+        if ($configAsArrayObject) {
+            $config = new ArrayObject($config);
+        }
+
         $this->container->get('config')->willReturn($config);
+    }
+
+    public function configType() : Generator
+    {
+        yield 'array'       => [false];
+        yield 'ArrayObject' => [true];
     }
 
     public function injectRendererInContainer(string $renderer)
@@ -241,13 +251,16 @@ class CreateTemplateTest extends TestCase
         $this->assertSame('test::test', $template->getName());
     }
 
-    public function testGeneratingTemplateWhenRendererServiceNotFoundResultsInException()
+    /**
+     * @dataProvider configType
+     */
+    public function testGeneratingTemplateWhenRendererServiceNotFoundResultsInException(bool $configAsArrayObject)
     {
         vfsStream::copyFromFileSystem(__DIR__ . '/TestAsset/flat', $this->dir);
         $this->prepareCommonAssets();
         require $this->projectRoot . '/src/Test/TestHandler.php';
         copy($this->projectRoot . '/config/config.php.missing-renderer', $this->projectRoot . '/config/config.php');
-        $this->injectConfigInContainer();
+        $this->injectConfigInContainer($configAsArrayObject);
         $this->container->has(TemplateRendererInterface::class)->willReturn(false);
         $this->container->get(TemplateRendererInterface::class)->shouldNotBeCalled();
 
@@ -259,8 +272,12 @@ class CreateTemplateTest extends TestCase
         $generator->forHandler('Test\TestHandler');
     }
 
-    public function testGeneratingTemplateWhenRendererServiceIsNotInWhitelistResultsInException()
-    {
+    /**
+     * @dataProvider configType
+     */
+    public function testGeneratingTemplateWhenRendererServiceIsNotInWhitelistResultsInException(
+        bool $configAsArrayObject
+    ) {
         vfsStream::copyFromFileSystem(__DIR__ . '/TestAsset/flat', $this->dir);
         $this->prepareCommonAssets();
         require $this->projectRoot . '/src/Test/TestHandler.php';
@@ -268,7 +285,7 @@ class CreateTemplateTest extends TestCase
             $this->projectRoot . '/config/config.php.unrecognized-renderer',
             $this->projectRoot . '/config/config.php'
         );
-        $this->injectConfigInContainer();
+        $this->injectConfigInContainer($configAsArrayObject);
         $this->container->has(TemplateRendererInterface::class)->willReturn(true);
         $this->container->get(TemplateRendererInterface::class)->willReturn($this);
 
@@ -389,13 +406,17 @@ class CreateTemplateTest extends TestCase
         $this->assertSame('custom::also-custom', $template->getName());
     }
 
-    public function testCanGenerateTemplateWithUnrecognizedRendererTypeIfTemplatSuffixIsProvided()
-    {
+    /**
+     * @dataProvider configType
+     */
+    public function testCanGenerateTemplateWithUnrecognizedRendererTypeIfTemplatSuffixIsProvided(
+        bool $configAsArrayObject
+    ) {
         vfsStream::copyFromFileSystem(__DIR__ . '/TestAsset/module', $this->dir);
         $this->prepareCommonAssets();
         require $this->projectRoot . '/src/Test/src/TestHandler.php';
         copy($this->projectRoot . '/config/config.php.no-extension', $this->projectRoot . '/config/config.php');
-        $this->injectConfigInContainer();
+        $this->injectConfigInContainer($configAsArrayObject);
         $this->container->has(TemplateRendererInterface::class)->willReturn(true);
         $this->container->get(TemplateRendererInterface::class)->willReturn($this);
 

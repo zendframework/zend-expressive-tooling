@@ -22,7 +22,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#93](https://github.com/zendframework/zend-expressive-tooling/pull/93) fixes
+  issue with DI containers where configuration is an ArrayObject not an array.
+  `handler:create` command works now properly with `Aura.Di` and `Symfony DI` containers.
 
 ## 1.2.0 - 2019-03-05
 
