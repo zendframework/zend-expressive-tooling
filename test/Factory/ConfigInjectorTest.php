@@ -26,7 +26,7 @@ class ConfigInjectorTest extends TestCase
     /** @var string */
     private $projectRoot;
 
-    public function setUp()
+    protected function setUp() : void
     {
         $this->dir = vfsStream::setup('project');
         $this->projectRoot = vfsStream::url('project');
@@ -58,7 +58,7 @@ class ConfigInjectorTest extends TestCase
     {
         $this->injector->injectFactoryForClass(__CLASS__ . 'Factory', __CLASS__);
         $config = include($this->projectRoot . '/' . ConfigInjector::CONFIG_FILE);
-        $this->assertInternalType('array', $config);
+        $this->assertIsArray($config);
         $this->assertTrue(isset($config['dependencies']['factories']));
         $this->assertCount(1, $config['dependencies']['factories']);
         $this->assertTrue(isset($config['dependencies']['factories'][__CLASS__]));
@@ -82,7 +82,7 @@ EOT;
 
         $this->injector->injectFactoryForClass(__CLASS__ . 'Factory', __CLASS__);
         $config = include($this->projectRoot . '/' . ConfigInjector::CONFIG_FILE);
-        $this->assertInternalType('array', $config);
+        $this->assertIsArray($config);
         $this->assertTrue(isset($config['dependencies']['factories']));
 
         $factories = $config['dependencies']['factories'];

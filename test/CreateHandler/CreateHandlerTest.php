@@ -23,7 +23,7 @@ class CreateHandlerTest extends TestCase
     /** @var string */
     private $projectRoot;
 
-    public function setUp()
+    protected function setUp() : void
     {
         $this->dir = vfsStream::setup('project');
         $this->projectRoot = vfsStream::url('project');
@@ -275,6 +275,6 @@ class CreateHandlerTest extends TestCase
         );
 
         $classFileContents = file_get_contents($expectedPath);
-        $this->assertContains('class Foo\Bar\BazHandler', $classFileContents);
+        $this->assertStringContainsString('class Foo\Bar\BazHandler', $classFileContents);
     }
 }

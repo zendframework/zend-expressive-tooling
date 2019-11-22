@@ -18,7 +18,7 @@ class FactoryAlreadyExistsExceptionTest extends TestCase
     {
         $e = FactoryAlreadyExistsException::forClassUsingFile(__CLASS__, __FILE__);
         $this->assertInstanceOf(FactoryAlreadyExistsException::class, $e);
-        $this->assertContains(sprintf('class "%s"', __CLASS__), $e->getMessage());
-        $this->assertContains(sprintf('file "%s"', __FILE__), $e->getMessage());
+        $this->assertStringContainsString(sprintf('class "%s"', __CLASS__), $e->getMessage());
+        $this->assertStringContainsString(sprintf('file "%s"', __FILE__), $e->getMessage());
     }
 }

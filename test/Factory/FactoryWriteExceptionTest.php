@@ -18,6 +18,6 @@ class FactoryWriteExceptionTest extends TestCase
     {
         $e = FactoryWriteException::whenCreatingFile(__FILE__);
         $this->assertInstanceOf(FactoryWriteException::class, $e);
-        $this->assertContains('file "' . __FILE__ . '"', $e->getMessage());
+        $this->assertStringContainsString('file "' . __FILE__ . '"', $e->getMessage());
     }
 }

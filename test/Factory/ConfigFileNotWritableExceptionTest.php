@@ -18,6 +18,6 @@ class ConfigFileNotWritableExceptionTest extends TestCase
     {
         $e = ConfigFileNotWritableException::forFile(__FILE__);
         $this->assertInstanceOf(ConfigFileNotWritableException::class, $e);
-        $this->assertContains(sprintf('file "%s"', __FILE__), $e->getMessage());
+        $this->assertStringContainsString(sprintf('file "%s"', __FILE__), $e->getMessage());
     }
 }

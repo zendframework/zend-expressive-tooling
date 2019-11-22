@@ -45,7 +45,7 @@ class RegisterCommandTest extends TestCase
     /** @var string */
     private $expectedModuleArgumentDescription;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         parent::setUp();
 
@@ -65,7 +65,7 @@ class RegisterCommandTest extends TestCase
 
     public function testConfigureSetsExpectedDescription()
     {
-        $this->assertContains('Register a middleware module', $this->command->getDescription());
+        $this->assertStringContainsString('Register a middleware module', $this->command->getDescription());
     }
 
     public function testConfigureSetsExpectedHelp()

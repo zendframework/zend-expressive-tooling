@@ -61,7 +61,7 @@ class CreateCommandTest extends TestCase
     /** @var string */
     private $expectedModuleArgumentDescription;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->dir = vfsStream::setup('project');
         $this->projectRoot = vfsStream::url('project');
@@ -148,7 +148,7 @@ class CreateCommandTest extends TestCase
 
     public function testConfigureSetsExpectedDescription()
     {
-        $this->assertContains('Create and register a middleware module', $this->command->getDescription());
+        $this->assertStringContainsString('Create and register a middleware module', $this->command->getDescription());
     }
 
     public function testConfigureSetsExpectedHelp()

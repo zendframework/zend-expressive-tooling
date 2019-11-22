@@ -48,7 +48,7 @@ class CreateHandlerCommandTest extends TestCase
     /** @var ConsoleOutputInterface|ObjectProphecy */
     private $output;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->input = $this->prophesize(InputInterface::class);
         $this->output = $this->prophesize(ConsoleOutputInterface::class);
@@ -94,8 +94,8 @@ class CreateHandlerCommandTest extends TestCase
             ->run(
                 Argument::that(function ($input) use ($forService) {
                     Assert::assertInstanceOf(ArrayInput::class, $input);
-                    Assert::assertContains('factory:create', (string) $input);
-                    Assert::assertContains($forService, (string) $input);
+                    Assert::assertStringContainsString('factory:create', (string) $input);
+                    Assert::assertStringContainsString($forService, (string) $input);
                     return $input;
                 }),
                 $this->output->reveal()
@@ -112,13 +112,13 @@ class CreateHandlerCommandTest extends TestCase
     public function testConfigureSetsExpectedDescriptionWhenRequestingAHandler()
     {
         $command = $this->createCommand();
-        $this->assertContains(CreateHandlerCommand::HELP_HANDLER_DESCRIPTION, $command->getDescription());
+        $this->assertStringContainsString(CreateHandlerCommand::HELP_HANDLER_DESCRIPTION, $command->getDescription());
     }
 
     public function testConfigureSetsExpectedDescriptionWhenRequestingAnAction()
     {
         $command = new CreateHandlerCommand('action:create', null, $this->container->reveal());
-        $this->assertContains(CreateHandlerCommand::HELP_ACTION_DESCRIPTION, $command->getDescription());
+        $this->assertStringContainsString(CreateHandlerCommand::HELP_ACTION_DESCRIPTION, $command->getDescription());
     }
 
     public function testConfigureSetsExpectedHelpWhenRequestingAHandler()

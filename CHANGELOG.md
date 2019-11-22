@@ -2,34 +2,12 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 1.3.0 - TBD
+## 1.3.0 - 2019-11-22
 
 ### Added
 
 - [#96](https://github.com/zendframework/zend-expressive-tooling/pull/96) adds
   compatibility with symfony/console `^5.0`.
-
-### Changed
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
-- Nothing.
-
-## 1.2.2 - TBD
-
-### Added
-
-- Nothing.
 
 ### Changed
 

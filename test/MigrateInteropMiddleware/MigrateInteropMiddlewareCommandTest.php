@@ -40,7 +40,7 @@ class MigrateInteropMiddlewareCommandTest extends TestCase
     /** @var MigrateInteropMiddlewareCommand */
     private $command;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->input = $this->prophesize(InputInterface::class);
         $this->output = $this->prophesize(ConsoleOutputInterface::class);
@@ -57,7 +57,10 @@ class MigrateInteropMiddlewareCommandTest extends TestCase
 
     public function testConfigureSetsExpectedDescription()
     {
-        $this->assertContains('Migrate http-interop middleware and delegators', $this->command->getDescription());
+        $this->assertStringContainsString(
+            'Migrate http-interop middleware and delegators',
+            $this->command->getDescription()
+        );
     }
 
     private function getConstantValue(string $const, string $class = MigrateInteropMiddlewareCommand::class)
