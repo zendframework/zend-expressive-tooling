@@ -26,7 +26,7 @@ trait CommonOptionsAndAttributesTrait
         $this->assertTrue($definition->hasOption('composer'));
         $option = $definition->getOption('composer');
         $this->assertTrue($option->isValueRequired());
-        $this->assertContains('path to the composer binary', $option->getDescription());
+        $this->assertStringContainsString('path to the composer binary', $option->getDescription());
     }
 
     public function testConfigureSetsExpectedPathOption()
@@ -35,6 +35,6 @@ trait CommonOptionsAndAttributesTrait
         $this->assertTrue($definition->hasOption('modules-path'));
         $option = $definition->getOption('modules-path');
         $this->assertTrue($option->isValueRequired());
-        $this->assertContains('path to the modules directory', $option->getDescription());
+        $this->assertStringContainsString('path to the modules directory', $option->getDescription());
     }
 }

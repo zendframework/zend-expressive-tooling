@@ -23,7 +23,7 @@ class CreateMiddlewareTest extends TestCase
     /** @var string */
     private $projectRoot;
 
-    public function setUp()
+    protected function setUp() : void
     {
         $this->dir = vfsStream::setup('project');
         $this->projectRoot = vfsStream::url('project');
@@ -279,6 +279,6 @@ class CreateMiddlewareTest extends TestCase
         );
 
         $classFileContents = file_get_contents($expectedPath);
-        $this->assertContains('class Foo\Bar\BazMiddleware', $classFileContents);
+        $this->assertStringContainsString('class Foo\Bar\BazMiddleware', $classFileContents);
     }
 }

@@ -35,7 +35,7 @@ class CreateTest extends TestCase
     /** @var string */
     private $projectDir;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         parent::setUp();
 

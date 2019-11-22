@@ -44,7 +44,7 @@ class DeregisterCommandTest extends TestCase
     /** @var string */
     private $expectedModuleArgumentDescription;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         parent::setUp();
 
@@ -64,7 +64,7 @@ class DeregisterCommandTest extends TestCase
 
     public function testConfigureSetsExpectedDescription()
     {
-        $this->assertContains('Deregister a middleware module', $this->command->getDescription());
+        $this->assertStringContainsString('Deregister a middleware module', $this->command->getDescription());
     }
 
     public function testConfigureSetsExpectedHelp()

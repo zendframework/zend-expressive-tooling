@@ -48,7 +48,7 @@ class CreateTemplateTest extends TestCase
     /** @var PlatesRenderer|TwigRenderer|ZendViewRenderer */
     private $renderer;
 
-    public function setUp()
+    protected function setUp() : void
     {
         $this->dir = vfsStream::setup('project');
         $this->projectRoot = vfsStream::url('project');
