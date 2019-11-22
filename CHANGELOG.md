@@ -6,7 +6,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- [#96](https://github.com/zendframework/zend-expressive-tooling/pull/96) adds
+  compatibility with symfony/console `^5.0`.
 
 ### Changed
 
