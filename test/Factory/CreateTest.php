@@ -30,7 +30,7 @@ class CreateTest extends TestCase
     /** @var string */
     private $projectRoot;
 
-    public function setUp()
+    protected function setUp() : void
     {
         $this->factory = new Create();
         $this->dir = vfsStream::setup('project');
@@ -89,7 +89,7 @@ class CreateTest extends TestCase
 
         $fileName = $factory->createForClass($className);
 
-        $this->assertContains('TestClassFactory.php', $fileName);
+        $this->assertStringContainsString('TestClassFactory.php', $fileName);
 
         require $fileName;
         $factoryName = $className . 'Factory';

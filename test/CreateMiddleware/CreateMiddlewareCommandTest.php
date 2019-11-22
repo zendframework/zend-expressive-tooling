@@ -44,7 +44,7 @@ class CreateMiddlewareCommandTest extends TestCase
     /** @var CreateMiddlewareCommand */
     private $command;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->input = $this->prophesize(InputInterface::class);
         $this->output = $this->prophesize(ConsoleOutputInterface::class);
@@ -76,8 +76,8 @@ class CreateMiddlewareCommandTest extends TestCase
             ->run(
                 Argument::that(function ($input) {
                     Assert::assertInstanceOf(ArrayInput::class, $input);
-                    Assert::assertContains('factory:create', (string) $input);
-                    Assert::assertContains('Foo\TestMiddleware', (string) $input);
+                    Assert::assertStringContainsString('factory:create', (string) $input);
+                    Assert::assertStringContainsString('Foo\TestMiddleware', (string) $input);
                     return $input;
                 }),
                 $this->output->reveal()
@@ -93,7 +93,7 @@ class CreateMiddlewareCommandTest extends TestCase
 
     public function testConfigureSetsExpectedDescription()
     {
-        $this->assertContains('Create a PSR-15 middleware', $this->command->getDescription());
+        $this->assertStringContainsString('Create a PSR-15 middleware', $this->command->getDescription());
     }
 
     public function testConfigureSetsExpectedHelp()

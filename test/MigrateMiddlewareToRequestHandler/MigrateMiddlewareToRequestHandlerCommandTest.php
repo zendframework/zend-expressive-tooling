@@ -57,7 +57,10 @@ class MigrateMiddlewareToRequestHandlerCommandTest extends TestCase
 
     public function testConfigureSetsExpectedDescription()
     {
-        $this->assertContains('Migrate PSR-15 middleware to request handlers', $this->command->getDescription());
+        $this->assertStringContainsString(
+            'Migrate PSR-15 middleware to request handlers',
+            $this->command->getDescription()
+        );
     }
 
     /**

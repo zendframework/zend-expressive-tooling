@@ -39,7 +39,7 @@ class CreateFactoryCommandTest extends TestCase
     /** @var CreateFactoryCommand */
     private $command;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->input = $this->prophesize(InputInterface::class);
         $this->output = $this->prophesize(ConsoleOutputInterface::class);
@@ -56,7 +56,7 @@ class CreateFactoryCommandTest extends TestCase
 
     public function testConfigureSetsExpectedDescription()
     {
-        $this->assertContains('Create a factory', $this->command->getDescription());
+        $this->assertStringContainsString('Create a factory', $this->command->getDescription());
     }
 
     public function testConfigureSetsExpectedHelp()

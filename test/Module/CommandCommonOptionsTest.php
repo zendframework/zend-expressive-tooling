@@ -19,7 +19,7 @@ class CommandCommonOptionsTest extends TestCase
     /** @var InputInterface|ObjectProphecy */
     private $input;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->input = $this->prophesize(InputInterface::class);
     }

@@ -22,7 +22,7 @@ class FactoryClassGeneratorTest extends TestCase
      */
     private $generator;
 
-    public function setUp()
+    protected function setUp() : void
     {
         $this->generator = new FactoryClassGenerator();
     }

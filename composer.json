@@ -34,9 +34,9 @@
     "require-dev": {
         "malukenho/docheader": "^0.1.6",
         "mikey179/vfsstream": "^1.6.7",
-        "mockery/mockery": "^1.0",
-        "php-mock/php-mock-phpunit": "^2.1",
-        "phpunit/phpunit": "^7.0.3",
+        "mockery/mockery": "^1.2.4",
+        "php-mock/php-mock-phpunit": "^2.5",
+        "phpunit/phpunit": "^7.5.17 || ^8.4.3",
         "zendframework/zend-coding-standard": "~1.0.0"
     },
     "autoload": {
